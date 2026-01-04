@@ -27,6 +27,7 @@
 
         html {
             scroll-behavior: smooth;
+            overflow-x: hidden;
         }
 
         body {
@@ -34,6 +35,12 @@
             background: var(--black);
             color: var(--white);
             overflow-x: hidden;
+            max-width: 100vw;
+            position: relative;
+        }
+
+        *, *::before, *::after {
+            max-width: 100vw;
         }
 
         body.no-scroll {
@@ -43,10 +50,15 @@
         /* Animated Background Orbs */
         .bg-orbs {
             position: fixed;
-            inset: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             pointer-events: none;
             z-index: 0;
             overflow: hidden;
+            width: 100%;
+            max-width: 100vw;
         }
 
         .bg-orb {
@@ -110,10 +122,15 @@
         /* Shooting Stars */
         .shooting-stars {
             position: fixed;
-            inset: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             pointer-events: none;
             z-index: 1;
             overflow: hidden;
+            width: 100%;
+            max-width: 100vw;
         }
 
         .shooting-star {
@@ -193,11 +210,17 @@
         /* Pulsing Glow Effect */
         .pulse-glow {
             position: fixed;
-            inset: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             pointer-events: none;
             z-index: 0;
             background: radial-gradient(ellipse at 50% 50%, rgba(212, 175, 55, 0.03) 0%, transparent 50%);
             animation: pulseGlow 4s ease-in-out infinite;
+            width: 100%;
+            max-width: 100vw;
+            overflow: hidden;
         }
 
         @keyframes pulseGlow {
@@ -214,10 +237,15 @@
         /* Floating Gold Dust */
         .gold-dust {
             position: fixed;
-            inset: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             pointer-events: none;
             z-index: 1;
             overflow: hidden;
+            width: 100%;
+            max-width: 100vw;
         }
 
         .dust-particle {
@@ -288,6 +316,9 @@
                 );
             filter: blur(100px);
             animation: auroraShift 15s ease-in-out infinite;
+            width: 100%;
+            max-width: 100vw;
+            overflow: hidden;
         }
 
         @keyframes auroraShift {
