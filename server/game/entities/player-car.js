@@ -69,7 +69,7 @@ export class PlayerCar {
     createBody() {
         // Main body - stretched box for sporty look
         const bodyGeometry = new THREE.BoxGeometry(2.2, 0.8, 4.5);
-        const bodyMaterial = new MeshStandardMaterial({
+        const bodyMaterial = new THREE.MeshStandardMaterial({
             color: 0xd4af37,  // Gold - birthday theme
             metalness: 0.9,
             roughness: 0.2
@@ -82,7 +82,7 @@ export class PlayerCar {
 
         // Cabin/roof - smaller box on top
         const cabinGeometry = new THREE.BoxGeometry(1.8, 0.6, 2);
-        const cabinMaterial = new MeshStandardMaterial({
+        const cabinMaterial = new THREE.MeshStandardMaterial({
             color: 0x1a1a1a,  // Dark tinted glass
             metalness: 0.8,
             roughness: 0.1,
@@ -103,7 +103,7 @@ export class PlayerCar {
 
         // Front spoiler/bumper
         const frontBumperGeometry = new THREE.BoxGeometry(2.4, 0.2, 0.3);
-        const bumperMaterial = new MeshStandardMaterial({
+        const bumperMaterial = new THREE.MeshStandardMaterial({
             color: 0x222222,
             metalness: 0.5,
             roughness: 0.4
@@ -114,7 +114,7 @@ export class PlayerCar {
 
         // Rear spoiler
         const spoilerGeometry = new THREE.BoxGeometry(2, 0.08, 0.25);
-        const spoilerMaterial = new MeshStandardMaterial({
+        const spoilerMaterial = new THREE.MeshStandardMaterial({
             color: 0x111111,
             metalness: 0.7,
             roughness: 0.3
@@ -144,7 +144,7 @@ export class PlayerCar {
         const wheelRadius = 0.35;
         const wheelWidth = 0.25;
         const wheelGeometry = new THREE.CylinderGeometry(wheelRadius, wheelRadius, wheelWidth, 16);
-        const wheelMaterial = new MeshStandardMaterial({
+        const wheelMaterial = new THREE.MeshStandardMaterial({
             color: 0x1a1a1a,
             metalness: 0.3,
             roughness: 0.7
@@ -152,7 +152,7 @@ export class PlayerCar {
 
         // Rim material
         const rimGeometry = new THREE.CylinderGeometry(wheelRadius * 0.7, wheelRadius * 0.7, wheelWidth + 0.02, 8);
-        const rimMaterial = new MeshStandardMaterial({
+        const rimMaterial = new THREE.MeshStandardMaterial({
             color: 0xc0c0c0,
             metalness: 0.9,
             roughness: 0.1
@@ -188,7 +188,7 @@ export class PlayerCar {
 
     createHeadlights() {
         const lightGeometry = new THREE.SphereGeometry(0.12, 8, 8);
-        const lightMaterial = new MeshStandardMaterial({
+        const lightMaterial = new THREE.MeshStandardMaterial({
             color: 0xffffee,
             emissive: 0xffffaa,
             emissiveIntensity: 1
@@ -215,7 +215,7 @@ export class PlayerCar {
 
     createTaillights() {
         const lightGeometry = new THREE.BoxGeometry(0.3, 0.15, 0.05);
-        const lightMaterial = new MeshStandardMaterial({
+        const lightMaterial = new THREE.MeshStandardMaterial({
             color: 0xff0000,
             emissive: 0xff0000,
             emissiveIntensity: 0.5
@@ -238,7 +238,7 @@ export class PlayerCar {
     createNitroFlames() {
         // Flame geometry - cone shape
         const flameGeometry = new THREE.ConeGeometry(0.15, 0.8, 8);
-        const flameMaterial = new MeshStandardMaterial({
+        const flameMaterial = new THREE.MeshStandardMaterial({
             color: 0x00aaff,
             emissive: 0x0066ff,
             emissiveIntensity: 2,
