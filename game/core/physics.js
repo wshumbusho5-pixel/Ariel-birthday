@@ -22,6 +22,16 @@ export class PhysicsEngine {
     }
 
     /**
+     * Initialize the physics engine
+     * Called by main.js during game setup
+     */
+    init() {
+        // Physics engine is ready after constructor
+        // This method exists for consistency with other modules
+        console.log('Physics engine initialized');
+    }
+
+    /**
      * Check for collisions between player and traffic vehicles
      * Uses AABB (Axis-Aligned Bounding Box) collision detection
      *
