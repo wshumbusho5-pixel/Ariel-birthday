@@ -1098,8 +1098,13 @@
             const winScreen = document.getElementById('win-screen');
             const finalPositions = document.getElementById('final-positions');
 
+            // FORCE Ariel to be 1st - remove him from positions and add at front
+            const arielRacer = positions.find(r => r.isAriel);
+            const othersInOrder = positions.filter(r => !r.isAriel);
+            const fixedPositions = arielRacer ? [arielRacer, ...othersInOrder] : positions;
+
             finalPositions.innerHTML = '';
-            positions.forEach((racer, i) => {
+            fixedPositions.forEach((racer, i) => {
                 const entry = document.createElement('div');
                 let className = 'entry';
                 if (racer.isAriel) className += ' winner';
