@@ -707,10 +707,14 @@
             aiRacers.forEach((racer, i) => {
                 const car = createCar(racer.color, racer.name, false, racer.isAriel);
 
-                // Starting grid positions
-                const row = Math.floor(i / 3);
-                const col = i % 3;
-                car.position.set((col - 1) * 6, 0, row * -8);
+                // Starting grid positions - ARIEL starts at the front!
+                if (racer.isAriel) {
+                    car.position.set(0, 0, 10); // Ariel starts ahead
+                } else {
+                    const row = Math.floor((i - 1) / 3) + 1;
+                    const col = (i - 1) % 3;
+                    car.position.set((col - 1) * 6, 0, -row * 8);
+                }
 
                 scene.add(car);
 
@@ -1149,134 +1153,124 @@
                 playerCar.position.z = playerZ;
                 playerCar.rotation.z = (keys.left ? 0.05 : 0) - (keys.right ? 0.05 : 0);
 
-                // Update AI racers - COMPETITIVE RACING!
+                // Update AI racers - ARIEL MUST ACTUALLY WIN!
+
+                // First, find current leader position
+                const leaderZ = Math.max(...allRacers.map(r => r.car.position.z));
+                const arielZ = arielCar ? arielCar.car.position.z : 0;
+                const arielDistToFinish = FINISH_LINE - arielZ;
+
                 allRacers.forEach(racer => {
                     if (racer.isPlayer) return;
 
                     const distToFinish = FINISH_LINE - racer.car.position.z;
-                    const playerDistToFinish = FINISH_LINE - playerZ;
-                    const arielDistToFinish = arielCar ? FINISH_LINE - arielCar.car.position.z : 0;
 
                     let targetSpeed = racer.baseSpeed;
 
                     if (racer.isAriel) {
-                        // ARIEL - The Birthday Boy - MUST WIN but races fairly most of the time
+                        // ARIEL - The Birthday Boy - MUST ACTUALLY WIN!
+                        // He needs to be consistently fast and ALWAYS finish first
 
-                        if (playerDistToFinish > 800) {
-                            // Early/mid race - Ariel races naturally, can be passed
-                            // Varies speed to create exciting racing
-                            const variation = Math.sin(Date.now() * 0.001) * 20;
-                            targetSpeed = 120 + variation;
+                        // Base speed - Ariel is always competitive
+                        targetSpeed = 145;
 
-                            // Sometimes speed up, sometimes slow down
-                            if (Math.random() < 0.01) {
-                                racer.speedBoost = (Math.random() - 0.3) * 50;
+                        // Add some variation for excitement
+                        const variation = Math.sin(Date.now() * 0.0008) * 15;
+                        targetSpeed += variation;
+
+                        // If anyone is ahead of Ariel, he speeds up
+                        if (arielZ < leaderZ - 10) {
+                            // Someone is ahead - Ariel must catch up!
+                            const gap = leaderZ - arielZ;
+                            targetSpeed = 160 + Math.min(gap * 2, 100); // More gap = more speed
+                        }
+
+                        // Final 1000 units - Ariel gets serious
+                        if (arielDistToFinish < 1000) {
+                            targetSpeed = Math.max(targetSpeed, 170);
+
+                            // If not leading, PUSH HARD
+                            if (arielZ < leaderZ - 5) {
+                                targetSpeed = 250;
                             }
-                            targetSpeed += racer.speedBoost || 0;
+                        }
 
-                        } else if (playerDistToFinish > 400) {
-                            // Getting closer to finish - Ariel gets more serious
-                            targetSpeed = Math.max(140, playerSpeed * 1.05);
-
-                            // Start positioning for the win
-                            if (racer.car.position.z < playerZ - 30) {
-                                targetSpeed = 180; // Catch up burst
-                            }
-
-                        } else if (playerDistToFinish > 150) {
-                            // Final quarter - Ariel pushes hard
-                            targetSpeed = Math.max(160, playerSpeed * 1.1);
-
-                            // Must be ahead or catching up
-                            if (racer.car.position.z < playerZ) {
-                                targetSpeed = 220; // Strong push
-                            }
-
-                        } else {
-                            // FINAL STRETCH - ARIEL MUST WIN!
-                            // Find the leader
-                            const maxZ = Math.max(...allRacers.map(r => r.car.position.z));
-
-                            if (racer.car.position.z < maxZ - 5) {
-                                // Someone is ahead - BIRTHDAY POWER ACTIVATE!
-                                targetSpeed = 350; // Massive burst to take the lead
+                        // Final 300 units - BIRTHDAY POWER!
+                        if (arielDistToFinish < 300) {
+                            // Ariel MUST be in front
+                            if (arielZ < leaderZ) {
+                                targetSpeed = 400; // Massive burst!
                             } else {
-                                // Ariel is leading - maintain strong pace
-                                targetSpeed = Math.max(200, playerSpeed * 1.4);
+                                targetSpeed = Math.max(180, leaderZ > 0 ? 200 : 180);
                             }
                         }
 
                     } else {
-                        // OTHER AI RACERS - They race HARD and can beat the player!
+                        // OTHER AI RACERS - Competitive but CANNOT beat Ariel
 
-                        // Base aggressive racing
-                        const aggression = racer.baseSpeed / 100; // Higher base = more aggressive
-                        targetSpeed = racer.baseSpeed + (Math.random() - 0.4) * 40;
+                        // Base racing
+                        targetSpeed = racer.baseSpeed + (Math.random() - 0.5) * 30;
 
-                        // Drafting boost - speed up when behind another car
+                        // Drafting boost
                         allRacers.forEach(other => {
                             if (other === racer) return;
                             const dist = other.car.position.z - racer.car.position.z;
                             if (dist > 5 && dist < 30 && Math.abs(other.car.position.x - racer.car.position.x) < 5) {
-                                targetSpeed += 20; // Slipstream boost
+                                targetSpeed += 15;
                             }
                         });
 
-                        // Competitive bursts - occasionally speed up a lot
-                        if (Math.random() < 0.005) {
-                            racer.burstTimer = 2; // 2 second burst
+                        // Competitive bursts
+                        if (Math.random() < 0.003) {
+                            racer.burstTimer = 1.5;
                         }
                         if (racer.burstTimer > 0) {
-                            targetSpeed += 40;
+                            targetSpeed += 30;
                             racer.burstTimer -= dt;
                         }
 
-                        // Chase the player if they're ahead
-                        if (playerZ > racer.car.position.z + 20) {
-                            targetSpeed = Math.max(targetSpeed, playerSpeed * 1.1);
+                        // Chase player
+                        if (playerZ > racer.car.position.z + 30) {
+                            targetSpeed = Math.max(targetSpeed, playerSpeed * 1.05);
                         }
 
-                        // Try to overtake player when close
-                        if (Math.abs(playerZ - racer.car.position.z) < 15) {
-                            if (Math.random() < 0.3) {
-                                targetSpeed = playerSpeed + 30; // Overtake attempt
-                            }
+                        // CRITICAL: Never pass Ariel!
+                        // Always stay behind Ariel
+                        if (arielCar && racer.car.position.z > arielZ - 15) {
+                            // Too close to Ariel or ahead - slow down!
+                            targetSpeed = Math.min(targetSpeed, arielCar.speed * 0.75);
                         }
 
-                        // IMPORTANT: Never beat Ariel at the finish
-                        if (distToFinish < 200) {
-                            // Near finish - don't pass Ariel
-                            if (arielCar && racer.car.position.z > arielCar.car.position.z - 10) {
-                                targetSpeed = Math.min(targetSpeed, arielCar.speed * 0.85);
-                            }
+                        // Extra insurance near finish
+                        if (distToFinish < 500 && racer.car.position.z > arielZ - 30) {
+                            targetSpeed = Math.min(targetSpeed, arielCar.speed * 0.7);
                         }
                     }
 
-                    // Smooth speed change
-                    racer.speed += (targetSpeed - racer.speed) * dt * 2.5;
-                    racer.speed = Math.max(50, Math.min(racer.speed, racer.isAriel ? 400 : 250));
+                    // Apply speed
+                    racer.speed += (targetSpeed - racer.speed) * dt * 3;
+                    racer.speed = Math.max(50, Math.min(racer.speed, racer.isAriel ? 500 : 200));
 
                     racer.car.position.z += racer.speed * dt * 0.5;
 
-                    // More dynamic lane changes
-                    if (Math.random() < 0.015) {
-                        // Strategic lane change
-                        const lanes = [-15, -8, 0, 8, 15];
+                    // Lane changes
+                    if (Math.random() < 0.012) {
+                        const lanes = [-12, -6, 0, 6, 12];
                         racer.targetX = lanes[Math.floor(Math.random() * lanes.length)];
                     }
 
-                    // Avoid collisions with other cars
+                    // Collision avoidance
                     allRacers.forEach(other => {
                         if (other === racer) return;
                         const dx = other.car.position.x - racer.car.position.x;
                         const dz = Math.abs(other.car.position.z - racer.car.position.z);
                         if (dz < 6 && Math.abs(dx) < 4) {
-                            racer.targetX = racer.car.position.x - Math.sign(dx) * 8;
+                            racer.targetX = racer.car.position.x - Math.sign(dx) * 6;
                         }
                     });
 
-                    racer.car.position.x += (racer.targetX - racer.car.position.x) * dt * 3;
-                    racer.car.position.x = Math.max(-20, Math.min(20, racer.car.position.x));
+                    racer.car.position.x += (racer.targetX - racer.car.position.x) * dt * 2.5;
+                    racer.car.position.x = Math.max(-18, Math.min(18, racer.car.position.x));
                 });
 
                 // Camera
@@ -1291,15 +1285,35 @@
 
                 const positions = updatePositions();
 
-                // Check finish - Ariel must cross first
+                // Check finish - Only Ariel crossing the line ends the race
                 if (arielCar && arielCar.car.position.z >= FINISH_LINE) {
+                    // Make sure Ariel is actually in 1st place before ending
+                    // Move all other racers behind Ariel if needed
+                    allRacers.forEach(r => {
+                        if (!r.isAriel && r.car.position.z >= arielCar.car.position.z) {
+                            r.car.position.z = arielCar.car.position.z - 10 - Math.random() * 20;
+                        }
+                    });
+
                     statusEl.textContent = 'ARIEL WINS!';
-                    finishRace(positions);
+                    const finalPositions = updatePositions();
+                    finishRace(finalPositions);
                 }
 
-                // Time's up - force Ariel to win
+                // Time's up - Ariel wins by teleporting to finish first
                 if (raceTime <= 0) {
-                    arielCar.car.position.z = FINISH_LINE + 20;
+                    // Put Ariel at the finish line
+                    arielCar.car.position.z = FINISH_LINE + 30;
+
+                    // Put everyone else behind him
+                    let behindPos = FINISH_LINE - 10;
+                    allRacers
+                        .filter(r => !r.isAriel)
+                        .sort((a, b) => b.car.position.z - a.car.position.z)
+                        .forEach((r, i) => {
+                            r.car.position.z = behindPos - i * 15;
+                        });
+
                     const finalPositions = updatePositions();
                     finishRace(finalPositions);
                 }
