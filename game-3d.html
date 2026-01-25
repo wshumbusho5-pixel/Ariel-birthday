@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Ariel's Street Racing | Mr. President's Birthday Grand Prix</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow: hidden;
+            background: #000;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            color: white;
+        }
+
+        #game-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Loading Screen */
+        #loading-screen {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease;
+        }
+
+        #loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #d4af37, #f4e4bc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .loading-subtitle {
+            font-size: 1rem;
+            color: #888;
+            margin-bottom: 2rem;
+        }
+
+        .loading-bar-container {
+            width: 300px;
+            height: 4px;
+            background: #333;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .loading-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #d4af37, #f4e4bc);
+            transition: width 0.3s ease;
+        }
+
+        .loading-text {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        /* HUD Container - UI elements render here */
+        #hud-container {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        #hud-container > * {
+            pointer-events: auto;
+        }
+
+        /* Mobile Controls Container */
+        #mobile-controls {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 200px;
+            z-index: 101;
+            pointer-events: none;
+        }
+
+        #mobile-controls > * {
+            pointer-events: auto;
+        }
+
+        @media (max-width: 768px), (pointer: coarse) {
+            #mobile-controls {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <h1 class="loading-title">ARIEL'S STREET RACING</h1>
+        <p class="loading-subtitle">Mr. President's Birthday Grand Prix</p>
+        <div class="loading-bar-container">
+            <div class="loading-bar" id="loading-bar"></div>
+        </div>
+        <p class="loading-text" id="loading-text">Initializing...</p>
+    </div>
+
+    <!-- Game Canvas -->
+    <canvas id="game-canvas"></canvas>
+
+    <!-- HUD Container -->
+    <div id="hud-container"></div>
+
+    <!-- Mobile Controls -->
+    <div id="mobile-controls"></div>
+
+    <!-- Three.js from CDN -->
+    <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+
+    <!-- Main Game Module -->
+    <script type="module" src="game/main.js"></script>
+</body>
+</html>
