@@ -718,7 +718,9 @@
         scene.background = new THREE.Color(0x1a1a2e);
         scene.fog = new THREE.Fog(0x1a1a2e, 100, 400);
 
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        // Wider FOV on mobile for better view
+        const mobileFOV = isMobile ? 85 : 75;
+        const camera = new THREE.PerspectiveCamera(mobileFOV, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.shadowMap.enabled = true;
@@ -1534,11 +1536,19 @@
                     racer.car.position.x = Math.max(-18, Math.min(18, racer.car.position.x));
                 });
 
-                // Camera
-                camera.position.x += (playerX * 0.3 - camera.position.x) * 0.1;
-                camera.position.z = playerZ - 12;
-                camera.position.y = 5 + playerSpeed * 0.006;
-                camera.lookAt(playerX * 0.5, 1, playerZ + 40);
+                // Camera - adjusted for mobile
+                if (isMobile) {
+                    // Mobile: higher, further back, centered view
+                    camera.position.x += (playerX * 0.2 - camera.position.x) * 0.08;
+                    camera.position.z = playerZ - 18;
+                    camera.position.y = 8 + playerSpeed * 0.004;
+                    camera.lookAt(playerX * 0.3, 2, playerZ + 50);
+                } else {
+                    camera.position.x += (playerX * 0.3 - camera.position.x) * 0.1;
+                    camera.position.z = playerZ - 12;
+                    camera.position.y = 5 + playerSpeed * 0.006;
+                    camera.lookAt(playerX * 0.5, 1, playerZ + 40);
+                }
 
                 // HUD
                 speedEl.textContent = Math.floor(playerSpeed);
