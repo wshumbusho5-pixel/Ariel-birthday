@@ -718,6 +718,11 @@
         scene.background = new THREE.Color(0x1a1a2e);
         scene.fog = new THREE.Fog(0x1a1a2e, 100, 400);
 
+        // Mobile detection (needed early for camera setup)
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+                         ('ontouchstart' in window) ||
+                         (navigator.maxTouchPoints > 0);
+
         // Wider FOV on mobile for better view
         const mobileFOV = isMobile ? 85 : 75;
         const camera = new THREE.PerspectiveCamera(mobileFOV, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -1054,11 +1059,6 @@
             if (e.code === 'ArrowDown' || e.code === 'KeyS') keys.down = false;
             if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') keys.nitro = false;
         });
-
-        // Mobile detection
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-                         ('ontouchstart' in window) ||
-                         (navigator.maxTouchPoints > 0);
 
         // Tilt steering variables
         let tiltEnabled = false;
