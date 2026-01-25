@@ -3,152 +3,1318 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Ariel's Street Racing | Mr. President's Birthday Grand Prix</title>
+    <title>Ariel's Birthday Grand Prix | Race Against Mr. President!</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { overflow: hidden; background: #000; font-family: 'Segoe UI', system-ui, sans-serif; }
+        canvas { display: block; }
 
-        body {
-            overflow: hidden;
-            background: #000;
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            color: white;
-        }
-
-        #game-canvas {
+        #hud {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 100;
         }
 
-        /* Loading Screen */
-        #loading-screen {
+        #race-info {
+            position: absolute;
+            top: 20px; left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+        }
+
+        #timer {
+            font-size: 48px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+        }
+
+        #race-status {
+            font-size: 18px;
+            color: #d4af37;
+            margin-top: 5px;
+            transition: all 0.3s;
+        }
+
+        #race-status.overtake {
+            color: #ef4444;
+            font-weight: bold;
+            animation: pulse 0.5s ease;
+        }
+
+        #race-status.passed {
+            color: #22c55e;
+            font-weight: bold;
+            animation: pulse 0.5s ease;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        #positions {
+            position: absolute;
+            top: 20px; left: 20px;
+            background: rgba(0,0,0,0.7);
+            padding: 15px 20px;
+            border-radius: 10px;
+            border: 2px solid #d4af37;
+        }
+
+        #positions h3 {
+            color: #d4af37;
+            font-size: 14px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .position-entry {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 0;
+            font-size: 14px;
+            color: #fff;
+        }
+
+        .position-entry.player {
+            color: #22c55e;
+            font-weight: bold;
+        }
+
+        .position-entry.ariel {
+            color: #d4af37;
+            font-weight: bold;
+        }
+
+        .position-number {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .position-entry.player .position-number {
+            background: #22c55e;
+            color: #000;
+        }
+
+        .position-entry.ariel .position-number {
+            background: #d4af37;
+            color: #000;
+        }
+
+        #progress-bar {
+            position: absolute;
+            bottom: 100px; left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            max-width: 600px;
+        }
+
+        #progress-track {
+            height: 20px;
+            background: rgba(0,0,0,0.7);
+            border-radius: 10px;
+            border: 2px solid #555;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-marker {
+            position: absolute;
+            width: 12px; height: 12px;
+            border-radius: 50%;
+            top: 4px;
+            transition: left 0.1s;
+        }
+
+        #progress-finish {
+            position: absolute;
+            right: 5px; top: 2px;
+            font-size: 14px;
+            color: #fff;
+        }
+
+        #speedometer {
+            position: absolute;
+            bottom: 20px; right: 20px;
+            width: 150px; height: 150px;
+            background: rgba(0,0,0,0.7);
+            border: 3px solid #22c55e;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #speed-value {
+            font-size: 40px;
+            font-weight: bold;
+            color: #22c55e;
+        }
+
+        #speed-label { color: #888; font-size: 12px; }
+
+        #nitro-bar {
+            position: absolute;
+            bottom: 190px; right: 20px;
+            width: 150px; height: 16px;
+            background: rgba(0,0,0,0.7);
+            border: 2px solid #3b82f6;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        #nitro-fill {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+            transition: width 0.1s;
+        }
+
+        #controls-hint {
+            position: absolute;
+            bottom: 20px; left: 20px;
+            color: #888;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        /* Menu Screen */
+        #menu {
             position: fixed;
             inset: 0;
             background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            z-index: 1000;
-            transition: opacity 0.5s ease;
+            justify-content: center;
+            z-index: 200;
         }
 
-        #loading-screen.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
+        #menu.hidden { display: none; }
 
-        .loading-title {
+        #menu h1 {
             font-size: 2.5rem;
-            font-weight: 700;
             background: linear-gradient(135deg, #d4af37, #f4e4bc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1rem;
+            margin-bottom: 10px;
             text-align: center;
         }
 
-        .loading-subtitle {
+        #menu .subtitle {
+            color: #d4af37;
             font-size: 1rem;
+            margin-bottom: 30px;
+        }
+
+        #menu .challenge-text {
+            color: #fff;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        #menu .challenge-text span {
+            color: #d4af37;
+            font-weight: bold;
+        }
+
+        .name-input-container {
+            margin-bottom: 30px;
+        }
+
+        .name-input-container label {
+            display: block;
             color: #888;
-            margin-bottom: 2rem;
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
 
-        .loading-bar-container {
-            width: 300px;
-            height: 4px;
-            background: #333;
-            border-radius: 2px;
-            overflow: hidden;
+        #guest-name-input {
+            padding: 15px 25px;
+            font-size: 1.2rem;
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            text-align: center;
+            width: 280px;
+            outline: none;
         }
 
-        .loading-bar {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #d4af37, #f4e4bc);
-            transition: width 0.3s ease;
-        }
-
-        .loading-text {
-            margin-top: 1rem;
-            font-size: 0.85rem;
+        #guest-name-input::placeholder {
             color: #666;
         }
 
-        /* HUD Container - UI elements render here */
-        #hud-container {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 100;
+        #guest-name-input:focus {
+            background: rgba(255,255,255,0.15);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
         }
 
-        #hud-container > * {
+        .racers-preview {
+            color: #666;
+            font-size: 0.85rem;
+            margin-bottom: 30px;
+            text-align: center;
+            line-height: 1.8;
+        }
+
+        .racers-preview .ariel-name {
+            color: #d4af37;
+            font-weight: bold;
+        }
+
+        #start-btn {
+            padding: 15px 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border: none;
+            border-radius: 50px;
+            color: #fff;
+            cursor: pointer;
+            pointer-events: auto;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        #start-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 40px rgba(34, 197, 94, 0.4);
+        }
+
+        #start-btn:disabled {
+            background: #444;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Countdown */
+        #countdown-overlay {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 250;
+            background: rgba(0,0,0,0.5);
+        }
+
+        #countdown-overlay.show { display: flex; }
+
+        #countdown-text {
+            font-size: 150px;
+            font-weight: bold;
+            color: #d4af37;
+            text-shadow: 0 0 50px rgba(212, 175, 55, 0.8);
+            animation: countPulse 0.5s ease-out;
+        }
+
+        @keyframes countPulse {
+            0% { transform: scale(1.5); opacity: 0; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Win Screen */
+        #win-screen {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 300;
+        }
+
+        #win-screen.show { display: flex; }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            animation: confettiFall 3s ease-out forwards;
+        }
+
+        @keyframes confettiFall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        #win-screen h1 {
+            font-size: 3rem;
+            color: #d4af37;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+        }
+
+        #win-screen h2 {
+            font-size: 1.3rem;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        #win-screen .birthday-message {
+            color: #d4af37;
+            font-size: 1rem;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        #final-positions {
+            background: rgba(255,255,255,0.1);
+            padding: 20px 40px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        #final-positions .entry {
+            padding: 8px 0;
+            font-size: 1.1rem;
+            color: #fff;
+        }
+
+        #final-positions .entry.winner {
+            color: #d4af37;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        #final-positions .entry.player {
+            color: #22c55e;
+        }
+
+        #play-again-btn {
+            padding: 12px 40px;
+            font-size: 1rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border: none;
+            border-radius: 50px;
+            color: #fff;
+            cursor: pointer;
             pointer-events: auto;
         }
 
-        /* Mobile Controls Container */
+        /* Mobile controls */
         #mobile-controls {
             display: none;
             position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 200px;
-            z-index: 101;
+            bottom: 0; left: 0; right: 0;
+            height: 120px;
             pointer-events: none;
-        }
-
-        #mobile-controls > * {
-            pointer-events: auto;
+            z-index: 150;
         }
 
         @media (max-width: 768px), (pointer: coarse) {
-            #mobile-controls {
-                display: block;
-            }
+            #mobile-controls { display: flex; justify-content: space-between; padding: 15px; }
+            #speedometer { width: 100px; height: 100px; bottom: 130px; }
+            #speed-value { font-size: 28px; }
+            #nitro-bar { bottom: 250px; width: 100px; }
+            #positions { font-size: 12px; padding: 10px 15px; }
+            #timer { font-size: 32px; }
+            #menu h1 { font-size: 1.8rem; }
+            #guest-name-input { width: 220px; font-size: 1rem; }
+        }
+
+        .mobile-btn {
+            width: 60px; height: 60px;
+            background: rgba(34, 197, 94, 0.3);
+            border: 2px solid #22c55e;
+            border-radius: 50%;
+            color: #22c55e;
+            font-size: 20px;
+            pointer-events: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-btn:active { background: rgba(34, 197, 94, 0.6); }
+
+        #left-controls, #right-controls {
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
         }
     </style>
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div id="loading-screen">
-        <h1 class="loading-title">ARIEL'S STREET RACING</h1>
-        <p class="loading-subtitle">Mr. President's Birthday Grand Prix</p>
-        <div class="loading-bar-container">
-            <div class="loading-bar" id="loading-bar"></div>
+    <!-- Menu -->
+    <div id="menu">
+        <h1>ARIEL'S BIRTHDAY<br>GRAND PRIX</h1>
+        <p class="subtitle">Mr. President's Championship Race</p>
+
+        <p class="challenge-text">
+            Think you can beat the Birthday Boy?<br>
+            Race against <span>ARIEL "Mr. President"</span> and legendary racers!
+        </p>
+
+        <div class="name-input-container">
+            <label>Enter Your Name to Race</label>
+            <input type="text" id="guest-name-input" placeholder="Your Name" maxlength="15" autocomplete="off">
         </div>
-        <p class="loading-text" id="loading-text">Initializing...</p>
+
+        <div class="racers-preview">
+            <span class="ariel-name">ARIEL "MR. PRESIDENT"</span><br>
+            Lewis Hamilton | Max Verstappen | Charles Leclerc<br>
+            Fernando Alonso | Lando Norris
+        </div>
+
+        <button id="start-btn" disabled>ENTER YOUR NAME TO RACE</button>
     </div>
 
-    <!-- Game Canvas -->
-    <canvas id="game-canvas"></canvas>
+    <!-- Countdown -->
+    <div id="countdown-overlay">
+        <div id="countdown-text">3</div>
+    </div>
 
-    <!-- HUD Container -->
-    <div id="hud-container"></div>
+    <!-- Win Screen -->
+    <div id="win-screen">
+        <h1>ARIEL WINS!</h1>
+        <h2>Mr. President takes the Championship!</h2>
+        <p class="birthday-message">"It's my birthday - the Birthday Boy ALWAYS wins!"</p>
+        <div id="final-positions"></div>
+        <button id="play-again-btn">RACE AGAIN</button>
+    </div>
+
+    <!-- HUD -->
+    <div id="hud">
+        <div id="race-info">
+            <div id="timer">4:00</div>
+            <div id="race-status">Race to the Finish! Beat the competition!</div>
+        </div>
+
+        <div id="positions">
+            <h3>POSITIONS</h3>
+            <div id="position-list"></div>
+        </div>
+
+        <div id="progress-bar">
+            <div id="progress-track">
+                <span id="progress-finish">FINISH</span>
+            </div>
+        </div>
+
+        <div id="nitro-bar"><div id="nitro-fill"></div></div>
+        <div id="speedometer">
+            <div id="speed-value">0</div>
+            <div id="speed-label">MPH</div>
+        </div>
+        <div id="controls-hint">
+            WASD / Arrows - Steer<br>
+            SHIFT - Nitro Boost
+        </div>
+    </div>
 
     <!-- Mobile Controls -->
-    <div id="mobile-controls"></div>
+    <div id="mobile-controls">
+        <div id="left-controls">
+            <button class="mobile-btn" id="btn-left">&#9664;</button>
+            <button class="mobile-btn" id="btn-right">&#9654;</button>
+        </div>
+        <div id="right-controls">
+            <button class="mobile-btn" id="btn-nitro" style="background: rgba(59,130,246,0.3); border-color: #3b82f6; color: #3b82f6;">N</button>
+        </div>
+    </div>
 
-    <!-- Three.js from CDN -->
-    <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
     <script type="importmap">
     {
         "imports": {
-            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
         }
     }
     </script>
 
-    <!-- Main Game Module -->
-    <script type="module" src="game/main.js"></script>
+    <script type="module">
+        import * as THREE from 'three';
+
+        // Race configuration
+        const RACE_DURATION = 240; // 4 minutes
+        const FINISH_LINE = 5000; // Longer track for 4 min race
+
+        // Famous F1 racers as AI opponents
+        const aiRacers = [
+            { name: "ARIEL", color: 0xd4af37, isAriel: true }, // Birthday boy - ALWAYS WINS
+            { name: "Lewis Hamilton", color: 0x00d2be },
+            { name: "Max Verstappen", color: 0x1e41ff },
+            { name: "Charles Leclerc", color: 0xdc0000 },
+            { name: "Fernando Alonso", color: 0x006f62 },
+            { name: "Lando Norris", color: 0xff8700 }
+        ];
+
+        // Game state
+        let gameState = 'menu';
+        let guestName = '';
+        let raceTime = RACE_DURATION;
+        let playerSpeed = 0;
+        let playerX = 0;
+        let playerZ = 0;
+        let nitro = 1;
+
+        // Input
+        const keys = { left: false, right: false, up: false, down: false, nitro: false };
+
+        // Three.js setup
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x1a1a2e);
+        scene.fog = new THREE.Fog(0x1a1a2e, 100, 400);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.shadowMap.enabled = true;
+        document.body.insertBefore(renderer.domElement, document.body.firstChild);
+
+        // Lighting
+        scene.add(new THREE.AmbientLight(0x404040, 0.6));
+        const sunLight = new THREE.DirectionalLight(0xffaa55, 1.2);
+        sunLight.position.set(50, 80, 50);
+        sunLight.castShadow = true;
+        scene.add(sunLight);
+        scene.add(new THREE.HemisphereLight(0xff6b35, 0x1a1a2e, 0.4));
+
+        // Create car
+        function createCar(color, name, isPlayer = false, isAriel = false) {
+            const car = new THREE.Group();
+
+            // Body
+            const bodyMat = new THREE.MeshStandardMaterial({
+                color,
+                metalness: isAriel ? 0.95 : (isPlayer ? 0.8 : 0.7),
+                roughness: isAriel ? 0.05 : (isPlayer ? 0.2 : 0.3)
+            });
+            const body = new THREE.Mesh(new THREE.BoxGeometry(2, 0.8, 4), bodyMat);
+            body.position.y = 0.5;
+            body.castShadow = true;
+            car.add(body);
+
+            // Cabin
+            const cabin = new THREE.Mesh(
+                new THREE.BoxGeometry(1.6, 0.5, 1.8),
+                new THREE.MeshStandardMaterial({ color: 0x111111, metalness: 0.9, roughness: 0.1 })
+            );
+            cabin.position.set(0, 1, -0.2);
+            car.add(cabin);
+
+            // Wheels
+            const wheelGeo = new THREE.CylinderGeometry(0.4, 0.4, 0.3, 16);
+            const wheelMat = new THREE.MeshStandardMaterial({ color: 0x222222 });
+            [[-1, 0.4, 1.3], [1, 0.4, 1.3], [-1, 0.4, -1.3], [1, 0.4, -1.3]].forEach(pos => {
+                const wheel = new THREE.Mesh(wheelGeo, wheelMat);
+                wheel.rotation.z = Math.PI / 2;
+                wheel.position.set(...pos);
+                car.add(wheel);
+            });
+
+            // Headlights
+            [[-0.6, 0.5, 2], [0.6, 0.5, 2]].forEach(pos => {
+                const hl = new THREE.Mesh(
+                    new THREE.SphereGeometry(0.15),
+                    new THREE.MeshBasicMaterial({ color: 0xffffcc })
+                );
+                hl.position.set(...pos);
+                car.add(hl);
+            });
+
+            // Taillights
+            [[-0.7, 0.5, -2], [0.7, 0.5, -2]].forEach(pos => {
+                const tl = new THREE.Mesh(
+                    new THREE.BoxGeometry(0.3, 0.15, 0.05),
+                    new THREE.MeshBasicMaterial({ color: 0xff0000 })
+                );
+                tl.position.set(...pos);
+                car.add(tl);
+            });
+
+            // Crown for Ariel
+            if (isAriel) {
+                const crownGeo = new THREE.ConeGeometry(0.3, 0.4, 5);
+                const crownMat = new THREE.MeshStandardMaterial({ color: 0xffd700, metalness: 0.9, roughness: 0.1 });
+                const crown = new THREE.Mesh(crownGeo, crownMat);
+                crown.position.set(0, 1.6, 0);
+                car.add(crown);
+            }
+
+            // Name label
+            const canvas = document.createElement('canvas');
+            canvas.width = 256;
+            canvas.height = 64;
+            const ctx = canvas.getContext('2d');
+
+            if (isAriel) {
+                ctx.fillStyle = 'rgba(212, 175, 55, 0.9)';
+            } else if (isPlayer) {
+                ctx.fillStyle = 'rgba(34, 197, 94, 0.9)';
+            } else {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+            }
+            ctx.fillRect(0, 0, 256, 64);
+            ctx.fillStyle = '#ffffff';
+            ctx.font = isAriel ? 'bold 22px Arial' : 'bold 18px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(isAriel ? 'ARIEL' : name, 128, 40);
+
+            const texture = new THREE.CanvasTexture(canvas);
+            const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture, transparent: true }));
+            sprite.scale.set(5, 1.25, 1);
+            sprite.position.y = isAriel ? 3.5 : 3;
+            car.add(sprite);
+
+            return car;
+        }
+
+        // All racers
+        let allRacers = [];
+        let playerCar = null;
+        let arielCar = null;
+
+        function setupRacers() {
+            // Clear existing
+            allRacers.forEach(r => scene.remove(r.car));
+            allRacers = [];
+
+            // Player car (guest)
+            playerCar = createCar(0x22c55e, guestName, true, false);
+            playerCar.position.set(0, 0, -8); // Start behind Ariel
+            scene.add(playerCar);
+            allRacers.push({
+                car: playerCar,
+                name: guestName,
+                isPlayer: true,
+                isAriel: false,
+                speed: 0,
+                baseSpeed: 0,
+                color: 0x22c55e
+            });
+
+            // AI racers
+            aiRacers.forEach((racer, i) => {
+                const car = createCar(racer.color, racer.name, false, racer.isAriel);
+
+                // Starting grid positions
+                const row = Math.floor(i / 3);
+                const col = i % 3;
+                car.position.set((col - 1) * 6, 0, row * -8);
+
+                scene.add(car);
+
+                const racerData = {
+                    car,
+                    name: racer.name,
+                    isPlayer: false,
+                    isAriel: racer.isAriel || false,
+                    speed: 0,
+                    baseSpeed: racer.isAriel ? 135 : (110 + Math.random() * 50), // Faster AI!
+                    targetX: car.position.x,
+                    color: racer.color,
+                    speedBoost: 0,
+                    burstTimer: 0
+                };
+
+                allRacers.push(racerData);
+
+                if (racer.isAriel) {
+                    arielCar = racerData;
+                }
+            });
+        }
+
+        // Road - Extended for 4 minute race
+        const roadMat = new THREE.MeshStandardMaterial({ color: 0x1a1a1a });
+        for (let i = 0; i < 60; i++) {
+            const road = new THREE.Mesh(new THREE.PlaneGeometry(50, 100), roadMat);
+            road.rotation.x = -Math.PI / 2;
+            road.position.z = i * 100 - 200;
+            road.receiveShadow = true;
+            scene.add(road);
+
+            for (let j = 0; j < 5; j++) {
+                const line = new THREE.Mesh(
+                    new THREE.PlaneGeometry(0.3, 8),
+                    new THREE.MeshBasicMaterial({ color: 0xffffff })
+                );
+                line.rotation.x = -Math.PI / 2;
+                line.position.set(0, 0.01, i * 100 + j * 20 - 200);
+                scene.add(line);
+            }
+
+            [-24, 24].forEach(x => {
+                const side = new THREE.Mesh(
+                    new THREE.PlaneGeometry(0.5, 100),
+                    new THREE.MeshBasicMaterial({ color: 0xffcc00 })
+                );
+                side.rotation.x = -Math.PI / 2;
+                side.position.set(x, 0.01, i * 100 - 200);
+                scene.add(side);
+            });
+        }
+
+        // Finish line
+        const finishLine = new THREE.Mesh(
+            new THREE.PlaneGeometry(50, 5),
+            new THREE.MeshBasicMaterial({ color: 0xffffff })
+        );
+        finishLine.rotation.x = -Math.PI / 2;
+        finishLine.position.set(0, 0.02, FINISH_LINE);
+        scene.add(finishLine);
+
+        // Checkered pattern
+        for (let i = 0; i < 10; i++) {
+            for (let j = 0; j < 2; j++) {
+                if ((i + j) % 2 === 0) {
+                    const check = new THREE.Mesh(
+                        new THREE.PlaneGeometry(5, 2.5),
+                        new THREE.MeshBasicMaterial({ color: 0x000000 })
+                    );
+                    check.rotation.x = -Math.PI / 2;
+                    check.position.set(-22.5 + i * 5, 0.03, FINISH_LINE - 1.25 + j * 2.5);
+                    scene.add(check);
+                }
+            }
+        }
+
+        // Finish banner
+        const banner = new THREE.Mesh(
+            new THREE.BoxGeometry(50, 8, 1),
+            new THREE.MeshBasicMaterial({ color: 0xd4af37 })
+        );
+        banner.position.set(0, 10, FINISH_LINE);
+        scene.add(banner);
+
+        // Buildings - More for longer track
+        const buildingColors = [0x334455, 0x445566, 0x556677, 0x3a3a4a];
+        for (let i = 0; i < 120; i++) {
+            const height = 20 + Math.random() * 50;
+            const building = new THREE.Mesh(
+                new THREE.BoxGeometry(15 + Math.random() * 10, height, 15),
+                new THREE.MeshStandardMaterial({ color: buildingColors[i % buildingColors.length] })
+            );
+            const side = i % 2 === 0 ? -1 : 1;
+            building.position.set(side * (35 + Math.random() * 15), height / 2, i * 45 - 200);
+            building.castShadow = true;
+            scene.add(building);
+
+            for (let w = 0; w < 4; w++) {
+                const win = new THREE.Mesh(
+                    new THREE.PlaneGeometry(1, 1.5),
+                    new THREE.MeshBasicMaterial({ color: Math.random() > 0.5 ? 0xffffaa : 0x333333 })
+                );
+                win.position.set(building.position.x + side * -8, 5 + w * 10, building.position.z + (Math.random() - 0.5) * 10);
+                win.rotation.y = side * Math.PI / 2;
+                scene.add(win);
+            }
+        }
+
+        // Street lamps - Extended
+        for (let i = 0; i < 100; i++) {
+            const side = i % 2 === 0 ? -1 : 1;
+            const pole = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.1, 0.1, 8),
+                new THREE.MeshStandardMaterial({ color: 0x333333 })
+            );
+            pole.position.set(side * 27, 4, i * 50 - 200);
+            scene.add(pole);
+
+            const lamp = new THREE.Mesh(
+                new THREE.SphereGeometry(0.5),
+                new THREE.MeshBasicMaterial({ color: 0xffeecc })
+            );
+            lamp.position.set(side * 27, 8, i * 50 - 200);
+            scene.add(lamp);
+        }
+
+        // Skybox
+        const skyMat = new THREE.ShaderMaterial({
+            vertexShader: `
+                varying vec3 vWorldPosition;
+                void main() {
+                    vec4 worldPosition = modelMatrix * vec4(position, 1.0);
+                    vWorldPosition = worldPosition.xyz;
+                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                }
+            `,
+            fragmentShader: `
+                varying vec3 vWorldPosition;
+                void main() {
+                    float h = normalize(vWorldPosition).y;
+                    vec3 top = vec3(0.05, 0.05, 0.15);
+                    vec3 mid = vec3(0.4, 0.2, 0.3);
+                    vec3 bottom = vec3(1.0, 0.4, 0.2);
+                    vec3 color = h > 0.0 ? mix(mid, top, h) : mix(mid, bottom, -h * 2.0);
+                    gl_FragColor = vec4(color, 1.0);
+                }
+            `,
+            side: THREE.BackSide
+        });
+        scene.add(new THREE.Mesh(new THREE.SphereGeometry(500, 32, 32), skyMat));
+
+        // Progress markers
+        const progressTrack = document.getElementById('progress-track');
+
+        function createProgressMarkers() {
+            // Clear existing markers
+            document.querySelectorAll('.progress-marker').forEach(m => m.remove());
+
+            allRacers.forEach((racer, i) => {
+                const marker = document.createElement('div');
+                marker.className = 'progress-marker';
+                marker.id = `marker-${i}`;
+                marker.style.background = '#' + racer.color.toString(16).padStart(6, '0');
+                marker.style.left = '5px';
+                if (racer.isAriel) {
+                    marker.style.border = '2px solid #fff';
+                    marker.style.zIndex = '10';
+                }
+                if (racer.isPlayer) {
+                    marker.style.border = '2px solid #22c55e';
+                    marker.style.zIndex = '5';
+                }
+                progressTrack.appendChild(marker);
+            });
+        }
+
+        // Input handlers
+        document.addEventListener('keydown', e => {
+            if (e.code === 'ArrowLeft' || e.code === 'KeyA') keys.left = true;
+            if (e.code === 'ArrowRight' || e.code === 'KeyD') keys.right = true;
+            if (e.code === 'ArrowUp' || e.code === 'KeyW') keys.up = true;
+            if (e.code === 'ArrowDown' || e.code === 'KeyS') keys.down = true;
+            if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') keys.nitro = true;
+        });
+
+        document.addEventListener('keyup', e => {
+            if (e.code === 'ArrowLeft' || e.code === 'KeyA') keys.left = false;
+            if (e.code === 'ArrowRight' || e.code === 'KeyD') keys.right = false;
+            if (e.code === 'ArrowUp' || e.code === 'KeyW') keys.up = false;
+            if (e.code === 'ArrowDown' || e.code === 'KeyS') keys.down = false;
+            if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') keys.nitro = false;
+        });
+
+        // Mobile controls
+        const setupBtn = (id, key) => {
+            const btn = document.getElementById(id);
+            if (btn) {
+                btn.addEventListener('touchstart', e => { e.preventDefault(); keys[key] = true; });
+                btn.addEventListener('touchend', e => { e.preventDefault(); keys[key] = false; });
+            }
+        };
+        setupBtn('btn-left', 'left');
+        setupBtn('btn-right', 'right');
+        setupBtn('btn-nitro', 'nitro');
+
+        // UI
+        const nameInput = document.getElementById('guest-name-input');
+        const startBtn = document.getElementById('start-btn');
+        const timerEl = document.getElementById('timer');
+        const statusEl = document.getElementById('race-status');
+        const speedEl = document.getElementById('speed-value');
+        const nitroFill = document.getElementById('nitro-fill');
+        const positionList = document.getElementById('position-list');
+
+        // Name input handling
+        nameInput.addEventListener('input', () => {
+            guestName = nameInput.value.trim();
+            if (guestName.length > 0) {
+                startBtn.disabled = false;
+                startBtn.textContent = 'START RACE';
+            } else {
+                startBtn.disabled = true;
+                startBtn.textContent = 'ENTER YOUR NAME TO RACE';
+            }
+        });
+
+        nameInput.addEventListener('keypress', e => {
+            if (e.key === 'Enter' && guestName.length > 0) {
+                startCountdown();
+            }
+        });
+
+        startBtn.addEventListener('click', () => {
+            if (guestName.length > 0) startCountdown();
+        });
+
+        document.getElementById('play-again-btn').addEventListener('click', resetRace);
+
+        function startCountdown() {
+            setupRacers();
+            createProgressMarkers();
+
+            document.getElementById('menu').classList.add('hidden');
+            gameState = 'countdown';
+
+            const overlay = document.getElementById('countdown-overlay');
+            const text = document.getElementById('countdown-text');
+            overlay.classList.add('show');
+
+            let count = 3;
+            text.textContent = count;
+            text.style.color = '#d4af37';
+
+            const interval = setInterval(() => {
+                count--;
+                if (count > 0) {
+                    text.textContent = count;
+                    text.style.animation = 'none';
+                    text.offsetHeight;
+                    text.style.animation = 'countPulse 0.5s ease-out';
+                } else if (count === 0) {
+                    text.textContent = 'GO!';
+                    text.style.color = '#22c55e';
+                } else {
+                    clearInterval(interval);
+                    overlay.classList.remove('show');
+                    gameState = 'racing';
+                }
+            }, 1000);
+        }
+
+        function resetRace() {
+            document.getElementById('win-screen').classList.remove('show');
+            document.getElementById('menu').classList.remove('hidden');
+
+            raceTime = RACE_DURATION;
+            playerSpeed = 0;
+            playerX = 0;
+            playerZ = 0;
+            nitro = 1;
+            gameState = 'menu';
+
+            // Clear racers
+            allRacers.forEach(r => scene.remove(r.car));
+            allRacers = [];
+            lastPlayerPosition = 7; // Player starts at the back
+            overtakeMessageTimer = 0;
+        }
+
+        function formatTime(seconds) {
+            const m = Math.floor(seconds / 60);
+            const s = Math.floor(seconds % 60);
+            return `${m}:${s.toString().padStart(2, '0')}`;
+        }
+
+        let lastPlayerPosition = 7; // Player starts at the back
+        let overtakeMessageTimer = 0;
+
+        function updatePositions() {
+            const sorted = [...allRacers].sort((a, b) => b.car.position.z - a.car.position.z);
+
+            // Find player position
+            const playerPos = sorted.findIndex(r => r.isPlayer) + 1;
+
+            // Check for position changes
+            if (playerPos !== lastPlayerPosition && gameState === 'racing') {
+                if (playerPos > lastPlayerPosition) {
+                    // Player got overtaken
+                    const overtaker = sorted[playerPos - 2]; // Who passed us
+                    statusEl.textContent = `${overtaker.isAriel ? 'ARIEL' : overtaker.name} passed you!`;
+                    statusEl.className = 'overtake';
+                    overtakeMessageTimer = 2;
+                } else {
+                    // Player overtook someone
+                    const passed = sorted[playerPos]; // Who we passed
+                    statusEl.textContent = `You passed ${passed.isAriel ? 'ARIEL' : passed.name}!`;
+                    statusEl.className = 'passed';
+                    overtakeMessageTimer = 2;
+                }
+                lastPlayerPosition = playerPos;
+            }
+
+            // Reset status message after timer
+            if (overtakeMessageTimer > 0) {
+                overtakeMessageTimer -= 0.016; // roughly 1 frame
+                if (overtakeMessageTimer <= 0) {
+                    statusEl.textContent = `Position: ${playerPos}/${allRacers.length}`;
+                    statusEl.className = '';
+                }
+            }
+
+            positionList.innerHTML = '';
+            sorted.forEach((racer, i) => {
+                const entry = document.createElement('div');
+                let className = 'position-entry';
+                if (racer.isPlayer) className += ' player';
+                if (racer.isAriel) className += ' ariel';
+                entry.className = className;
+                entry.innerHTML = `
+                    <span class="position-number">${i + 1}</span>
+                    <span>${racer.isAriel ? 'ARIEL' : racer.name}</span>
+                `;
+                positionList.appendChild(entry);
+            });
+
+            // Progress markers
+            allRacers.forEach((racer, i) => {
+                const marker = document.getElementById(`marker-${i}`);
+                if (marker) {
+                    const progress = Math.min(racer.car.position.z / FINISH_LINE, 1);
+                    const trackWidth = progressTrack.offsetWidth - 20;
+                    marker.style.left = (5 + progress * trackWidth) + 'px';
+                }
+            });
+
+            return sorted;
+        }
+
+        function createConfetti() {
+            const winScreen = document.getElementById('win-screen');
+            const colors = ['#d4af37', '#ffd700', '#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4'];
+
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                confetti.style.animationDuration = (2 + Math.random() * 2) + 's';
+                winScreen.appendChild(confetti);
+
+                setTimeout(() => confetti.remove(), 5000);
+            }
+        }
+
+        function finishRace(positions) {
+            gameState = 'finished';
+
+            const winScreen = document.getElementById('win-screen');
+            const finalPositions = document.getElementById('final-positions');
+
+            finalPositions.innerHTML = '';
+            positions.forEach((racer, i) => {
+                const entry = document.createElement('div');
+                let className = 'entry';
+                if (racer.isAriel) className += ' winner';
+                else if (racer.isPlayer) className += ' player';
+                entry.className = className;
+                entry.textContent = `${i + 1}. ${racer.isAriel ? 'ARIEL "Mr. President"' : racer.name}`;
+                finalPositions.appendChild(entry);
+            });
+
+            winScreen.classList.add('show');
+            createConfetti();
+        }
+
+        // Game loop
+        let lastTime = 0;
+        function animate(time) {
+            requestAnimationFrame(animate);
+            const dt = Math.min((time - lastTime) / 1000, 0.1);
+            lastTime = time;
+
+            if (gameState === 'racing') {
+                raceTime -= dt;
+                timerEl.textContent = formatTime(Math.max(0, raceTime));
+
+                // Player controls
+                const maxSpeed = keys.nitro && nitro > 0 ? 260 : 170;
+
+                if (keys.up) {
+                    playerSpeed = Math.min(playerSpeed + 90 * dt, maxSpeed);
+                } else {
+                    playerSpeed = Math.min(playerSpeed + 50 * dt, maxSpeed * 0.75);
+                }
+
+                if (keys.down) {
+                    playerSpeed = Math.max(playerSpeed - 70 * dt, 40);
+                }
+
+                if (keys.nitro && nitro > 0) {
+                    nitro = Math.max(nitro - dt * 0.35, 0);
+                    playerSpeed = Math.min(playerSpeed + 130 * dt, maxSpeed);
+                } else {
+                    nitro = Math.min(nitro + dt * 0.12, 1);
+                }
+
+                const turnSpeed = 28;
+                if (keys.left) playerX = Math.max(playerX - turnSpeed * dt, -22);
+                if (keys.right) playerX = Math.min(playerX + turnSpeed * dt, 22);
+
+                playerZ += playerSpeed * dt * 0.5;
+                playerCar.position.x = playerX;
+                playerCar.position.z = playerZ;
+                playerCar.rotation.z = (keys.left ? 0.05 : 0) - (keys.right ? 0.05 : 0);
+
+                // Update AI racers - COMPETITIVE RACING!
+                allRacers.forEach(racer => {
+                    if (racer.isPlayer) return;
+
+                    const distToFinish = FINISH_LINE - racer.car.position.z;
+                    const playerDistToFinish = FINISH_LINE - playerZ;
+                    const arielDistToFinish = arielCar ? FINISH_LINE - arielCar.car.position.z : 0;
+
+                    let targetSpeed = racer.baseSpeed;
+
+                    if (racer.isAriel) {
+                        // ARIEL - The Birthday Boy - MUST WIN but races fairly most of the time
+
+                        if (playerDistToFinish > 800) {
+                            // Early/mid race - Ariel races naturally, can be passed
+                            // Varies speed to create exciting racing
+                            const variation = Math.sin(Date.now() * 0.001) * 20;
+                            targetSpeed = 120 + variation;
+
+                            // Sometimes speed up, sometimes slow down
+                            if (Math.random() < 0.01) {
+                                racer.speedBoost = (Math.random() - 0.3) * 50;
+                            }
+                            targetSpeed += racer.speedBoost || 0;
+
+                        } else if (playerDistToFinish > 400) {
+                            // Getting closer to finish - Ariel gets more serious
+                            targetSpeed = Math.max(140, playerSpeed * 1.05);
+
+                            // Start positioning for the win
+                            if (racer.car.position.z < playerZ - 30) {
+                                targetSpeed = 180; // Catch up burst
+                            }
+
+                        } else if (playerDistToFinish > 150) {
+                            // Final quarter - Ariel pushes hard
+                            targetSpeed = Math.max(160, playerSpeed * 1.1);
+
+                            // Must be ahead or catching up
+                            if (racer.car.position.z < playerZ) {
+                                targetSpeed = 220; // Strong push
+                            }
+
+                        } else {
+                            // FINAL STRETCH - ARIEL MUST WIN!
+                            // Find the leader
+                            const maxZ = Math.max(...allRacers.map(r => r.car.position.z));
+
+                            if (racer.car.position.z < maxZ - 5) {
+                                // Someone is ahead - BIRTHDAY POWER ACTIVATE!
+                                targetSpeed = 350; // Massive burst to take the lead
+                            } else {
+                                // Ariel is leading - maintain strong pace
+                                targetSpeed = Math.max(200, playerSpeed * 1.4);
+                            }
+                        }
+
+                    } else {
+                        // OTHER AI RACERS - They race HARD and can beat the player!
+
+                        // Base aggressive racing
+                        const aggression = racer.baseSpeed / 100; // Higher base = more aggressive
+                        targetSpeed = racer.baseSpeed + (Math.random() - 0.4) * 40;
+
+                        // Drafting boost - speed up when behind another car
+                        allRacers.forEach(other => {
+                            if (other === racer) return;
+                            const dist = other.car.position.z - racer.car.position.z;
+                            if (dist > 5 && dist < 30 && Math.abs(other.car.position.x - racer.car.position.x) < 5) {
+                                targetSpeed += 20; // Slipstream boost
+                            }
+                        });
+
+                        // Competitive bursts - occasionally speed up a lot
+                        if (Math.random() < 0.005) {
+                            racer.burstTimer = 2; // 2 second burst
+                        }
+                        if (racer.burstTimer > 0) {
+                            targetSpeed += 40;
+                            racer.burstTimer -= dt;
+                        }
+
+                        // Chase the player if they're ahead
+                        if (playerZ > racer.car.position.z + 20) {
+                            targetSpeed = Math.max(targetSpeed, playerSpeed * 1.1);
+                        }
+
+                        // Try to overtake player when close
+                        if (Math.abs(playerZ - racer.car.position.z) < 15) {
+                            if (Math.random() < 0.3) {
+                                targetSpeed = playerSpeed + 30; // Overtake attempt
+                            }
+                        }
+
+                        // IMPORTANT: Never beat Ariel at the finish
+                        if (distToFinish < 200) {
+                            // Near finish - don't pass Ariel
+                            if (arielCar && racer.car.position.z > arielCar.car.position.z - 10) {
+                                targetSpeed = Math.min(targetSpeed, arielCar.speed * 0.85);
+                            }
+                        }
+                    }
+
+                    // Smooth speed change
+                    racer.speed += (targetSpeed - racer.speed) * dt * 2.5;
+                    racer.speed = Math.max(50, Math.min(racer.speed, racer.isAriel ? 400 : 250));
+
+                    racer.car.position.z += racer.speed * dt * 0.5;
+
+                    // More dynamic lane changes
+                    if (Math.random() < 0.015) {
+                        // Strategic lane change
+                        const lanes = [-15, -8, 0, 8, 15];
+                        racer.targetX = lanes[Math.floor(Math.random() * lanes.length)];
+                    }
+
+                    // Avoid collisions with other cars
+                    allRacers.forEach(other => {
+                        if (other === racer) return;
+                        const dx = other.car.position.x - racer.car.position.x;
+                        const dz = Math.abs(other.car.position.z - racer.car.position.z);
+                        if (dz < 6 && Math.abs(dx) < 4) {
+                            racer.targetX = racer.car.position.x - Math.sign(dx) * 8;
+                        }
+                    });
+
+                    racer.car.position.x += (racer.targetX - racer.car.position.x) * dt * 3;
+                    racer.car.position.x = Math.max(-20, Math.min(20, racer.car.position.x));
+                });
+
+                // Camera
+                camera.position.x += (playerX * 0.3 - camera.position.x) * 0.1;
+                camera.position.z = playerZ - 12;
+                camera.position.y = 5 + playerSpeed * 0.006;
+                camera.lookAt(playerX * 0.5, 1, playerZ + 40);
+
+                // HUD
+                speedEl.textContent = Math.floor(playerSpeed);
+                nitroFill.style.width = (nitro * 100) + '%';
+
+                const positions = updatePositions();
+
+                // Check finish - Ariel must cross first
+                if (arielCar && arielCar.car.position.z >= FINISH_LINE) {
+                    statusEl.textContent = 'ARIEL WINS!';
+                    finishRace(positions);
+                }
+
+                // Time's up - force Ariel to win
+                if (raceTime <= 0) {
+                    arielCar.car.position.z = FINISH_LINE + 20;
+                    const finalPositions = updatePositions();
+                    finishRace(finalPositions);
+                }
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        animate(0);
+    </script>
 </body>
 </html>
