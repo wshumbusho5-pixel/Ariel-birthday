@@ -2,12 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="screen-orientation" content="landscape">
     <title>Ariel's Birthday Grand Prix | Race Against Mr. President!</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { overflow: hidden; background: #000; font-family: 'Segoe UI', system-ui, sans-serif; }
-        canvas { display: block; }
+        body {
+            overflow: hidden;
+            background: #000;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            touch-action: none;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        canvas { display: block; touch-action: none; }
 
         #hud {
             position: fixed;
@@ -278,6 +289,21 @@
             font-weight: bold;
         }
 
+        .mobile-instructions {
+            display: none;
+            color: #22c55e;
+            font-size: 0.8rem;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 8px;
+        }
+
+        @media (max-width: 768px), (pointer: coarse) {
+            .mobile-instructions { display: block; }
+        }
+
         #start-btn {
             padding: 15px 50px;
             font-size: 1.1rem;
@@ -411,50 +437,190 @@
             pointer-events: auto;
         }
 
-        /* Mobile controls */
+        /* Mobile controls - Touch zones */
         #mobile-controls {
             display: none;
             position: fixed;
             bottom: 0; left: 0; right: 0;
-            height: 120px;
+            top: 0;
             pointer-events: none;
             z-index: 150;
         }
 
         @media (max-width: 768px), (pointer: coarse) {
-            #mobile-controls { display: flex; justify-content: space-between; padding: 15px; }
-            #speedometer { width: 100px; height: 100px; bottom: 130px; }
-            #speed-value { font-size: 28px; }
-            #nitro-bar { bottom: 250px; width: 100px; }
-            #positions { font-size: 12px; padding: 10px 15px; }
-            #timer { font-size: 32px; }
-            #menu h1 { font-size: 1.8rem; }
-            #guest-name-input { width: 220px; font-size: 1rem; }
+            #mobile-controls { display: block; }
+            #speedometer { width: 80px; height: 80px; bottom: 20px; right: 10px; }
+            #speed-value { font-size: 24px; }
+            #nitro-bar { bottom: 110px; width: 80px; right: 10px; }
+            #positions { font-size: 11px; padding: 8px 12px; top: 80px; left: 10px; max-width: 140px; }
+            #positions h3 { font-size: 10px; margin-bottom: 5px; }
+            #timer { font-size: 28px; }
+            #race-status { font-size: 14px; }
+            #menu h1 { font-size: 1.6rem; }
+            #guest-name-input { width: 200px; font-size: 1rem; }
+            #progress-bar { bottom: 140px; width: 60%; }
+            #controls-hint { display: none; }
+            #tilt-hint { display: block !important; }
         }
 
-        .mobile-btn {
-            width: 60px; height: 60px;
-            background: rgba(34, 197, 94, 0.3);
-            border: 2px solid #22c55e;
-            border-radius: 50%;
-            color: #22c55e;
-            font-size: 20px;
+        /* Touch steering zones */
+        .touch-zone {
+            position: absolute;
+            top: 30%;
+            bottom: 20%;
+            width: 35%;
             pointer-events: auto;
             display: flex;
             align-items: center;
             justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s;
         }
 
-        .mobile-btn:active { background: rgba(34, 197, 94, 0.6); }
+        .touch-zone:active {
+            opacity: 1;
+        }
 
-        #left-controls, #right-controls {
+        .touch-zone.left {
+            left: 0;
+            background: linear-gradient(90deg, rgba(34, 197, 94, 0.3) 0%, transparent 100%);
+        }
+
+        .touch-zone.right {
+            right: 0;
+            background: linear-gradient(-90deg, rgba(34, 197, 94, 0.3) 0%, transparent 100%);
+        }
+
+        .touch-zone-arrow {
+            font-size: 60px;
+            color: rgba(255,255,255,0.6);
+            text-shadow: 0 0 20px rgba(34, 197, 94, 0.8);
+        }
+
+        /* Nitro button - big and easy to tap */
+        #nitro-touch {
+            position: absolute;
+            bottom: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.4), rgba(59, 130, 246, 0.2));
+            border: 3px solid #3b82f6;
+            pointer-events: auto;
             display: flex;
-            gap: 10px;
-            align-items: flex-end;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: #3b82f6;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.1s;
+        }
+
+        #nitro-touch:active {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.8), rgba(59, 130, 246, 0.5));
+            transform: translateX(-50%) scale(0.95);
+        }
+
+        #nitro-touch .icon {
+            font-size: 28px;
+            margin-bottom: 2px;
+        }
+
+        /* Tilt calibration hint */
+        #tilt-hint {
+            display: none;
+            position: absolute;
+            bottom: 35%;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.6);
+            font-size: 12px;
+            text-align: center;
+            pointer-events: none;
+        }
+
+        /* Tilt indicator */
+        #tilt-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 50%;
+            pointer-events: none;
+            display: none;
+        }
+
+        #tilt-dot {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #22c55e;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px #22c55e;
+        }
+
+        @media (max-width: 768px), (pointer: coarse) {
+            #tilt-indicator { display: block; }
+        }
+
+        /* Rotate phone prompt for portrait mode */
+        #rotate-prompt {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.95);
+            z-index: 9999;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        #rotate-prompt .phone-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: rotatePhone 1.5s ease-in-out infinite;
+        }
+
+        @keyframes rotatePhone {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(90deg); }
+        }
+
+        #rotate-prompt h2 {
+            color: #d4af37;
+            margin-bottom: 10px;
+        }
+
+        #rotate-prompt p {
+            color: #888;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) and (orientation: portrait) {
+            #rotate-prompt { display: flex; }
         }
     </style>
 </head>
 <body>
+    <!-- Rotate Phone Prompt -->
+    <div id="rotate-prompt">
+        <div class="phone-icon">📱</div>
+        <h2>Rotate Your Phone</h2>
+        <p>For the best racing experience, please rotate to landscape mode</p>
+    </div>
+
     <!-- Menu -->
     <div id="menu">
         <h1>ARIEL'S BIRTHDAY<br>GRAND PRIX</h1>
@@ -474,6 +640,10 @@
             <span class="ariel-name">ARIEL "MR. PRESIDENT"</span><br>
             Lewis Hamilton | Max Verstappen | Charles Leclerc<br>
             Fernando Alonso | Lando Norris
+        </div>
+
+        <div class="mobile-instructions" id="mobile-instructions">
+            📱 TILT to steer • TAP sides to turn • Hold NITRO to boost
         </div>
 
         <button id="start-btn" disabled>ENTER YOUR NAME TO RACE</button>
@@ -522,14 +692,32 @@
         </div>
     </div>
 
-    <!-- Mobile Controls -->
+    <!-- Mobile Controls - Touch Zones -->
     <div id="mobile-controls">
-        <div id="left-controls">
-            <button class="mobile-btn" id="btn-left">&#9664;</button>
-            <button class="mobile-btn" id="btn-right">&#9654;</button>
+        <!-- Left touch zone for steering left -->
+        <div class="touch-zone left" id="touch-left">
+            <span class="touch-zone-arrow">◀</span>
         </div>
-        <div id="right-controls">
-            <button class="mobile-btn" id="btn-nitro" style="background: rgba(59,130,246,0.3); border-color: #3b82f6; color: #3b82f6;">N</button>
+
+        <!-- Right touch zone for steering right -->
+        <div class="touch-zone right" id="touch-right">
+            <span class="touch-zone-arrow">▶</span>
+        </div>
+
+        <!-- Nitro button -->
+        <div id="nitro-touch">
+            <span class="icon">⚡</span>
+            <span>NITRO</span>
+        </div>
+
+        <!-- Tilt indicator -->
+        <div id="tilt-indicator">
+            <div id="tilt-dot"></div>
+        </div>
+
+        <!-- Hint for controls -->
+        <div id="tilt-hint">
+            TILT phone to steer • TAP sides to turn • HOLD nitro to boost
         </div>
     </div>
 
@@ -910,17 +1098,118 @@
             if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') keys.nitro = false;
         });
 
-        // Mobile controls
-        const setupBtn = (id, key) => {
-            const btn = document.getElementById(id);
-            if (btn) {
-                btn.addEventListener('touchstart', e => { e.preventDefault(); keys[key] = true; });
-                btn.addEventListener('touchend', e => { e.preventDefault(); keys[key] = false; });
+        // Mobile detection
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+                         ('ontouchstart' in window) ||
+                         (navigator.maxTouchPoints > 0);
+
+        // Tilt steering variables
+        let tiltEnabled = false;
+        let tiltCalibration = 0;
+        let currentTilt = 0;
+
+        // Mobile controls - Touch zones
+        const touchLeft = document.getElementById('touch-left');
+        const touchRight = document.getElementById('touch-right');
+        const nitroTouch = document.getElementById('nitro-touch');
+        const tiltDot = document.getElementById('tilt-dot');
+
+        if (touchLeft) {
+            touchLeft.addEventListener('touchstart', e => { e.preventDefault(); keys.left = true; }, { passive: false });
+            touchLeft.addEventListener('touchend', e => { e.preventDefault(); keys.left = false; }, { passive: false });
+            touchLeft.addEventListener('touchcancel', e => { keys.left = false; }, { passive: false });
+        }
+
+        if (touchRight) {
+            touchRight.addEventListener('touchstart', e => { e.preventDefault(); keys.right = true; }, { passive: false });
+            touchRight.addEventListener('touchend', e => { e.preventDefault(); keys.right = false; }, { passive: false });
+            touchRight.addEventListener('touchcancel', e => { keys.right = false; }, { passive: false });
+        }
+
+        if (nitroTouch) {
+            nitroTouch.addEventListener('touchstart', e => { e.preventDefault(); keys.nitro = true; }, { passive: false });
+            nitroTouch.addEventListener('touchend', e => { e.preventDefault(); keys.nitro = false; }, { passive: false });
+            nitroTouch.addEventListener('touchcancel', e => { keys.nitro = false; }, { passive: false });
+        }
+
+        // Tilt steering using device orientation
+        if (window.DeviceOrientationEvent) {
+            // Request permission for iOS 13+
+            if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+                // Will request permission when user taps start
+                document.getElementById('start-btn').addEventListener('click', async () => {
+                    try {
+                        const permission = await DeviceOrientationEvent.requestPermission();
+                        if (permission === 'granted') {
+                            enableTiltSteering();
+                        }
+                    } catch (e) {
+                        console.log('Tilt permission denied, using touch controls');
+                    }
+                }, { once: true });
+            } else {
+                // Non-iOS devices
+                enableTiltSteering();
             }
-        };
-        setupBtn('btn-left', 'left');
-        setupBtn('btn-right', 'right');
-        setupBtn('btn-nitro', 'nitro');
+        }
+
+        function enableTiltSteering() {
+            tiltEnabled = true;
+
+            window.addEventListener('deviceorientation', (e) => {
+                if (gameState !== 'racing') {
+                    // Calibrate when race starts
+                    tiltCalibration = e.gamma || 0;
+                    return;
+                }
+
+                // gamma is left/right tilt (-90 to 90)
+                const gamma = e.gamma || 0;
+                currentTilt = gamma - tiltCalibration;
+
+                // Dead zone and sensitivity
+                const deadZone = 3;
+                const maxTilt = 25;
+
+                if (Math.abs(currentTilt) < deadZone) {
+                    keys.left = false;
+                    keys.right = false;
+                } else if (currentTilt < -deadZone) {
+                    keys.left = true;
+                    keys.right = false;
+                } else if (currentTilt > deadZone) {
+                    keys.right = true;
+                    keys.left = false;
+                }
+
+                // Update tilt indicator
+                if (tiltDot) {
+                    const clampedTilt = Math.max(-maxTilt, Math.min(maxTilt, currentTilt));
+                    const offset = (clampedTilt / maxTilt) * 24;
+                    tiltDot.style.transform = `translate(calc(-50% + ${offset}px), -50%)`;
+                }
+            }, true);
+        }
+
+        // Prevent scrolling/zooming on mobile during game
+        document.addEventListener('touchmove', e => {
+            if (gameState === 'racing' || gameState === 'countdown') {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        // Prevent double-tap zoom
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', e => {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                e.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, { passive: false });
+
+        // Auto-accelerate on mobile
+        const autoAccelerate = isMobile;
 
         // UI
         const nameInput = document.getElementById('guest-name-input');
@@ -1132,13 +1421,14 @@
                 // Player controls
                 const maxSpeed = keys.nitro && nitro > 0 ? 260 : 170;
 
-                if (keys.up) {
+                // Auto-accelerate on mobile, or when pressing up
+                if (autoAccelerate || keys.up) {
                     playerSpeed = Math.min(playerSpeed + 90 * dt, maxSpeed);
                 } else {
                     playerSpeed = Math.min(playerSpeed + 50 * dt, maxSpeed * 0.75);
                 }
 
-                if (keys.down) {
+                if (keys.down && !autoAccelerate) {
                     playerSpeed = Math.max(playerSpeed - 70 * dt, 40);
                 }
 
@@ -1149,9 +1439,20 @@
                     nitro = Math.min(nitro + dt * 0.12, 1);
                 }
 
-                const turnSpeed = 28;
-                if (keys.left) playerX = Math.max(playerX - turnSpeed * dt, -22);
-                if (keys.right) playerX = Math.min(playerX + turnSpeed * dt, 22);
+                // Tilt steering has smoother turning based on tilt amount
+                let turnSpeed = 28;
+                let turnAmount = 0;
+
+                if (tiltEnabled && gameState === 'racing') {
+                    // Proportional tilt steering
+                    const tiltStrength = Math.min(Math.abs(currentTilt) / 20, 1);
+                    turnAmount = Math.sign(currentTilt) * tiltStrength * turnSpeed * dt * 1.2;
+                    playerX = Math.max(-22, Math.min(22, playerX + turnAmount));
+                } else {
+                    // Digital button steering
+                    if (keys.left) playerX = Math.max(playerX - turnSpeed * dt, -22);
+                    if (keys.right) playerX = Math.min(playerX + turnSpeed * dt, 22);
+                }
 
                 playerZ += playerSpeed * dt * 0.5;
                 playerCar.position.x = playerX;
