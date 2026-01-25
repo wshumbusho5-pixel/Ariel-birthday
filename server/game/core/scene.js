@@ -81,6 +81,23 @@ export class SceneManager {
         // Setup lighting
         this._setupLighting();
 
+        // DEBUG: Add a test cube to verify rendering
+        const testGeometry = new THREE.BoxGeometry(5, 5, 5);
+        const testMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+        const testCube = new THREE.Mesh(testGeometry, testMaterial);
+        testCube.position.set(0, 2.5, 20); // In front of camera
+        this.scene.add(testCube);
+        console.log('DEBUG: Test cube added to scene');
+
+        // DEBUG: Add a ground plane
+        const groundGeometry = new THREE.PlaneGeometry(100, 100);
+        const groundMaterial = new THREE.MeshBasicMaterial({ color: 0x333333, side: THREE.DoubleSide });
+        const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+        ground.rotation.x = -Math.PI / 2;
+        ground.position.y = 0;
+        this.scene.add(ground);
+        console.log('DEBUG: Ground plane added to scene');
+
         // Listen for window resize
         window.addEventListener('resize', this.onResize);
 
@@ -147,6 +164,13 @@ export class SceneManager {
     render() {
         if (this.renderer && this.scene && this.camera) {
             this.renderer.render(this.scene, this.camera);
+            // console.log('Rendering frame'); // Uncomment to verify render is called
+        } else {
+            console.error('Cannot render - missing:', {
+                renderer: !!this.renderer,
+                scene: !!this.scene,
+                camera: !!this.camera
+            });
         }
     }
 

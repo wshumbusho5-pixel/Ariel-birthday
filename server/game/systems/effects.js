@@ -127,9 +127,10 @@ export class EffectsManager {
         this.updateFlash(dt);
 
         // Render with post-processing
-        if (this.composer) {
-            this.composer.render();
-        }
+        // DISABLED: Let scene.render() handle it for now
+        // if (this.composer) {
+        //     this.composer.render();
+        // }
     }
 
     updateScreenShake(dt) {
