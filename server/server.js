@@ -36,8 +36,8 @@ function writeMessages(messages) {
 app.use(cors());
 app.use(express.json());
 
-// Serve static files from parent directory
-app.use(express.static(path.join(__dirname, '..')));
+// Serve static files from current directory
+app.use(express.static(__dirname));
 
 // API Routes
 

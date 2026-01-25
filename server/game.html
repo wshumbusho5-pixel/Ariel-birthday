@@ -1,0 +1,2729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ariel's Birthday Grand Prix</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-blue: #00d4ff;
+            --neon-pink: #ff006e;
+            --neon-green: #00ff88;
+            --neon-gold: #ffd700;
+            --neon-orange: #ff6b35;
+            --neon-purple: #8b5cf6;
+            --dark: #0a0a0f;
+            --darker: #050508;
+            --ariel-color: #ffd700;
+            --player-color: #00d4ff;
+            --road-speed: 1s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--dark);
+            color: white;
+            overflow: hidden;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* ============================================
+           REALISTIC CSS CARS
+        ============================================ */
+        .car-3d {
+            position: relative;
+            width: 40px;
+            height: 75px;
+            transform-style: preserve-3d;
+        }
+
+        .car-body {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 45% 45% 35% 35%;
+            background: linear-gradient(180deg,
+                rgba(255,255,255,0.3) 0%,
+                var(--car-color) 15%,
+                var(--car-color) 60%,
+                rgba(0,0,0,0.3) 100%
+            );
+            box-shadow:
+                inset 0 5px 20px rgba(255,255,255,0.4),
+                inset 0 -10px 20px rgba(0,0,0,0.5),
+                0 15px 30px rgba(0,0,0,0.6);
+        }
+
+        .car-body::before {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: 10%;
+            width: 80%;
+            height: 35%;
+            background: linear-gradient(180deg,
+                rgba(30,30,40,0.95) 0%,
+                rgba(60,60,80,0.9) 50%,
+                rgba(30,30,40,0.95) 100%
+            );
+            border-radius: 30% 30% 40% 40%;
+            box-shadow: inset 0 2px 10px rgba(255,255,255,0.2);
+        }
+
+        .car-body::after {
+            content: '';
+            position: absolute;
+            top: 25%;
+            left: 15%;
+            width: 70%;
+            height: 25%;
+            background: linear-gradient(180deg,
+                rgba(100,150,200,0.4) 0%,
+                rgba(150,200,255,0.2) 50%
+            );
+            border-radius: 20%;
+        }
+
+        .car-stripe {
+            position: absolute;
+            top: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 70%;
+            background: rgba(255,255,255,0.9);
+            border-radius: 3px;
+        }
+
+        .car-wheel {
+            position: absolute;
+            width: 12px;
+            height: 18px;
+            background: linear-gradient(90deg, #1a1a1a 0%, #333 50%, #1a1a1a 100%);
+            border-radius: 3px;
+            box-shadow: inset 0 0 5px rgba(255,255,255,0.2);
+        }
+
+        .wheel-fl { top: 12%; left: -6px; }
+        .wheel-fr { top: 12%; right: -6px; }
+        .wheel-bl { bottom: 10%; left: -6px; }
+        .wheel-br { bottom: 10%; right: -6px; }
+
+        .car-spoiler {
+            position: absolute;
+            bottom: 2%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 44px;
+            height: 5px;
+            background: linear-gradient(180deg, #333 0%, #111 100%);
+            border-radius: 2px;
+        }
+
+        .car-headlights {
+            position: absolute;
+            top: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 26px;
+            height: 6px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .headlight {
+            width: 8px;
+            height: 5px;
+            background: radial-gradient(ellipse, #fff 0%, #ffd700 50%, transparent 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ffd700;
+            animation: headlightPulse 0.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes headlightPulse {
+            0% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+
+        .car-exhaust {
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+        }
+
+        .exhaust-pipe {
+            width: 6px;
+            height: 6px;
+            background: radial-gradient(circle, #444 0%, #222 100%);
+            border-radius: 50%;
+        }
+
+        .exhaust-flame {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 5px;
+            height: 18px;
+            background: linear-gradient(0deg,
+                transparent 0%,
+                rgba(255,100,0,0.8) 30%,
+                rgba(255,200,0,0.9) 60%,
+                rgba(255,255,200,1) 100%
+            );
+            border-radius: 50% 50% 20% 20%;
+            filter: blur(2px);
+            opacity: 0;
+        }
+
+        .car-3d.boosting .exhaust-flame {
+            opacity: 1;
+            animation: flameFlicker 0.1s ease infinite;
+        }
+
+        @keyframes flameFlicker {
+            0%, 100% { height: 20px; }
+            50% { height: 28px; }
+        }
+
+        .car-number {
+            position: absolute;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 12px;
+            font-weight: 900;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
+
+        /* Ariel's Gold Car */
+        .ariel-car-3d { --car-color: #d4a000; }
+        .ariel-car-3d .car-body {
+            background: linear-gradient(180deg,
+                rgba(255,255,255,0.4) 0%,
+                #ffd700 10%, #d4a000 50%, #996600 90%,
+                rgba(0,0,0,0.4) 100%
+            );
+        }
+        .ariel-car-3d .car-stripe {
+            background: linear-gradient(180deg, #fff 0%, #ffeaa7 100%);
+        }
+
+        /* Player's Blue Car */
+        .player-car-3d { --car-color: #0066cc; }
+        .player-car-3d .car-body {
+            background: linear-gradient(180deg,
+                rgba(255,255,255,0.4) 0%,
+                #00d4ff 10%, #0088cc 50%, #004466 90%,
+                rgba(0,0,0,0.4) 100%
+            );
+        }
+        .player-car-3d .car-stripe {
+            background: linear-gradient(180deg, #fff 0%, #aaeeff 100%);
+        }
+
+        /* Traffic Car Colors */
+        .traffic-red { --car-color: #cc2222; }
+        .traffic-red .car-body {
+            background: linear-gradient(180deg,
+                rgba(255,255,255,0.4) 0%,
+                #ff4444 10%, #cc2222 50%, #881111 90%,
+                rgba(0,0,0,0.4) 100%
+            );
+        }
+        .traffic-green { --car-color: #22aa22; }
+        .traffic-green .car-body {
+            background: linear-gradient(180deg,
+                rgba(255,255,255,0.4) 0%,
+                #44dd44 10%, #22aa22 50%, #116611 90%,
+                rgba(0,0,0,0.4) 100%
+            );
+        }
+        .traffic-purple { --car-color: #7733aa; }
+        .traffic-purple .car-body {
+            background: linear-gradient(180deg,
+                rgba(255,255,255,0.4) 0%,
+                #9955dd 10%, #7733aa 50%, #441166 90%,
+                rgba(0,0,0,0.4) 100%
+            );
+        }
+        .traffic-orange { --car-color: #dd6600; }
+        .traffic-orange .car-body {
+            background: linear-gradient(180deg,
+                rgba(255,255,255,0.4) 0%,
+                #ff8833 10%, #dd6600 50%, #884400 90%,
+                rgba(0,0,0,0.4) 100%
+            );
+        }
+        .traffic-white { --car-color: #cccccc; }
+        .traffic-white .car-body {
+            background: linear-gradient(180deg,
+                rgba(255,255,255,0.5) 0%,
+                #ffffff 10%, #dddddd 50%, #999999 90%,
+                rgba(0,0,0,0.3) 100%
+            );
+        }
+
+        /* ============================================
+           GIFT BOX
+        ============================================ */
+        .gift-box {
+            position: absolute;
+            width: 35px;
+            height: 35px;
+            transform-style: preserve-3d;
+            animation: giftBounce 0.5s ease-in-out infinite alternate, giftGlow 1s ease-in-out infinite;
+        }
+
+        @keyframes giftBounce {
+            0% { transform: translateY(0) rotate(-5deg); }
+            100% { transform: translateY(-5px) rotate(5deg); }
+        }
+
+        @keyframes giftGlow {
+            0%, 100% { filter: drop-shadow(0 0 10px rgba(255,215,0,0.8)); }
+            50% { filter: drop-shadow(0 0 20px rgba(255,215,0,1)); }
+        }
+
+        .gift-body {
+            position: absolute;
+            width: 100%;
+            height: 80%;
+            bottom: 0;
+            background: linear-gradient(135deg, #ff006e 0%, #d4005a 100%);
+            border-radius: 5px;
+            box-shadow: inset 0 5px 15px rgba(255,255,255,0.3), 0 5px 15px rgba(0,0,0,0.4);
+        }
+
+        .gift-ribbon-v {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700 0%, #ffea00 50%, #ffd700 100%);
+        }
+
+        .gift-ribbon-h {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(180deg, #ffd700 0%, #ffea00 50%, #ffd700 100%);
+        }
+
+        .gift-bow {
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 15px;
+        }
+
+        .bow-loop {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #ffd700;
+            border-radius: 50% 50% 50% 50%;
+        }
+
+        .bow-loop.left { left: 0; transform: rotate(-30deg); }
+        .bow-loop.right { right: 0; transform: rotate(30deg); }
+
+        .bow-center {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: #ffea00;
+            border-radius: 50%;
+        }
+
+        /* ============================================
+           LOADING SCREEN
+        ============================================ */
+        #loading-screen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, var(--darker) 0%, #0d1a2d 50%, var(--dark) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        #loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1.5rem, 5vw, 3rem);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-pink), var(--neon-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 40px;
+            text-align: center;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.5)); }
+            50% { filter: drop-shadow(0 0 40px rgba(255, 0, 110, 0.8)); }
+        }
+
+        .loading-car-container {
+            display: flex;
+            justify-content: center;
+            transform: scale(1.5);
+            animation: carLoad 1.5s ease-in-out infinite;
+        }
+
+        @keyframes carLoad {
+            0%, 100% { transform: scale(1.5) translateX(-20px) rotate(-3deg); }
+            50% { transform: scale(1.5) translateX(20px) rotate(3deg); }
+        }
+
+        .loading-bar-container {
+            width: 280px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin-top: 50px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .loading-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink), var(--neon-gold));
+            border-radius: 10px;
+            animation: loadBar 2.5s ease forwards;
+        }
+
+        @keyframes loadBar {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        .loading-text {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.5);
+            letter-spacing: 2px;
+        }
+
+        /* ============================================
+           START SCREEN
+        ============================================ */
+        #start-screen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(180deg, #0a1628 0%, #1a2a4a 50%, #0d1a2d 100%);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 500;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .start-content {
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .game-logo {
+            margin-bottom: 15px;
+        }
+
+        .game-logo-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1.8rem, 7vw, 3rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, var(--neon-gold) 0%, #fff 50%, var(--neon-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.5));
+            line-height: 1.1;
+        }
+
+        .game-subtitle {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            color: var(--neon-blue);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-top: 8px;
+        }
+
+        .trophy-icon {
+            font-size: 50px;
+            margin: 15px 0;
+            animation: trophyFloat 2s ease-in-out infinite;
+        }
+
+        @keyframes trophyFloat {
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+
+        .vs-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .racer-preview { text-align: center; }
+
+        .racer-car-preview {
+            transform: scale(0.7);
+            margin-bottom: 10px;
+        }
+
+        .racer-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .racer-name.gold { color: var(--neon-gold); }
+        .racer-name.blue { color: var(--neon-blue); }
+
+        .vs-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--neon-pink);
+            text-shadow: 0 0 20px var(--neon-pink);
+        }
+
+        .game-features {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .feature-badge {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 12px;
+            background: rgba(0,0,0,0.4);
+            border-radius: 20px;
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .feature-badge .icon { font-size: 1rem; }
+
+        .input-section { margin: 20px 0; }
+
+        .input-label {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem;
+            color: var(--neon-blue);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .name-input {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(0, 212, 255, 0.1);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 12px;
+            color: white;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .name-input:focus {
+            outline: none;
+            border-color: var(--neon-blue);
+            background: rgba(0, 212, 255, 0.2);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .name-input::placeholder { color: rgba(255, 255, 255, 0.4); }
+
+        .start-btn {
+            width: 100%;
+            padding: 18px 35px;
+            margin-top: 20px;
+            background: linear-gradient(135deg, var(--neon-green) 0%, #00cc6a 100%);
+            border: none;
+            border-radius: 12px;
+            color: var(--dark);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(0, 255, 136, 0.4);
+        }
+
+        .start-btn:hover, .start-btn:active {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 50px rgba(0, 255, 136, 0.6);
+        }
+
+        .start-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover { color: var(--neon-blue); }
+
+        /* ============================================
+           COUNTDOWN OVERLAY
+        ============================================ */
+        #countdown-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 400;
+        }
+
+        .countdown-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(100px, 30vw, 180px);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: countPop 0.8s ease-out;
+            filter: drop-shadow(0 0 60px rgba(0, 212, 255, 0.8));
+        }
+
+        @keyframes countPop {
+            0% { transform: scale(3); opacity: 0; }
+            50% { transform: scale(0.8); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .countdown-go {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(60px, 20vw, 120px);
+            font-weight: 900;
+            color: var(--neon-green);
+            text-shadow: 0 0 60px var(--neon-green);
+            animation: goPulse 0.5s ease-out;
+        }
+
+        @keyframes goPulse {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+
+        /* ============================================
+           GAME SCREEN
+        ============================================ */
+        #game-screen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: none;
+            flex-direction: column;
+            background: #0a0a15;
+            overflow: hidden;
+        }
+
+        /* HUD */
+        .game-hud {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            z-index: 100;
+            pointer-events: none;
+            background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, transparent 100%);
+        }
+
+        .hud-left, .hud-right, .hud-center {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .hud-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            align-items: center;
+        }
+
+        .hud-item {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 6px 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .hud-label {
+            font-size: 0.55rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hud-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--neon-blue);
+        }
+
+        .position-display { font-size: 1.4rem; }
+        .position-1 { color: var(--neon-gold); }
+        .position-2 { color: var(--neon-blue); }
+
+        .timer-display {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            color: var(--neon-green);
+        }
+
+        .speed-display { color: var(--neon-orange); }
+
+        .boost-indicator {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .boost-bar {
+            width: 60px;
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .boost-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--neon-gold), var(--neon-orange));
+            border-radius: 4px;
+            transition: width 0.2s ease;
+        }
+
+        /* Race View */
+        .race-view {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .track-visual {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* CITY BACKGROUND */
+        .city-sky {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 50%;
+            background: linear-gradient(180deg,
+                #0a0a1a 0%,
+                #1a1a3a 40%,
+                #2a2a5a 70%,
+                #3a3a6a 100%
+            );
+        }
+
+        .stars {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 35%;
+            background-image:
+                radial-gradient(1px 1px at 10% 10%, rgba(255,255,255,0.8), transparent),
+                radial-gradient(1px 1px at 30% 20%, rgba(255,255,255,0.6), transparent),
+                radial-gradient(2px 2px at 50% 5%, rgba(255,255,255,0.9), transparent),
+                radial-gradient(1px 1px at 70% 15%, rgba(255,255,255,0.7), transparent),
+                radial-gradient(1px 1px at 90% 25%, rgba(255,255,255,0.5), transparent),
+                radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.6), transparent),
+                radial-gradient(1px 1px at 80% 8%, rgba(255,255,255,0.7), transparent);
+            animation: starsTwinkle 3s ease-in-out infinite;
+        }
+
+        @keyframes starsTwinkle {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        /* City Skyline */
+        .city-skyline {
+            position: absolute;
+            bottom: 50%;
+            left: 0;
+            width: 200%;
+            height: 150px;
+            animation: cityScroll 20s linear infinite;
+        }
+
+        @keyframes cityScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .building {
+            position: absolute;
+            bottom: 0;
+            background: linear-gradient(180deg, #1a1a2a 0%, #0a0a15 100%);
+            border-radius: 3px 3px 0 0;
+        }
+
+        .building::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image:
+                linear-gradient(90deg, transparent 45%, rgba(255,220,100,0.6) 45%, rgba(255,220,100,0.6) 55%, transparent 55%),
+                linear-gradient(180deg, transparent 0%, transparent 10%, rgba(255,220,100,0.3) 10%, rgba(255,220,100,0.3) 15%, transparent 15%);
+            background-size: 15px 20px;
+            animation: windowFlicker 4s ease-in-out infinite;
+        }
+
+        @keyframes windowFlicker {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        .building.tall { height: 120px; width: 40px; }
+        .building.medium { height: 80px; width: 50px; }
+        .building.short { height: 50px; width: 35px; }
+        .building.skyscraper {
+            height: 140px;
+            width: 30px;
+            background: linear-gradient(180deg, #2a2a4a 0%, #1a1a2a 100%);
+        }
+
+        /* Ground */
+        .ground {
+            position: absolute;
+            top: 45%; left: 0;
+            width: 100%; height: 55%;
+            background: linear-gradient(180deg,
+                #1a2a1a 0%,
+                #0d1a0d 50%,
+                #0a150a 100%
+            );
+        }
+
+        /* WIDE 3-LANE ROAD */
+        .animated-road {
+            position: absolute;
+            left: 50%;
+            top: 35%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 500px;
+            height: 65%;
+            background: linear-gradient(180deg,
+                #252530 0%,
+                #1a1a25 50%,
+                #151520 100%
+            );
+            box-shadow:
+                inset 0 0 100px rgba(0, 0, 0, 0.8),
+                -8px 0 40px rgba(0,0,0,0.6),
+                8px 0 40px rgba(0,0,0,0.6);
+            border-left: 6px solid #444;
+            border-right: 6px solid #444;
+        }
+
+        .lane-divider {
+            position: absolute;
+            width: 4px;
+            height: 200%;
+            background: repeating-linear-gradient(
+                to bottom,
+                rgba(255, 255, 255, 0.7) 0px,
+                rgba(255, 255, 255, 0.7) 50px,
+                transparent 50px,
+                transparent 100px
+            );
+            animation: lineScroll var(--road-speed) linear infinite;
+        }
+
+        .lane-divider.left { left: 33%; }
+        .lane-divider.right { left: 66%; }
+
+        @keyframes lineScroll {
+            0% { transform: translateY(-100px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .road-edge {
+            position: absolute;
+            top: 0;
+            width: 12px;
+            height: 200%;
+            background: repeating-linear-gradient(
+                to bottom,
+                #cc0000 0px,
+                #cc0000 25px,
+                #ffffff 25px,
+                #ffffff 50px
+            );
+            animation: lineScroll var(--road-speed) linear infinite;
+        }
+
+        .road-edge.left { left: 0; }
+        .road-edge.right { right: 0; }
+
+        /* Speed lines */
+        .speed-lines {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            opacity: 0.4;
+        }
+
+        .speed-line {
+            position: absolute;
+            width: 2px;
+            height: 120px;
+            background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.5), transparent);
+            animation: speedLine var(--speed-line-duration, 0.5s) linear infinite;
+        }
+
+        @keyframes speedLine {
+            0% { transform: translateY(-120px); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+
+        /* Game Objects Container */
+        .game-objects {
+            position: absolute;
+            left: 50%;
+            top: 35%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 500px;
+            height: 65%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        /* Traffic Cars */
+        .traffic-car {
+            position: absolute;
+            transition: none;
+            z-index: 10;
+        }
+
+        /* Gift Items */
+        .gift-item {
+            position: absolute;
+            z-index: 5;
+        }
+
+        /* Player Car - Fixed at bottom */
+        .player-container {
+            position: absolute;
+            bottom: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 500px;
+            height: 100px;
+            pointer-events: none;
+        }
+
+        .race-car {
+            position: absolute;
+            transition: left 0.15s ease-out;
+            filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.7));
+        }
+
+        .race-car.player {
+            bottom: 0;
+            z-index: 30;
+        }
+
+        .race-car.ariel {
+            z-index: 25;
+        }
+
+        .car-name-tag {
+            position: absolute;
+            bottom: 105%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.5rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 15px;
+            white-space: nowrap;
+            letter-spacing: 1px;
+        }
+
+        .race-car.player .car-name-tag {
+            background: var(--neon-blue);
+            color: var(--dark);
+            box-shadow: 0 0 12px rgba(0,212,255,0.5);
+        }
+
+        .race-car.ariel .car-name-tag {
+            background: var(--neon-gold);
+            color: var(--dark);
+            box-shadow: 0 0 12px rgba(255,215,0,0.5);
+        }
+
+        /* Progress Section */
+        .progress-section {
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 100%;
+            padding: 10px 15px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(0,0,0,0.7), transparent);
+        }
+
+        .lap-indicator {
+            text-align: center;
+            margin-bottom: 8px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .lap-indicator span { color: var(--neon-green); font-weight: 700; }
+
+        .progress-bar-container {
+            position: relative;
+            width: 100%;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            overflow: visible;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .progress-track-bg {
+            position: absolute;
+            top: 50%; left: 20px; right: 20px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-50%);
+            border-radius: 3px;
+        }
+
+        .finish-flag {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+        }
+
+        .start-flag {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+            opacity: 0.5;
+        }
+
+        .progress-car {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            transition: left 0.3s ease-out;
+            z-index: 10;
+        }
+
+        .progress-car-icon {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .progress-car.ariel-progress .progress-car-icon {
+            background: var(--neon-gold);
+            color: var(--dark);
+            box-shadow: 0 0 10px var(--neon-gold);
+        }
+
+        .progress-car.player-progress .progress-car-icon {
+            background: var(--neon-blue);
+            color: var(--dark);
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        /* Controls */
+        .control-area {
+            padding: 10px 15px 20px;
+            background: rgba(0, 0, 0, 0.95);
+        }
+
+        .control-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .lane-btn {
+            flex: 1;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(100,100,120,0.3) 0%, rgba(50,50,70,0.5) 100%);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 15px;
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.1s ease;
+        }
+
+        .lane-btn:active {
+            transform: scale(0.95);
+            background: rgba(0, 212, 255, 0.3);
+            border-color: var(--neon-blue);
+        }
+
+        .gas-pedal {
+            width: 100%;
+            padding: 22px;
+            background: linear-gradient(135deg, var(--neon-green) 0%, #00aa55 100%);
+            border: none;
+            border-radius: 15px;
+            color: var(--dark);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.4);
+            touch-action: manipulation;
+        }
+
+        .gas-pedal:active, .gas-pedal.pressed {
+            transform: scale(0.97) translateY(2px);
+            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.6);
+            background: linear-gradient(135deg, #00ff88 0%, #00dd66 100%);
+        }
+
+        .speed-meter {
+            margin-top: 8px;
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .speed-meter-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-gold), var(--neon-orange));
+            border-radius: 3px;
+            transition: width 0.1s ease;
+        }
+
+        .control-hint {
+            text-align: center;
+            margin-top: 6px;
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Collision Flash */
+        .collision-flash {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(255, 0, 0, 0.3);
+            pointer-events: none;
+            z-index: 200;
+            opacity: 0;
+            transition: opacity 0.1s ease;
+        }
+
+        .collision-flash.active {
+            opacity: 1;
+        }
+
+        /* Boost Flash */
+        .boost-flash {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(255, 215, 0, 0.2);
+            pointer-events: none;
+            z-index: 200;
+            opacity: 0;
+            transition: opacity 0.1s ease;
+        }
+
+        .boost-flash.active {
+            opacity: 1;
+        }
+
+        /* ============================================
+           CRASH/LOSE SCREEN
+        ============================================ */
+        #crash-screen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(20, 0, 0, 0.97);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 600;
+            padding: 20px;
+            text-align: center;
+            overflow-y: auto;
+        }
+
+        .crash-content {
+            max-width: 420px;
+            width: 100%;
+        }
+
+        .crash-icon {
+            font-size: 80px;
+            animation: crashShake 0.5s ease-in-out infinite;
+        }
+
+        @keyframes crashShake {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        .crash-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2rem, 8vw, 3.5rem);
+            font-weight: 900;
+            color: #ff4444;
+            text-shadow: 0 0 30px rgba(255, 68, 68, 0.6);
+            margin: 15px 0;
+            animation: crashPulse 0.5s ease-in-out infinite;
+        }
+
+        @keyframes crashPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .crash-subtitle {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .crash-winner-section {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid var(--neon-gold);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .crash-winner-label {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.6);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .crash-winner-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--neon-gold), #fff, var(--neon-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
+        }
+
+        .crash-winner-car {
+            margin: 15px auto;
+            transform: scale(1.1);
+            animation: winnerCarBounce 1s ease-in-out infinite;
+        }
+
+        .crash-message {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+            margin: 20px 0;
+        }
+
+        .crash-stats {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 20px 0;
+        }
+
+        .crash-stat {
+            text-align: center;
+        }
+
+        .crash-stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: var(--neon-blue);
+        }
+
+        .crash-stat-label {
+            font-size: 0.65rem;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+        }
+
+        /* ============================================
+           FINISH SCREEN
+        ============================================ */
+        #finish-screen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.97);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 600;
+            padding: 20px;
+            text-align: center;
+            overflow-y: auto;
+        }
+
+        .finish-content {
+            max-width: 420px;
+            width: 100%;
+        }
+
+        .winner-announcement {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .winner-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2rem, 8vw, 3.5rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--neon-gold), #fff, var(--neon-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.6));
+            animation: winnerPulse 1s ease-in-out infinite;
+        }
+
+        @keyframes winnerPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+
+        .winner-car {
+            margin: 20px auto;
+            transform: scale(1.2);
+            animation: winnerCarBounce 1s ease-in-out infinite;
+        }
+
+        @keyframes winnerCarBounce {
+            0%, 100% { transform: scale(1.2) translateY(0) rotate(-3deg); }
+            50% { transform: scale(1.2) translateY(-8px) rotate(3deg); }
+        }
+
+        .race-results {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            padding: 15px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .result-row:last-child { border-bottom: none; }
+
+        .result-position {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            width: 45px;
+        }
+
+        .result-position.gold { color: var(--neon-gold); }
+        .result-position.silver { color: #c0c0c0; }
+
+        .result-racer {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .result-name { font-weight: 600; font-size: 0.9rem; }
+
+        .result-time {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-blue);
+            font-size: 0.85rem;
+        }
+
+        .result-stats {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .stat-item { text-align: center; }
+
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            color: var(--neon-green);
+        }
+
+        .stat-label {
+            font-size: 0.65rem;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+        }
+
+        .celebration-message {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+            margin: 15px 0;
+        }
+
+        .finish-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .play-again-btn {
+            padding: 14px 35px;
+            background: linear-gradient(135deg, var(--neon-green) 0%, #00aa55 100%);
+            border: none;
+            border-radius: 12px;
+            color: var(--dark);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+        }
+
+        .play-again-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(0, 255, 136, 0.4);
+        }
+
+        .back-to-invite-btn {
+            padding: 12px 35px;
+            background: transparent;
+            border: 2px solid var(--neon-blue);
+            border-radius: 12px;
+            color: var(--neon-blue);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+        }
+
+        .back-to-invite-btn:hover {
+            background: var(--neon-blue);
+            color: var(--dark);
+        }
+
+        /* CONFETTI */
+        #confetti-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 700;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 400px) {
+            .car-3d { transform: scale(0.8); }
+            .gas-pedal { padding: 18px; font-size: 0.9rem; }
+            .lane-btn { padding: 15px; font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="confetti-canvas"></canvas>
+    <div class="collision-flash" id="collision-flash"></div>
+    <div class="boost-flash" id="boost-flash"></div>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <h1 class="loading-title">Ariel's Grand Prix</h1>
+        <div class="loading-car-container">
+            <div class="car-3d ariel-car-3d">
+                <div class="car-body"></div>
+                <div class="car-stripe"></div>
+                <div class="car-wheel wheel-fl"></div>
+                <div class="car-wheel wheel-fr"></div>
+                <div class="car-wheel wheel-bl"></div>
+                <div class="car-wheel wheel-br"></div>
+                <div class="car-spoiler"></div>
+                <div class="car-headlights">
+                    <div class="headlight"></div>
+                    <div class="headlight"></div>
+                </div>
+                <div class="car-number">1</div>
+            </div>
+        </div>
+        <div class="loading-bar-container">
+            <div class="loading-bar"></div>
+        </div>
+        <p class="loading-text">LOADING CITY RACE...</p>
+    </div>
+
+    <!-- Start Screen -->
+    <div id="start-screen">
+        <div class="start-content">
+            <div class="game-logo">
+                <h1 class="game-logo-text">Ariel's<br>Grand Prix</h1>
+                <p class="game-subtitle">City Street Race 2026</p>
+            </div>
+
+            <div class="trophy-icon">🏆</div>
+
+            <div class="vs-section">
+                <div class="racer-preview">
+                    <div class="racer-car-preview">
+                        <div class="car-3d ariel-car-3d">
+                            <div class="car-body"></div>
+                            <div class="car-stripe"></div>
+                            <div class="car-wheel wheel-fl"></div>
+                            <div class="car-wheel wheel-fr"></div>
+                            <div class="car-wheel wheel-bl"></div>
+                            <div class="car-wheel wheel-br"></div>
+                            <div class="car-spoiler"></div>
+                            <div class="car-number">1</div>
+                        </div>
+                    </div>
+                    <span class="racer-name gold">ARIEL</span>
+                </div>
+                <span class="vs-text">VS</span>
+                <div class="racer-preview">
+                    <div class="racer-car-preview">
+                        <div class="car-3d player-car-3d">
+                            <div class="car-body"></div>
+                            <div class="car-stripe"></div>
+                            <div class="car-wheel wheel-fl"></div>
+                            <div class="car-wheel wheel-fr"></div>
+                            <div class="car-wheel wheel-bl"></div>
+                            <div class="car-wheel wheel-br"></div>
+                            <div class="car-spoiler"></div>
+                            <div class="car-number">2</div>
+                        </div>
+                    </div>
+                    <span class="racer-name blue" id="player-preview-name">YOU</span>
+                </div>
+            </div>
+
+            <div class="game-features">
+                <div class="feature-badge"><span class="icon">🏙️</span> City Track</div>
+                <div class="feature-badge"><span class="icon">🚗</span> Dodge Traffic</div>
+                <div class="feature-badge"><span class="icon">🎁</span> Collect Gifts</div>
+                <div class="feature-badge"><span class="icon">⚡</span> Speed Boost</div>
+            </div>
+
+            <div class="input-section">
+                <label class="input-label">Enter Your Name, Challenger</label>
+                <input type="text" id="player-name-input" class="name-input" placeholder="Your Name" maxlength="12" autocomplete="off">
+            </div>
+
+            <button id="start-race-btn" class="start-btn" disabled>
+                🏁 Start Grand Prix 🏁
+            </button>
+
+            <a href="index.html" class="back-link">← Back to Invitation</a>
+        </div>
+    </div>
+
+    <!-- Countdown Overlay -->
+    <div id="countdown-overlay">
+        <div id="countdown-display"></div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="game-screen">
+        <div class="game-hud">
+            <div class="hud-left">
+                <div class="hud-item">
+                    <div class="hud-label">Position</div>
+                    <div class="hud-value position-display" id="position-display">2nd</div>
+                </div>
+                <div class="hud-item">
+                    <div class="hud-label">Speed</div>
+                    <div class="hud-value speed-display" id="speed-display">0 km/h</div>
+                </div>
+            </div>
+            <div class="hud-center">
+                <div class="hud-item">
+                    <div class="hud-label">Time</div>
+                    <div class="hud-value timer-display" id="timer-display">0:00</div>
+                </div>
+            </div>
+            <div class="hud-right">
+                <div class="hud-item">
+                    <div class="hud-label">Lap</div>
+                    <div class="hud-value" id="lap-display">1/3</div>
+                </div>
+                <div class="hud-item">
+                    <div class="hud-label">Gifts</div>
+                    <div class="hud-value" id="gift-display" style="color: var(--neon-gold);">0</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="race-view">
+            <div class="track-visual">
+                <div class="city-sky"></div>
+                <div class="stars"></div>
+
+                <!-- City Skyline -->
+                <div class="city-skyline" id="city-skyline"></div>
+
+                <div class="ground"></div>
+
+                <div class="animated-road">
+                    <div class="road-edge left"></div>
+                    <div class="lane-divider left"></div>
+                    <div class="lane-divider right"></div>
+                    <div class="road-edge right"></div>
+                </div>
+
+                <div class="speed-lines" id="speed-lines"></div>
+
+                <!-- Game Objects (Traffic & Gifts) -->
+                <div class="game-objects" id="game-objects"></div>
+
+                <!-- Player Container -->
+                <div class="player-container" id="player-container">
+                    <!-- Ariel's Car -->
+                    <div class="race-car ariel" id="ariel-car">
+                        <div class="car-name-tag">ARIEL 👑</div>
+                        <div class="car-3d ariel-car-3d boosting">
+                            <div class="car-body"></div>
+                            <div class="car-stripe"></div>
+                            <div class="car-wheel wheel-fl"></div>
+                            <div class="car-wheel wheel-fr"></div>
+                            <div class="car-wheel wheel-bl"></div>
+                            <div class="car-wheel wheel-br"></div>
+                            <div class="car-spoiler"></div>
+                            <div class="car-headlights">
+                                <div class="headlight"></div>
+                                <div class="headlight"></div>
+                            </div>
+                            <div class="car-exhaust">
+                                <div class="exhaust-pipe"><div class="exhaust-flame"></div></div>
+                                <div class="exhaust-pipe"><div class="exhaust-flame"></div></div>
+                            </div>
+                            <div class="car-number">1</div>
+                        </div>
+                    </div>
+
+                    <!-- Player's Car -->
+                    <div class="race-car player" id="player-car">
+                        <div class="car-name-tag" id="player-car-name">YOU</div>
+                        <div class="car-3d player-car-3d" id="player-car-3d">
+                            <div class="car-body"></div>
+                            <div class="car-stripe"></div>
+                            <div class="car-wheel wheel-fl"></div>
+                            <div class="car-wheel wheel-fr"></div>
+                            <div class="car-wheel wheel-bl"></div>
+                            <div class="car-wheel wheel-br"></div>
+                            <div class="car-spoiler"></div>
+                            <div class="car-headlights">
+                                <div class="headlight"></div>
+                                <div class="headlight"></div>
+                            </div>
+                            <div class="car-exhaust">
+                                <div class="exhaust-pipe"><div class="exhaust-flame"></div></div>
+                                <div class="exhaust-pipe"><div class="exhaust-flame"></div></div>
+                            </div>
+                            <div class="car-number">2</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="progress-section">
+                    <div class="lap-indicator">LAP <span id="current-lap">1</span> OF <span>3</span></div>
+                    <div class="progress-bar-container">
+                        <div class="progress-track-bg"></div>
+                        <span class="start-flag">🚦</span>
+                        <span class="finish-flag">🏁</span>
+                        <div class="progress-car ariel-progress" id="ariel-progress" style="left: 20px;">
+                            <div class="progress-car-icon">A</div>
+                        </div>
+                        <div class="progress-car player-progress" id="player-progress" style="left: 20px;">
+                            <div class="progress-car-icon">P</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-area">
+                <div class="control-row">
+                    <button id="left-btn" class="lane-btn">◀</button>
+                    <button id="right-btn" class="lane-btn">▶</button>
+                </div>
+                <button id="gas-pedal" class="gas-pedal">
+                    ⚡ HOLD TO ACCELERATE ⚡
+                </button>
+                <div class="speed-meter">
+                    <div class="speed-meter-fill" id="speed-meter-fill"></div>
+                </div>
+                <p class="control-hint">Hold pedal to race • Use arrows to dodge traffic • Collect gifts for boost!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Crash/Lose Screen -->
+    <div id="crash-screen">
+        <div class="crash-content">
+            <div class="crash-icon">💥</div>
+            <h1 class="crash-title">CRASHED!</h1>
+            <p class="crash-subtitle">You hit another car!</p>
+
+            <div class="crash-winner-section">
+                <p class="crash-winner-label">The Birthday Boy Wins!</p>
+                <h2 class="crash-winner-name">ARIEL! 👑</h2>
+                <div class="crash-winner-car">
+                    <div class="car-3d ariel-car-3d">
+                        <div class="car-body"></div>
+                        <div class="car-stripe"></div>
+                        <div class="car-wheel wheel-fl"></div>
+                        <div class="car-wheel wheel-fr"></div>
+                        <div class="car-wheel wheel-bl"></div>
+                        <div class="car-wheel wheel-br"></div>
+                        <div class="car-spoiler"></div>
+                        <div class="car-headlights">
+                            <div class="headlight"></div>
+                            <div class="headlight"></div>
+                        </div>
+                        <div class="car-number">1</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="crash-stats">
+                <div class="crash-stat">
+                    <div class="crash-stat-value" id="crash-progress">0%</div>
+                    <div class="crash-stat-label">Progress</div>
+                </div>
+                <div class="crash-stat">
+                    <div class="crash-stat-value" id="crash-gifts">0</div>
+                    <div class="crash-stat-label">Gifts</div>
+                </div>
+                <div class="crash-stat">
+                    <div class="crash-stat-value" id="crash-dodges">0</div>
+                    <div class="crash-stat-label">Dodges</div>
+                </div>
+            </div>
+
+            <p class="crash-message">
+                Oops! Better luck next time! 🏎️<br>
+                Ariel is too fast for you!
+            </p>
+
+            <div class="finish-buttons">
+                <button class="play-again-btn" onclick="resetGame()">🔄 Try Again</button>
+                <a href="index.html" class="back-to-invite-btn">← Back to Invitation</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Finish Screen -->
+    <div id="finish-screen">
+        <div class="finish-content">
+            <p class="winner-announcement">🏆 Grand Prix Winner 🏆</p>
+            <h1 class="winner-name">ARIEL!</h1>
+
+            <div class="winner-car">
+                <div class="car-3d ariel-car-3d">
+                    <div class="car-body"></div>
+                    <div class="car-stripe"></div>
+                    <div class="car-wheel wheel-fl"></div>
+                    <div class="car-wheel wheel-fr"></div>
+                    <div class="car-wheel wheel-bl"></div>
+                    <div class="car-wheel wheel-br"></div>
+                    <div class="car-spoiler"></div>
+                    <div class="car-headlights">
+                        <div class="headlight"></div>
+                        <div class="headlight"></div>
+                    </div>
+                    <div class="car-number">1</div>
+                </div>
+            </div>
+
+            <div class="race-results">
+                <div class="result-row">
+                    <span class="result-position gold">1st</span>
+                    <div class="result-racer">
+                        <span class="result-name" style="color: var(--neon-gold);">Ariel</span>
+                    </div>
+                    <span class="result-time" id="ariel-time">--:--</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-position silver">2nd</span>
+                    <div class="result-racer">
+                        <span class="result-name" id="player-result-name" style="color: var(--neon-blue);">You</span>
+                    </div>
+                    <span class="result-time" id="player-time">--:--</span>
+                </div>
+                <div class="result-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="stat-gifts">0</div>
+                        <div class="stat-label">Gifts</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="stat-dodges">0</div>
+                        <div class="stat-label">Dodges</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="stat-crashes">0</div>
+                        <div class="stat-label">Crashes</div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="celebration-message">
+                Amazing race through the city! 🎉<br>
+                Ariel wins the Birthday Grand Prix!<br>
+                Thanks for racing! 🏎️
+            </p>
+
+            <div class="finish-buttons">
+                <button class="play-again-btn" onclick="resetGame()">🔄 Race Again</button>
+                <a href="index.html" class="back-to-invite-btn">← Back to Invitation</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // GAME CONFIGURATION
+        // ============================================
+        const CONFIG = {
+            TOTAL_LAPS: 3,
+            LAP_DISTANCE: 100,
+            RACE_DISTANCE: 300,
+            MAX_PLAYER_SPEED: 0.22,
+            ACCELERATION: 0.01,
+            DECELERATION: 0.007,
+            BASE_ARIEL_SPEED: 0.11,
+            MAX_ARIEL_SPEED: 0.26,
+            LANES: 3,
+            LANE_POSITIONS: [17, 50, 83], // Left, Center, Right (percentage)
+            TRAFFIC_SPAWN_RATE: 2500,
+            GIFT_SPAWN_RATE: 4000,
+            TRAFFIC_SPEED_MIN: 2,
+            TRAFFIC_SPEED_MAX: 4,
+            COLLISION_SLOWDOWN: 0.15,
+            GIFT_BOOST: 0.03,
+            BOOST_DURATION: 3000,
+        };
+
+        // ============================================
+        // GAME STATE
+        // ============================================
+        let gameState = {
+            playerName: '',
+            playerProgress: 0,
+            arielProgress: 0,
+            playerSpeed: 0,
+            arielSpeed: CONFIG.BASE_ARIEL_SPEED,
+            isRacing: false,
+            isPressing: false,
+            raceStartTime: 0,
+            currentLap: 1,
+            playerFinishTime: 0,
+            arielFinishTime: 0,
+            animationFrame: null,
+            playerLane: 1, // 0=left, 1=center, 2=right
+            arielLane: 1,
+            trafficCars: [],
+            gifts: [],
+            giftsCollected: 0,
+            dodges: 0,
+            crashes: 0,
+            boostEndTime: 0,
+            trafficSpawnTimer: null,
+            giftSpawnTimer: null,
+            invincibleUntil: 0,
+        };
+
+        // Traffic car colors
+        const TRAFFIC_COLORS = ['traffic-red', 'traffic-green', 'traffic-purple', 'traffic-orange', 'traffic-white'];
+
+        // ============================================
+        // ELEMENTS
+        // ============================================
+        const loadingScreen = document.getElementById('loading-screen');
+        const startScreen = document.getElementById('start-screen');
+        const countdownOverlay = document.getElementById('countdown-overlay');
+        const countdownDisplay = document.getElementById('countdown-display');
+        const gameScreen = document.getElementById('game-screen');
+        const finishScreen = document.getElementById('finish-screen');
+        const crashScreen = document.getElementById('crash-screen');
+
+        const playerNameInput = document.getElementById('player-name-input');
+        const playerPreviewName = document.getElementById('player-preview-name');
+        const startRaceBtn = document.getElementById('start-race-btn');
+        const gasPedal = document.getElementById('gas-pedal');
+        const leftBtn = document.getElementById('left-btn');
+        const rightBtn = document.getElementById('right-btn');
+
+        const playerCar = document.getElementById('player-car');
+        const arielCar = document.getElementById('ariel-car');
+        const playerCar3D = document.getElementById('player-car-3d');
+        const playerCarName = document.getElementById('player-car-name');
+        const playerProgress = document.getElementById('player-progress');
+        const arielProgressEl = document.getElementById('ariel-progress');
+        const positionDisplay = document.getElementById('position-display');
+        const speedDisplay = document.getElementById('speed-display');
+        const timerDisplay = document.getElementById('timer-display');
+        const lapDisplay = document.getElementById('lap-display');
+        const currentLapDisplay = document.getElementById('current-lap');
+        const speedMeterFill = document.getElementById('speed-meter-fill');
+        const giftDisplay = document.getElementById('gift-display');
+        const gameObjects = document.getElementById('game-objects');
+
+        const speedLines = document.getElementById('speed-lines');
+        const collisionFlash = document.getElementById('collision-flash');
+        const boostFlash = document.getElementById('boost-flash');
+
+        // ============================================
+        // CITY SKYLINE GENERATION
+        // ============================================
+        function generateCitySkyline() {
+            const skyline = document.getElementById('city-skyline');
+            skyline.innerHTML = '';
+
+            const buildingTypes = [
+                { class: 'tall', minW: 35, maxW: 50, minH: 100, maxH: 130 },
+                { class: 'medium', minW: 40, maxW: 60, minH: 60, maxH: 90 },
+                { class: 'short', minW: 30, maxW: 45, minH: 40, maxH: 60 },
+                { class: 'skyscraper', minW: 25, maxW: 35, minH: 120, maxH: 150 },
+            ];
+
+            let x = 0;
+            while (x < window.innerWidth * 2) {
+                const type = buildingTypes[Math.floor(Math.random() * buildingTypes.length)];
+                const width = type.minW + Math.random() * (type.maxW - type.minW);
+                const height = type.minH + Math.random() * (type.maxH - type.minH);
+
+                const building = document.createElement('div');
+                building.className = `building ${type.class}`;
+                building.style.left = `${x}px`;
+                building.style.width = `${width}px`;
+                building.style.height = `${height}px`;
+
+                skyline.appendChild(building);
+                x += width + (Math.random() * 20 + 5);
+            }
+        }
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        window.addEventListener('load', () => {
+            generateCitySkyline();
+            createSpeedLines();
+
+            setTimeout(() => {
+                loadingScreen.classList.add('hidden');
+                startScreen.style.display = 'flex';
+            }, 3000);
+        });
+
+        // ============================================
+        // NAME INPUT
+        // ============================================
+        playerNameInput.addEventListener('input', (e) => {
+            const name = e.target.value.trim();
+            gameState.playerName = name;
+            playerPreviewName.textContent = name || 'YOU';
+            startRaceBtn.disabled = name.length === 0;
+        });
+
+        playerNameInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && gameState.playerName) {
+                startCountdown();
+            }
+        });
+
+        // ============================================
+        // START RACE
+        // ============================================
+        startRaceBtn.addEventListener('click', () => {
+            if (gameState.playerName) startCountdown();
+        });
+
+        function startCountdown() {
+            startScreen.style.display = 'none';
+            countdownOverlay.style.display = 'flex';
+
+            playerCarName.textContent = gameState.playerName.toUpperCase();
+            document.getElementById('player-result-name').textContent = gameState.playerName;
+
+            let count = 3;
+            countdownDisplay.innerHTML = `<span class="countdown-number">${count}</span>`;
+
+            const countInterval = setInterval(() => {
+                count--;
+                if (count > 0) {
+                    countdownDisplay.innerHTML = `<span class="countdown-number">${count}</span>`;
+                } else if (count === 0) {
+                    countdownDisplay.innerHTML = `<span class="countdown-go">GO!</span>`;
+                } else {
+                    clearInterval(countInterval);
+                    countdownOverlay.style.display = 'none';
+                    gameScreen.style.display = 'flex';
+                    startRace();
+                }
+            }, 1000);
+        }
+
+        // ============================================
+        // GAME CONTROLS
+        // ============================================
+        function handlePressStart(e) {
+            e.preventDefault();
+            if (gameState.isRacing) {
+                gameState.isPressing = true;
+                gasPedal.classList.add('pressed');
+                playerCar3D.classList.add('boosting');
+            }
+        }
+
+        function handlePressEnd(e) {
+            e.preventDefault();
+            gameState.isPressing = false;
+            gasPedal.classList.remove('pressed');
+            playerCar3D.classList.remove('boosting');
+        }
+
+        gasPedal.addEventListener('touchstart', handlePressStart, { passive: false });
+        gasPedal.addEventListener('touchend', handlePressEnd, { passive: false });
+        gasPedal.addEventListener('touchcancel', handlePressEnd, { passive: false });
+        gasPedal.addEventListener('mousedown', handlePressStart);
+        gasPedal.addEventListener('mouseup', handlePressEnd);
+        gasPedal.addEventListener('mouseleave', handlePressEnd);
+
+        // Lane controls
+        function moveLeft() {
+            if (gameState.isRacing && gameState.playerLane > 0) {
+                gameState.playerLane--;
+                updatePlayerPosition();
+            }
+        }
+
+        function moveRight() {
+            if (gameState.isRacing && gameState.playerLane < 2) {
+                gameState.playerLane++;
+                updatePlayerPosition();
+            }
+        }
+
+        leftBtn.addEventListener('click', moveLeft);
+        leftBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveLeft(); }, { passive: false });
+        rightBtn.addEventListener('click', moveRight);
+        rightBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveRight(); }, { passive: false });
+
+        // Keyboard controls
+        document.addEventListener('keydown', (e) => {
+            if (!gameState.isRacing) return;
+
+            if (e.code === 'ArrowLeft' || e.code === 'KeyA') {
+                moveLeft();
+            } else if (e.code === 'ArrowRight' || e.code === 'KeyD') {
+                moveRight();
+            } else if ((e.code === 'Space' || e.code === 'ArrowUp') && !gameState.isPressing) {
+                gameState.isPressing = true;
+                gasPedal.classList.add('pressed');
+                playerCar3D.classList.add('boosting');
+            }
+        });
+
+        document.addEventListener('keyup', (e) => {
+            if (e.code === 'Space' || e.code === 'ArrowUp') {
+                gameState.isPressing = false;
+                gasPedal.classList.remove('pressed');
+                playerCar3D.classList.remove('boosting');
+            }
+        });
+
+        // Touch swipe for lane change
+        let touchStartX = 0;
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+        }, { passive: true });
+
+        document.addEventListener('touchend', (e) => {
+            if (!gameState.isRacing) return;
+            const touchEndX = e.changedTouches[0].clientX;
+            const diff = touchEndX - touchStartX;
+
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) moveRight();
+                else moveLeft();
+            }
+        }, { passive: true });
+
+        function updatePlayerPosition() {
+            const pos = CONFIG.LANE_POSITIONS[gameState.playerLane];
+            playerCar.style.left = `${pos}%`;
+            playerCar.style.transform = 'translateX(-50%)';
+        }
+
+        // ============================================
+        // TRAFFIC & GIFTS SPAWNING
+        // ============================================
+        function spawnTraffic() {
+            if (!gameState.isRacing) return;
+
+            const lane = Math.floor(Math.random() * 3);
+            const colorClass = TRAFFIC_COLORS[Math.floor(Math.random() * TRAFFIC_COLORS.length)];
+            const speed = CONFIG.TRAFFIC_SPEED_MIN + Math.random() * (CONFIG.TRAFFIC_SPEED_MAX - CONFIG.TRAFFIC_SPEED_MIN);
+
+            const trafficEl = document.createElement('div');
+            trafficEl.className = 'traffic-car';
+            trafficEl.innerHTML = `
+                <div class="car-3d ${colorClass}">
+                    <div class="car-body"></div>
+                    <div class="car-stripe"></div>
+                    <div class="car-wheel wheel-fl"></div>
+                    <div class="car-wheel wheel-fr"></div>
+                    <div class="car-wheel wheel-bl"></div>
+                    <div class="car-wheel wheel-br"></div>
+                    <div class="car-spoiler"></div>
+                </div>
+            `;
+
+            const pos = CONFIG.LANE_POSITIONS[lane];
+            trafficEl.style.left = `${pos}%`;
+            trafficEl.style.transform = 'translateX(-50%)';
+            trafficEl.style.top = '-100px';
+
+            gameObjects.appendChild(trafficEl);
+
+            gameState.trafficCars.push({
+                element: trafficEl,
+                lane: lane,
+                y: -100,
+                speed: speed,
+                passed: false
+            });
+        }
+
+        function spawnGift() {
+            if (!gameState.isRacing) return;
+
+            const lane = Math.floor(Math.random() * 3);
+
+            const giftEl = document.createElement('div');
+            giftEl.className = 'gift-item';
+            giftEl.innerHTML = `
+                <div class="gift-box">
+                    <div class="gift-body">
+                        <div class="gift-ribbon-v"></div>
+                        <div class="gift-ribbon-h"></div>
+                    </div>
+                    <div class="gift-bow">
+                        <div class="bow-loop left"></div>
+                        <div class="bow-loop right"></div>
+                        <div class="bow-center"></div>
+                    </div>
+                </div>
+            `;
+
+            const pos = CONFIG.LANE_POSITIONS[lane];
+            giftEl.style.left = `${pos}%`;
+            giftEl.style.transform = 'translateX(-50%)';
+            giftEl.style.top = '-60px';
+
+            gameObjects.appendChild(giftEl);
+
+            gameState.gifts.push({
+                element: giftEl,
+                lane: lane,
+                y: -60,
+                collected: false
+            });
+        }
+
+        // ============================================
+        // COLLISION DETECTION
+        // ============================================
+        function checkCollisions() {
+            const playerY = gameObjects.offsetHeight - 120; // Player car position
+            const now = Date.now();
+
+            // Check traffic collisions
+            gameState.trafficCars.forEach(traffic => {
+                if (traffic.y > playerY - 60 && traffic.y < playerY + 40) {
+                    if (traffic.lane === gameState.playerLane && now > gameState.invincibleUntil) {
+                        // Collision!
+                        handleCollision();
+                        gameState.invincibleUntil = now + 1000;
+                    } else if (!traffic.passed && traffic.lane !== gameState.playerLane) {
+                        // Successful dodge
+                        traffic.passed = true;
+                        gameState.dodges++;
+                    }
+                }
+            });
+
+            // Check gift collection
+            gameState.gifts.forEach(gift => {
+                if (!gift.collected && gift.y > playerY - 40 && gift.y < playerY + 40) {
+                    if (gift.lane === gameState.playerLane) {
+                        collectGift(gift);
+                    }
+                }
+            });
+        }
+
+        function handleCollision() {
+            gameState.crashes++;
+
+            collisionFlash.classList.add('active');
+
+            // Vibrate if supported
+            if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+
+            // End the race - player loses!
+            endRaceWithCrash();
+        }
+
+        function endRaceWithCrash() {
+            gameState.isRacing = false;
+            cancelAnimationFrame(gameState.animationFrame);
+            clearInterval(gameState.trafficSpawnTimer);
+            clearInterval(gameState.giftSpawnTimer);
+
+            playerCar3D.classList.remove('boosting');
+            gasPedal.classList.remove('pressed');
+
+            // Clear game objects
+            gameObjects.innerHTML = '';
+
+            // Calculate progress percentage
+            const progressPercent = Math.round((gameState.playerProgress / CONFIG.RACE_DISTANCE) * 100);
+
+            // Update crash screen stats
+            document.getElementById('crash-progress').textContent = `${progressPercent}%`;
+            document.getElementById('crash-gifts').textContent = gameState.giftsCollected;
+            document.getElementById('crash-dodges').textContent = gameState.dodges;
+
+            setTimeout(() => {
+                collisionFlash.classList.remove('active');
+                gameScreen.style.display = 'none';
+                crashScreen.style.display = 'flex';
+            }, 500);
+        }
+
+        function collectGift(gift) {
+            gift.collected = true;
+            gift.element.remove();
+
+            gameState.giftsCollected++;
+            giftDisplay.textContent = gameState.giftsCollected;
+
+            // Apply boost
+            gameState.boostEndTime = Date.now() + CONFIG.BOOST_DURATION;
+
+            boostFlash.classList.add('active');
+            setTimeout(() => boostFlash.classList.remove('active'), 300);
+        }
+
+        // ============================================
+        // RACE LOGIC
+        // ============================================
+        function startRace() {
+            gameState.isRacing = true;
+            gameState.playerProgress = 0;
+            gameState.arielProgress = 0;
+            gameState.playerSpeed = 0;
+            gameState.arielSpeed = CONFIG.BASE_ARIEL_SPEED;
+            gameState.currentLap = 1;
+            gameState.raceStartTime = Date.now();
+            gameState.playerLane = 1;
+            gameState.arielLane = 1;
+            gameState.trafficCars = [];
+            gameState.gifts = [];
+            gameState.giftsCollected = 0;
+            gameState.dodges = 0;
+            gameState.crashes = 0;
+            gameState.boostEndTime = 0;
+            gameState.invincibleUntil = 0;
+
+            updatePlayerPosition();
+            arielCar.style.left = `${CONFIG.LANE_POSITIONS[1]}%`;
+            arielCar.style.transform = 'translateX(-50%)';
+            arielCar.style.bottom = '80px';
+
+            // Start spawning
+            gameState.trafficSpawnTimer = setInterval(spawnTraffic, CONFIG.TRAFFIC_SPAWN_RATE);
+            gameState.giftSpawnTimer = setInterval(spawnGift, CONFIG.GIFT_SPAWN_RATE);
+
+            // Spawn initial objects
+            setTimeout(spawnTraffic, 1000);
+            setTimeout(spawnGift, 2000);
+
+            gameLoop();
+        }
+
+        function gameLoop() {
+            if (!gameState.isRacing) return;
+
+            const now = Date.now();
+            const isBoosted = now < gameState.boostEndTime;
+
+            // Update player speed
+            let maxSpeed = CONFIG.MAX_PLAYER_SPEED;
+            let accel = CONFIG.ACCELERATION;
+
+            if (isBoosted) {
+                maxSpeed += CONFIG.GIFT_BOOST;
+                accel += 0.005;
+            }
+
+            if (gameState.isPressing) {
+                gameState.playerSpeed = Math.min(gameState.playerSpeed + accel, maxSpeed);
+            } else {
+                gameState.playerSpeed = Math.max(gameState.playerSpeed - CONFIG.DECELERATION, 0);
+            }
+
+            gameState.playerProgress += gameState.playerSpeed;
+
+            // ARIEL AI
+            const progressDiff = gameState.playerProgress - gameState.arielProgress;
+            const raceProgress = gameState.arielProgress / CONFIG.RACE_DISTANCE;
+
+            let targetArielSpeed = CONFIG.BASE_ARIEL_SPEED + (raceProgress * 0.04);
+
+            if (progressDiff > 10) {
+                targetArielSpeed = Math.min(CONFIG.MAX_ARIEL_SPEED, targetArielSpeed + 0.07);
+            } else if (progressDiff > 5) {
+                targetArielSpeed = Math.min(CONFIG.MAX_ARIEL_SPEED, targetArielSpeed + 0.03);
+            } else if (progressDiff < -20) {
+                targetArielSpeed = CONFIG.BASE_ARIEL_SPEED * 0.7;
+            } else if (progressDiff < -10) {
+                targetArielSpeed = CONFIG.BASE_ARIEL_SPEED * 0.85;
+            }
+
+            // Final sprint
+            if (gameState.arielProgress > CONFIG.RACE_DISTANCE - 30) {
+                const arielToFinish = CONFIG.RACE_DISTANCE - gameState.arielProgress;
+                const playerToFinish = CONFIG.RACE_DISTANCE - gameState.playerProgress;
+                if (playerToFinish <= arielToFinish + 5) {
+                    targetArielSpeed = CONFIG.MAX_ARIEL_SPEED + 0.04;
+                }
+            }
+
+            gameState.arielSpeed += (targetArielSpeed - gameState.arielSpeed) * 0.1;
+            gameState.arielProgress += gameState.arielSpeed;
+
+            // Update Ariel's lane (AI dodging)
+            if (Math.random() < 0.02) {
+                const newLane = Math.floor(Math.random() * 3);
+                gameState.arielLane = newLane;
+                arielCar.style.left = `${CONFIG.LANE_POSITIONS[newLane]}%`;
+            }
+
+            // Update traffic cars
+            const objectsHeight = gameObjects.offsetHeight;
+            gameState.trafficCars = gameState.trafficCars.filter(traffic => {
+                traffic.y += traffic.speed + (gameState.playerSpeed * 15);
+                traffic.element.style.top = `${traffic.y}px`;
+
+                if (traffic.y > objectsHeight + 100) {
+                    traffic.element.remove();
+                    return false;
+                }
+                return true;
+            });
+
+            // Update gifts
+            gameState.gifts = gameState.gifts.filter(gift => {
+                if (gift.collected) return false;
+
+                gift.y += 2 + (gameState.playerSpeed * 15);
+                gift.element.style.top = `${gift.y}px`;
+
+                if (gift.y > objectsHeight + 60) {
+                    gift.element.remove();
+                    return false;
+                }
+                return true;
+            });
+
+            // Check collisions
+            checkCollisions();
+
+            // Update lap
+            gameState.currentLap = Math.min(CONFIG.TOTAL_LAPS, Math.floor(gameState.playerProgress / CONFIG.LAP_DISTANCE) + 1);
+
+            // Update road animation speed
+            const roadSpeedMs = Math.max(0.15, 1.0 - (gameState.playerSpeed * 3));
+            document.documentElement.style.setProperty('--road-speed', `${roadSpeedMs}s`);
+
+            updateUI();
+
+            // Check finish
+            if (gameState.arielProgress >= CONFIG.RACE_DISTANCE) {
+                gameState.arielFinishTime = Date.now() - gameState.raceStartTime;
+                if (gameState.playerProgress >= CONFIG.RACE_DISTANCE) {
+                    gameState.playerFinishTime = Date.now() - gameState.raceStartTime;
+                }
+                endRace();
+                return;
+            }
+
+            if (gameState.playerProgress >= CONFIG.RACE_DISTANCE && !gameState.playerFinishTime) {
+                gameState.playerFinishTime = Date.now() - gameState.raceStartTime;
+            }
+
+            gameState.animationFrame = requestAnimationFrame(gameLoop);
+        }
+
+        function updateUI() {
+            const playerAhead = gameState.playerProgress > gameState.arielProgress;
+            positionDisplay.textContent = playerAhead ? '1st' : '2nd';
+            positionDisplay.className = `hud-value position-display ${playerAhead ? 'position-1' : 'position-2'}`;
+
+            const displaySpeed = Math.round(gameState.playerSpeed * 900);
+            speedDisplay.textContent = `${displaySpeed} km/h`;
+
+            const speedPercent = (gameState.playerSpeed / (CONFIG.MAX_PLAYER_SPEED + CONFIG.GIFT_BOOST)) * 100;
+            speedMeterFill.style.width = `${speedPercent}%`;
+
+            const elapsed = Date.now() - gameState.raceStartTime;
+            const minutes = Math.floor(elapsed / 60000);
+            const seconds = Math.floor((elapsed % 60000) / 1000);
+            timerDisplay.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+            lapDisplay.textContent = `${gameState.currentLap}/${CONFIG.TOTAL_LAPS}`;
+            currentLapDisplay.textContent = gameState.currentLap;
+
+            // Ariel vertical position
+            const progressDiff = gameState.arielProgress - gameState.playerProgress;
+            const arielBottom = Math.min(Math.max(80 + progressDiff * 1.5, 30), 150);
+            arielCar.style.bottom = `${arielBottom}px`;
+
+            // Progress bar
+            const lapProgress = gameState.playerProgress % CONFIG.LAP_DISTANCE;
+            const arielLapProgress = gameState.arielProgress % CONFIG.LAP_DISTANCE;
+
+            const maxLeft = 85;
+            const minLeft = 8;
+            const playerProgressLeft = minLeft + (lapProgress / CONFIG.LAP_DISTANCE) * (maxLeft - minLeft);
+            const arielProgressLeft = minLeft + (arielLapProgress / CONFIG.LAP_DISTANCE) * (maxLeft - minLeft);
+
+            playerProgress.style.left = `${playerProgressLeft}%`;
+            arielProgressEl.style.left = `${arielProgressLeft}%`;
+        }
+
+        // ============================================
+        // END RACE
+        // ============================================
+        function endRace() {
+            gameState.isRacing = false;
+            cancelAnimationFrame(gameState.animationFrame);
+            clearInterval(gameState.trafficSpawnTimer);
+            clearInterval(gameState.giftSpawnTimer);
+
+            playerCar3D.classList.remove('boosting');
+            gasPedal.classList.remove('pressed');
+
+            // Clear game objects
+            gameObjects.innerHTML = '';
+
+            const formatTime = (ms) => {
+                const minutes = Math.floor(ms / 60000);
+                const seconds = Math.floor((ms % 60000) / 1000);
+                const milliseconds = Math.floor((ms % 1000) / 10);
+                return `${minutes}:${seconds.toString().padStart(2, '0')}.${milliseconds.toString().padStart(2, '0')}`;
+            };
+
+            document.getElementById('ariel-time').textContent = formatTime(gameState.arielFinishTime);
+
+            const playerTime = gameState.playerFinishTime || (gameState.arielFinishTime + Math.random() * 2000 + 500);
+            document.getElementById('player-time').textContent = formatTime(playerTime);
+
+            document.getElementById('stat-gifts').textContent = gameState.giftsCollected;
+            document.getElementById('stat-dodges').textContent = gameState.dodges;
+            document.getElementById('stat-crashes').textContent = gameState.crashes;
+
+            setTimeout(() => {
+                gameScreen.style.display = 'none';
+                finishScreen.style.display = 'flex';
+                launchConfetti();
+            }, 800);
+        }
+
+        // ============================================
+        // RESET GAME
+        // ============================================
+        function resetGame() {
+            gameState.playerProgress = 0;
+            gameState.arielProgress = 0;
+            gameState.playerSpeed = 0;
+            gameState.arielSpeed = CONFIG.BASE_ARIEL_SPEED;
+            gameState.isPressing = false;
+            gameState.currentLap = 1;
+            gameState.playerFinishTime = 0;
+            gameState.arielFinishTime = 0;
+            gameState.playerLane = 1;
+            gameState.trafficCars = [];
+            gameState.gifts = [];
+            gameState.giftsCollected = 0;
+            gameState.dodges = 0;
+            gameState.crashes = 0;
+
+            updatePlayerPosition();
+            arielCar.style.left = `${CONFIG.LANE_POSITIONS[1]}%`;
+            arielCar.style.bottom = '80px';
+            playerProgress.style.left = '20px';
+            arielProgressEl.style.left = '20px';
+            positionDisplay.textContent = '2nd';
+            speedDisplay.textContent = '0 km/h';
+            lapDisplay.textContent = '1/3';
+            currentLapDisplay.textContent = '1';
+            speedMeterFill.style.width = '0%';
+            giftDisplay.textContent = '0';
+
+            finishScreen.style.display = 'none';
+            crashScreen.style.display = 'none';
+            countdownOverlay.style.display = 'flex';
+
+            let count = 3;
+            countdownDisplay.innerHTML = `<span class="countdown-number">${count}</span>`;
+
+            const countInterval = setInterval(() => {
+                count--;
+                if (count > 0) {
+                    countdownDisplay.innerHTML = `<span class="countdown-number">${count}</span>`;
+                } else if (count === 0) {
+                    countdownDisplay.innerHTML = `<span class="countdown-go">GO!</span>`;
+                } else {
+                    clearInterval(countInterval);
+                    countdownOverlay.style.display = 'none';
+                    gameScreen.style.display = 'flex';
+                    startRace();
+                }
+            }, 1000);
+        }
+
+        // ============================================
+        // SPEED LINES
+        // ============================================
+        function createSpeedLines() {
+            for (let i = 0; i < 20; i++) {
+                const line = document.createElement('div');
+                line.className = 'speed-line';
+                line.style.left = `${Math.random() * 100}%`;
+                line.style.animationDelay = `${Math.random() * 2}s`;
+                speedLines.appendChild(line);
+            }
+        }
+
+        // ============================================
+        // CONFETTI
+        // ============================================
+        const confettiCanvas = document.getElementById('confetti-canvas');
+        const confettiCtx = confettiCanvas.getContext('2d');
+        let confettiPieces = [];
+
+        function resizeConfettiCanvas() {
+            confettiCanvas.width = window.innerWidth;
+            confettiCanvas.height = window.innerHeight;
+        }
+        resizeConfettiCanvas();
+        window.addEventListener('resize', resizeConfettiCanvas);
+
+        class Confetti {
+            constructor() {
+                this.x = Math.random() * confettiCanvas.width;
+                this.y = -20;
+                this.size = Math.random() * 10 + 5;
+                this.speedY = Math.random() * 4 + 3;
+                this.speedX = (Math.random() - 0.5) * 4;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = (Math.random() - 0.5) * 15;
+                this.color = ['#ffd700', '#00d4ff', '#ff006e', '#00ff88', '#ff6b35', '#8b5cf6'][Math.floor(Math.random() * 6)];
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                this.rotation += this.rotationSpeed;
+                this.speedY += 0.1;
+            }
+
+            draw() {
+                confettiCtx.save();
+                confettiCtx.translate(this.x, this.y);
+                confettiCtx.rotate(this.rotation * Math.PI / 180);
+                confettiCtx.fillStyle = this.color;
+                confettiCtx.fillRect(-this.size / 2, -this.size / 4, this.size, this.size / 2);
+                confettiCtx.restore();
+            }
+        }
+
+        function launchConfetti() {
+            for (let i = 0; i < 120; i++) {
+                setTimeout(() => confettiPieces.push(new Confetti()), i * 15);
+            }
+
+            const confettiInterval = setInterval(() => {
+                for (let i = 0; i < 4; i++) confettiPieces.push(new Confetti());
+            }, 100);
+
+            setTimeout(() => clearInterval(confettiInterval), 4000);
+            animateConfetti();
+        }
+
+        function animateConfetti() {
+            confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+            confettiPieces = confettiPieces.filter(p => p.y < confettiCanvas.height + 50);
+            confettiPieces.forEach(p => { p.update(); p.draw(); });
+            if (confettiPieces.length > 0 || finishScreen.style.display === 'flex') {
+                requestAnimationFrame(animateConfetti);
+            }
+        }
+
+        document.addEventListener('touchmove', (e) => {
+            if (gameState.isRacing) e.preventDefault();
+        }, { passive: false });
+    </script>
+</body>
+</html>

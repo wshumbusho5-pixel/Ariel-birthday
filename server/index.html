@@ -1,0 +1,3463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>ARIEL ELIJAH ORTEGA "Mr. President" | A Royal Celebration</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&family=SF+Pro+Display:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #d4af37;
+            --gold-light: #f4e4bc;
+            --gold-dark: #b8960c;
+            --black: #050505;
+            --black-light: #0a0a0a;
+            --white: #ffffff;
+            --cream: #faf8f5;
+            --platinum: #e5e4e2;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--black);
+            color: var(--white);
+            overflow-x: hidden;
+            max-width: 100vw;
+            position: relative;
+        }
+
+        *, *::before, *::after {
+            max-width: 100vw;
+        }
+
+        body.no-scroll {
+            overflow: hidden;
+        }
+
+        /* Animated Background Orbs */
+        .bg-orbs {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+            width: 100%;
+            max-width: 100vw;
+        }
+
+        .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            animation: orbFloat 20s ease-in-out infinite;
+        }
+
+        .bg-orb:nth-child(1) {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
+            top: -200px;
+            left: -200px;
+            animation-delay: 0s;
+        }
+
+        .bg-orb:nth-child(2) {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(139, 0, 0, 0.06) 0%, transparent 70%);
+            top: 30%;
+            right: -150px;
+            animation-delay: -5s;
+        }
+
+        .bg-orb:nth-child(3) {
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
+            bottom: -200px;
+            left: 30%;
+            animation-delay: -10s;
+        }
+
+        .bg-orb:nth-child(4) {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(72, 187, 120, 0.04) 0%, transparent 70%);
+            top: 60%;
+            left: -100px;
+            animation-delay: -15s;
+        }
+
+        @keyframes orbFloat {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(50px, -30px) scale(1.1);
+            }
+            50% {
+                transform: translate(-20px, 50px) scale(0.95);
+            }
+            75% {
+                transform: translate(-40px, -20px) scale(1.05);
+            }
+        }
+
+        /* Shooting Stars */
+        .shooting-stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+            width: 100%;
+            max-width: 100vw;
+        }
+
+        .shooting-star {
+            position: absolute;
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(212, 175, 55, 0.8), transparent);
+            border-radius: 50%;
+            animation: shootingStar 3s linear infinite;
+            opacity: 0;
+        }
+
+        .shooting-star::before {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--gold);
+            border-radius: 50%;
+            box-shadow: 0 0 20px var(--gold), 0 0 40px var(--gold);
+            left: 0;
+            top: -3px;
+        }
+
+        .shooting-star:nth-child(1) {
+            top: 10%;
+            left: 20%;
+            animation-delay: 0s;
+            animation-duration: 2.5s;
+        }
+
+        .shooting-star:nth-child(2) {
+            top: 30%;
+            left: 60%;
+            animation-delay: 1.5s;
+            animation-duration: 3s;
+        }
+
+        .shooting-star:nth-child(3) {
+            top: 50%;
+            left: 40%;
+            animation-delay: 3s;
+            animation-duration: 2.8s;
+        }
+
+        .shooting-star:nth-child(4) {
+            top: 70%;
+            left: 80%;
+            animation-delay: 4.5s;
+            animation-duration: 2.2s;
+        }
+
+        .shooting-star:nth-child(5) {
+            top: 20%;
+            left: 90%;
+            animation-delay: 6s;
+            animation-duration: 3.2s;
+        }
+
+        @keyframes shootingStar {
+            0% {
+                transform: translateX(0) translateY(0) rotate(-45deg);
+                opacity: 0;
+            }
+            5% {
+                opacity: 1;
+            }
+            70% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(-500px) translateY(500px) rotate(-45deg);
+                opacity: 0;
+            }
+        }
+
+        /* Pulsing Glow Effect */
+        .pulse-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 0;
+            background: radial-gradient(ellipse at 50% 50%, rgba(212, 175, 55, 0.03) 0%, transparent 50%);
+            animation: pulseGlow 4s ease-in-out infinite;
+            width: 100%;
+            max-width: 100vw;
+            overflow: hidden;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% {
+                opacity: 0.5;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+        }
+
+        /* Floating Gold Dust */
+        .gold-dust {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+            width: 100%;
+            max-width: 100vw;
+        }
+
+        .dust-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--gold);
+            border-radius: 50%;
+            opacity: 0;
+            animation: dustFloat 8s ease-in-out infinite;
+            box-shadow: 0 0 6px var(--gold);
+        }
+
+        .dust-particle:nth-child(1) { left: 5%; animation-delay: 0s; }
+        .dust-particle:nth-child(2) { left: 15%; animation-delay: 1s; }
+        .dust-particle:nth-child(3) { left: 25%; animation-delay: 2s; }
+        .dust-particle:nth-child(4) { left: 35%; animation-delay: 3s; }
+        .dust-particle:nth-child(5) { left: 45%; animation-delay: 4s; }
+        .dust-particle:nth-child(6) { left: 55%; animation-delay: 5s; }
+        .dust-particle:nth-child(7) { left: 65%; animation-delay: 6s; }
+        .dust-particle:nth-child(8) { left: 75%; animation-delay: 7s; }
+        .dust-particle:nth-child(9) { left: 85%; animation-delay: 0.5s; }
+        .dust-particle:nth-child(10) { left: 95%; animation-delay: 1.5s; }
+        .dust-particle:nth-child(11) { left: 10%; animation-delay: 2.5s; }
+        .dust-particle:nth-child(12) { left: 30%; animation-delay: 3.5s; }
+        .dust-particle:nth-child(13) { left: 50%; animation-delay: 4.5s; }
+        .dust-particle:nth-child(14) { left: 70%; animation-delay: 5.5s; }
+        .dust-particle:nth-child(15) { left: 90%; animation-delay: 6.5s; }
+
+        @keyframes dustFloat {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.8;
+                transform: translateY(70vh) scale(1);
+            }
+            40% {
+                transform: translateY(40vh) translateX(20px) scale(0.8);
+            }
+            60% {
+                transform: translateY(20vh) translateX(-10px) scale(1.2);
+            }
+            80% {
+                opacity: 0.6;
+                transform: translateY(5vh) translateX(15px) scale(0.6);
+            }
+            100% {
+                transform: translateY(-10vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* Aurora Effect */
+        .aurora {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60%;
+            pointer-events: none;
+            z-index: 0;
+            background:
+                linear-gradient(180deg,
+                    rgba(212, 175, 55, 0.03) 0%,
+                    transparent 100%
+                );
+            filter: blur(100px);
+            animation: auroraShift 15s ease-in-out infinite;
+            width: 100%;
+            max-width: 100vw;
+            overflow: hidden;
+        }
+
+        @keyframes auroraShift {
+            0%, 100% {
+                transform: translateX(-10%) skewX(-5deg);
+                opacity: 0.3;
+            }
+            33% {
+                transform: translateX(5%) skewX(3deg);
+                opacity: 0.5;
+            }
+            66% {
+                transform: translateX(-5%) skewX(-2deg);
+                opacity: 0.4;
+            }
+        }
+
+        ::selection {
+            background: var(--gold);
+            color: var(--black);
+        }
+
+        /* ============================================
+           CINEMATIC INTRO SEQUENCE
+        ============================================ */
+        #cinematic-intro {
+            position: fixed;
+            inset: 0;
+            z-index: 100000;
+            background: var(--black);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1s ease;
+        }
+
+        #cinematic-intro.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .intro-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            font-style: italic;
+            color: var(--platinum);
+            opacity: 0;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .intro-text.visible {
+            animation: textFadeIn 2s ease forwards;
+        }
+
+        @keyframes textFadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .intro-text.fade-out-text {
+            animation: textFadeOut 1s ease forwards;
+        }
+
+        @keyframes textFadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* Golden Doors */
+        .golden-doors {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            display: flex;
+            pointer-events: none;
+        }
+
+        .door {
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(135deg,
+                #1a1a1a 0%,
+                #0d0d0d 20%,
+                #1a1a1a 40%,
+                #0d0d0d 60%,
+                #1a1a1a 80%,
+                #0d0d0d 100%
+            );
+            position: relative;
+            transition: transform 2s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        .door::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(212, 175, 55, 0.1) 50%,
+                transparent 100%
+            );
+        }
+
+        .door-left {
+            border-right: 3px solid var(--gold);
+            transform-origin: left center;
+        }
+
+        .door-left::after {
+            content: '';
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 80px;
+            background: linear-gradient(180deg, var(--gold-dark), var(--gold), var(--gold-dark));
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+        }
+
+        .door-right {
+            border-left: 3px solid var(--gold);
+            transform-origin: right center;
+        }
+
+        .door-right::after {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 80px;
+            background: linear-gradient(180deg, var(--gold-dark), var(--gold), var(--gold-dark));
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+        }
+
+        .door-ornament {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 150px;
+            height: 300px;
+            border: 2px solid var(--gold);
+            opacity: 0.3;
+        }
+
+        .door-left .door-ornament {
+            right: 60px;
+            border-right: none;
+        }
+
+        .door-right .door-ornament {
+            left: 60px;
+            border-left: none;
+        }
+
+        .doors-open .door-left {
+            transform: perspective(1000px) rotateY(-95deg);
+        }
+
+        .doors-open .door-right {
+            transform: perspective(1000px) rotateY(95deg);
+        }
+
+        .golden-doors.hidden {
+            display: none;
+        }
+
+        .door-emblem {
+            position: absolute;
+            top: 20%;
+            font-size: 60px;
+            filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.5));
+        }
+
+        .door-left .door-emblem { right: 70px; }
+        .door-right .door-emblem { left: 70px; }
+
+        /* ============================================
+           FLOATING PARTICLES
+        ============================================ */
+        #particles {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        .gold-particle {
+            position: absolute;
+            background: var(--gold);
+            border-radius: 50%;
+            opacity: 0;
+            animation: particleFloat linear infinite;
+        }
+
+        @keyframes particleFloat {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-20px) rotate(360deg); opacity: 0; }
+        }
+
+        /* ============================================
+           MAIN CONTENT
+        ============================================ */
+        #main-content {
+            opacity: 0;
+            transition: opacity 1.5s ease;
+        }
+
+        #main-content.visible {
+            opacity: 1;
+        }
+
+        /* ============================================
+           THRONE ROOM - HERO PORTRAIT
+        ============================================ */
+        #throne-room {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 60px 20px;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(139, 0, 0, 0.2) 0%, transparent 30%),
+                radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.15) 0%, transparent 35%),
+                radial-gradient(circle at 50% 50%, rgba(139, 0, 0, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at center, #111 0%, var(--black) 70%);
+            overflow: hidden;
+        }
+
+        #throne-room::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 100px,
+                    rgba(212, 175, 55, 0.02) 100px,
+                    rgba(212, 175, 55, 0.02) 101px
+                ),
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 100px,
+                    rgba(212, 175, 55, 0.02) 100px,
+                    rgba(212, 175, 55, 0.02) 101px
+                );
+            pointer-events: none;
+        }
+
+        .throne-spotlight {
+            position: absolute;
+            top: -50%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 200%;
+            background: radial-gradient(ellipse at top, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .throne-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            font-style: italic;
+            letter-spacing: 10px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease;
+        }
+
+        .throne-title.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Velvet Curtains */
+        .curtain-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Stage Light Beams */
+        .stage-lights {
+            position: absolute;
+            inset: -100px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 1s ease;
+            z-index: 5;
+        }
+
+        .curtains-open .stage-lights {
+            opacity: 1;
+        }
+
+        .light-beam {
+            position: absolute;
+            top: -200px;
+            width: 150px;
+            height: 800px;
+            background: linear-gradient(180deg,
+                rgba(212, 175, 55, 0.4) 0%,
+                rgba(212, 175, 55, 0.1) 30%,
+                transparent 100%
+            );
+            filter: blur(30px);
+            transform-origin: top center;
+        }
+
+        .light-beam:nth-child(1) {
+            left: 20%;
+            transform: rotate(-15deg);
+            animation: beamPulse 3s ease-in-out infinite;
+        }
+
+        .light-beam:nth-child(2) {
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            animation: beamPulse 3s ease-in-out infinite 0.5s;
+        }
+
+        .light-beam:nth-child(3) {
+            right: 20%;
+            transform: rotate(15deg);
+            animation: beamPulse 3s ease-in-out infinite 1s;
+        }
+
+        @keyframes beamPulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* Sparkle Effects */
+        .sparkle-container {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 15;
+            overflow: hidden;
+            opacity: 0;
+        }
+
+        .curtains-open .sparkle-container {
+            opacity: 1;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--gold);
+            border-radius: 50%;
+            filter: blur(1px);
+            animation: sparkleFloat 3s ease-out forwards;
+        }
+
+        @keyframes sparkleFloat {
+            0% {
+                transform: translateY(0) scale(0);
+                opacity: 0;
+            }
+            20% {
+                transform: translateY(-50px) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-300px) scale(0.3);
+                opacity: 0;
+            }
+        }
+
+        /* Epic Velvet Curtains */
+        .curtain {
+            position: absolute;
+            top: -50px;
+            width: 55%;
+            height: calc(100% + 100px);
+            background:
+                linear-gradient(90deg,
+                    rgba(139, 0, 0, 0.3) 0%,
+                    transparent 20%,
+                    transparent 80%,
+                    rgba(139, 0, 0, 0.3) 100%
+                ),
+                linear-gradient(180deg,
+                    #5a0a0a 0%,
+                    #8b0000 15%,
+                    #a00000 30%,
+                    #8b0000 50%,
+                    #6b0000 70%,
+                    #4a0000 85%,
+                    #2a0000 100%
+                );
+            z-index: 10;
+            box-shadow:
+                inset 0 0 100px rgba(0,0,0,0.5),
+                inset 0 0 50px rgba(139, 0, 0, 0.5);
+        }
+
+        /* Velvet texture folds */
+        .curtain::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                repeating-linear-gradient(
+                    90deg,
+                    transparent 0px,
+                    rgba(0,0,0,0.15) 2px,
+                    transparent 4px,
+                    transparent 25px,
+                    rgba(255,255,255,0.05) 26px,
+                    transparent 28px,
+                    transparent 50px
+                );
+        }
+
+        /* Gold trim on curtain edge */
+        .curtain::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            height: 100%;
+            width: 8px;
+            background: linear-gradient(180deg,
+                var(--gold-dark),
+                var(--gold-light),
+                var(--gold),
+                var(--gold-light),
+                var(--gold-dark)
+            );
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+        }
+
+        .curtain-left {
+            left: 0;
+            transform-origin: left top;
+            border-radius: 0 0 60% 0;
+        }
+
+        .curtain-left::after {
+            right: 0;
+        }
+
+        .curtain-right {
+            right: 0;
+            transform-origin: right top;
+            border-radius: 0 0 0 60%;
+        }
+
+        .curtain-right::after {
+            left: 0;
+        }
+
+        /* Epic curtain opening animation */
+        .curtains-open .curtain-left {
+            animation: curtainOpenLeft 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        .curtains-open .curtain-right {
+            animation: curtainOpenRight 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        @keyframes curtainOpenLeft {
+            0% {
+                transform: translateX(0) skewX(0deg) scaleX(1);
+            }
+            30% {
+                transform: translateX(-20%) skewX(-3deg) scaleX(1.05);
+            }
+            60% {
+                transform: translateX(-80%) skewX(-8deg) scaleX(0.95);
+            }
+            80% {
+                transform: translateX(-105%) skewX(-5deg) scaleX(1.02);
+            }
+            100% {
+                transform: translateX(-100%) skewX(-3deg) scaleX(1);
+            }
+        }
+
+        @keyframes curtainOpenRight {
+            0% {
+                transform: translateX(0) skewX(0deg) scaleX(1);
+            }
+            30% {
+                transform: translateX(20%) skewX(3deg) scaleX(1.05);
+            }
+            60% {
+                transform: translateX(80%) skewX(8deg) scaleX(0.95);
+            }
+            80% {
+                transform: translateX(105%) skewX(5deg) scaleX(1.02);
+            }
+            100% {
+                transform: translateX(100%) skewX(3deg) scaleX(1);
+            }
+        }
+
+        /* Gold rope tassels */
+        .curtain-tassel {
+            position: absolute;
+            bottom: 35%;
+            width: 25px;
+            height: 100px;
+            z-index: 11;
+        }
+
+        .curtain-left .curtain-tassel {
+            right: -12px;
+            background: linear-gradient(180deg,
+                var(--gold-light),
+                var(--gold),
+                var(--gold-dark),
+                var(--gold)
+            );
+            border-radius: 0 0 50% 50%;
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.5);
+        }
+
+        .curtain-left .curtain-tassel::before {
+            content: '';
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, var(--gold-light), var(--gold-dark));
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+        }
+
+        .curtain-right .curtain-tassel {
+            left: -12px;
+            background: linear-gradient(180deg,
+                var(--gold-light),
+                var(--gold),
+                var(--gold-dark),
+                var(--gold)
+            );
+            border-radius: 0 0 50% 50%;
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.5);
+        }
+
+        .curtain-right .curtain-tassel::before {
+            content: '';
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, var(--gold-light), var(--gold-dark));
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+        }
+
+        /* Dramatic reveal flash */
+        .reveal-flash {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center,
+                rgba(255, 255, 255, 0.8) 0%,
+                rgba(212, 175, 55, 0.3) 30%,
+                transparent 70%
+            );
+            opacity: 0;
+            pointer-events: none;
+            z-index: 6;
+        }
+
+        .curtains-open .reveal-flash {
+            animation: flashReveal 1.5s ease-out forwards 0.5s;
+        }
+
+        @keyframes flashReveal {
+            0% { opacity: 0; transform: scale(0.5); }
+            30% { opacity: 1; transform: scale(1.2); }
+            100% { opacity: 0; transform: scale(2); }
+        }
+
+        /* Portrait Frame */
+        .portrait-frame {
+            position: relative;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light), var(--gold), var(--gold-dark));
+            border-radius: 10px;
+            box-shadow:
+                0 0 60px rgba(212, 175, 55, 0.3),
+                0 30px 80px rgba(0, 0, 0, 0.8);
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s;
+        }
+
+        .portrait-frame.revealed {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .portrait-inner {
+            padding: 15px;
+            background: var(--black);
+            border-radius: 5px;
+        }
+
+        .portrait-image {
+            width: clamp(280px, 50vw, 450px);
+            height: clamp(400px, 70vw, 600px);
+            object-fit: cover;
+            object-position: center 20%;
+            border-radius: 3px;
+            display: block;
+        }
+
+        .portrait-nameplate {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-dark));
+            padding: 15px 50px;
+            border-radius: 5px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .nameplate-nickname {
+            display: block;
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(1rem, 2.5vw, 1.4rem);
+            color: #8b0000;
+            margin-bottom: 5px;
+            letter-spacing: 2px;
+        }
+
+        .nameplate-text {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(0.9rem, 2.5vw, 1.3rem);
+            font-weight: 700;
+            color: var(--black);
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .descending-crown {
+            position: absolute;
+            top: -80px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            font-size: 60px;
+            filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.8));
+            opacity: 0;
+            transition: all 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1s;
+            z-index: 20;
+        }
+
+        .descending-crown.revealed {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .throne-subtitle {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: var(--gold-light);
+            margin-top: 60px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease 1.5s;
+        }
+
+        .throne-subtitle.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .throne-age {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(100px, 25vw, 200px);
+            font-weight: 900;
+            background: linear-gradient(180deg, var(--gold-light), var(--gold), var(--gold-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-top: 20px;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 2s;
+            position: relative;
+            filter: drop-shadow(0 0 40px rgba(212, 175, 55, 0.5));
+        }
+
+        .throne-age::after {
+            content: 'st';
+            font-size: 0.3em;
+            position: absolute;
+            top: 10%;
+        }
+
+        .throne-age.revealed {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* ============================================
+           QUICK EVENT INFO
+        ============================================ */
+        #event-info {
+            padding: 60px 20px;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 50%, rgba(139, 0, 0, 0.1) 0%, transparent 50%),
+                linear-gradient(180deg, var(--black) 0%, #0a0a12 50%, var(--black) 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #event-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        .event-info-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .event-info-badge {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05));
+            border: 1px solid var(--gold);
+            border-radius: 50px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 30px;
+        }
+
+        .event-info-title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 50px;
+        }
+
+        .event-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .event-info-card {
+            background: linear-gradient(145deg, rgba(30, 30, 30, 0.8), rgba(15, 15, 15, 0.9));
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 15px;
+            padding: 40px 30px;
+            transition: all 0.4s ease;
+        }
+
+        .event-info-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--gold);
+            box-shadow: 0 20px 50px rgba(212, 175, 55, 0.15);
+        }
+
+        .event-icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+
+        .event-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+
+        .event-value {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            color: var(--white);
+        }
+
+        .event-rsvp-btn {
+            display: inline-block;
+            padding: 18px 50px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            border: none;
+            border-radius: 5px;
+            color: var(--black);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3);
+        }
+
+        .event-rsvp-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 60px rgba(212, 175, 55, 0.4);
+        }
+
+        /* TBD Highlighting */
+        .tbd-card {
+            border: 2px dashed rgba(212, 175, 55, 0.5) !important;
+            background: linear-gradient(145deg, rgba(212, 175, 55, 0.08), rgba(15, 15, 15, 0.9)) !important;
+        }
+
+        .tbd-value {
+            display: flex;
+            justify-content: center;
+        }
+
+        .tbd-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(212, 175, 55, 0.1));
+            border: 1px solid var(--gold);
+            border-radius: 25px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--gold);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: tbdPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes tbdPulse {
+            0%, 100% {
+                box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 25px rgba(212, 175, 55, 0.6);
+                transform: scale(1.02);
+            }
+        }
+
+        /* ============================================
+           APPLE-STYLE TIMELINE INTRO
+        ============================================ */
+        #timeline-intro {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: var(--black);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .timeline-intro-text {
+            font-family: -apple-system, 'SF Pro Display', 'Montserrat', sans-serif;
+            font-size: clamp(2rem, 8vw, 6rem);
+            font-weight: 600;
+            text-align: center;
+            line-height: 1.1;
+            max-width: 90%;
+            opacity: 0;
+            transform: translateY(100px);
+            transition: all 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .timeline-intro-text.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-intro-text .line1 {
+            color: #86868b;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .timeline-intro-text .line2 {
+            background: linear-gradient(90deg, var(--gold-light), var(--gold), var(--gold-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+        }
+
+        .timeline-intro-sub {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            color: #86868b;
+            margin-top: 40px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+        }
+
+        .timeline-intro-sub.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============================================
+           APPLE-STYLE SCROLL TIMELINE
+        ============================================ */
+        #apple-timeline {
+            position: relative;
+            background: var(--black);
+        }
+
+        .timeline-section {
+            position: relative;
+            min-height: 130vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background:
+                radial-gradient(ellipse at 30% 20%, rgba(139, 0, 0, 0.1) 0%, transparent 40%),
+                radial-gradient(ellipse at 70% 80%, rgba(212, 175, 55, 0.08) 0%, transparent 40%);
+        }
+
+        .timeline-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(135deg,
+                    rgba(212, 175, 55, 0.02) 0%,
+                    transparent 50%,
+                    rgba(139, 0, 0, 0.02) 100%
+                );
+            pointer-events: none;
+        }
+
+        .timeline-sticky {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Photo container for each timeline item */
+        .timeline-photo-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .timeline-photo-wrapper {
+            position: relative;
+            transform: scale(0.5);
+            opacity: 0;
+            filter: blur(20px);
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        filter 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            /* Opacity controlled by JS for smooth crossfade */
+        }
+
+        .timeline-photo-wrapper.entering {
+            transform: scale(0.85);
+            filter: blur(5px);
+        }
+
+        .timeline-photo-wrapper.active {
+            transform: scale(1);
+            filter: blur(0);
+        }
+
+        .timeline-photo-wrapper.exiting {
+            transform: scale(1.3);
+            filter: blur(8px);
+        }
+
+        .timeline-photo-wrapper.zoom-past {
+            transform: scale(1.8);
+            filter: blur(15px);
+        }
+
+        .timeline-photo {
+            width: clamp(300px, 60vw, 600px);
+            height: clamp(400px, 80vh, 800px);
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Photo glow effect */
+        .timeline-photo-glow {
+            position: absolute;
+            inset: -50px;
+            background: radial-gradient(ellipse, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .timeline-photo-wrapper.active .timeline-photo-glow,
+        .timeline-photo-wrapper.entering .timeline-photo-glow,
+        .timeline-photo-wrapper.exiting .timeline-photo-glow {
+            opacity: 1;
+        }
+
+        /* Age badge */
+        .timeline-age-badge {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--gold);
+            padding: 15px 25px;
+            border-radius: 50px;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .timeline-photo-wrapper.active .timeline-age-badge,
+        .timeline-photo-wrapper.entering .timeline-age-badge,
+        .timeline-photo-wrapper.exiting .timeline-age-badge {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-age-badge span {
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--gold);
+            letter-spacing: 2px;
+        }
+
+        /* Caption */
+        .timeline-caption {
+            position: absolute;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 20px 40px;
+            border-radius: 15px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            min-width: 280px;
+        }
+
+        .timeline-photo-wrapper.active .timeline-caption,
+        .timeline-photo-wrapper.entering .timeline-caption,
+        .timeline-photo-wrapper.exiting .timeline-caption {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .timeline-caption h3 {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            color: var(--gold);
+            margin-bottom: 8px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .timeline-caption p {
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--white);
+        }
+
+        /* Progress indicator */
+        .timeline-progress {
+            position: fixed;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .timeline-progress.visible {
+            opacity: 1;
+        }
+
+        .progress-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .progress-dot.active {
+            background: var(--gold);
+            transform: scale(1.5);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+        }
+
+        .progress-dot:hover {
+            background: rgba(212, 175, 55, 0.5);
+        }
+
+        /* ============================================
+           FULL GALLERY SECTION
+        ============================================ */
+        #full-gallery {
+            padding: 60px 0;
+            background:
+                radial-gradient(ellipse at 0% 50%, rgba(212, 175, 55, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 100% 50%, rgba(212, 175, 55, 0.06) 0%, transparent 50%),
+                linear-gradient(180deg, var(--black) 0%, #080810 50%, var(--black) 100%);
+            overflow: hidden;
+            position: relative;
+        }
+
+        #full-gallery::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 0 20px;
+        }
+
+        .gallery-label {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 20px;
+        }
+
+        .gallery-title {
+            font-family: -apple-system, 'SF Pro Display', 'Montserrat', sans-serif;
+            font-size: clamp(2rem, 6vw, 4rem);
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 20px;
+        }
+
+        .gallery-subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            color: #86868b;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .gallery-scroll-hint {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+            color: var(--gold);
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            animation: hintPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes hintPulse {
+            0%, 100% { opacity: 0.5; transform: translateX(0); }
+            50% { opacity: 1; transform: translateX(10px); }
+        }
+
+        /* Horizontal Scroll Gallery */
+        .gallery-horizontal {
+            display: flex;
+            gap: 30px;
+            padding: 40px 60px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            cursor: grab;
+        }
+
+        .gallery-horizontal::-webkit-scrollbar {
+            display: none;
+        }
+
+        .gallery-horizontal:active {
+            cursor: grabbing;
+        }
+
+        .gallery-item {
+            flex: 0 0 auto;
+            width: clamp(280px, 40vw, 400px);
+            height: clamp(350px, 50vw, 500px);
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            scroll-snap-align: center;
+            transform: scale(0.85);
+            opacity: 0.5;
+            filter: blur(2px);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .gallery-item.in-view {
+            transform: scale(1);
+            opacity: 1;
+            filter: blur(0);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.08);
+        }
+
+        .gallery-item-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 40%, transparent 70%);
+            display: flex;
+            align-items: flex-end;
+            padding: 30px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .gallery-item.in-view .gallery-item-overlay {
+            opacity: 1;
+        }
+
+        .gallery-item-info {
+            transform: translateY(10px);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .gallery-item.in-view .gallery-item-info {
+            transform: translateY(0);
+        }
+
+        .gallery-item-age {
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--gold);
+            letter-spacing: 3px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .gallery-item-caption {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            color: var(--white);
+        }
+
+        /* Gold border glow on active */
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            background: linear-gradient(135deg, var(--gold), transparent 50%, var(--gold));
+            border-radius: 23px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .gallery-item.in-view::before {
+            opacity: 1;
+        }
+
+        /* Scroll progress bar */
+        .gallery-progress {
+            width: 200px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin: 40px auto 0;
+            overflow: hidden;
+        }
+
+        .gallery-progress-bar {
+            height: 100%;
+            background: var(--gold);
+            border-radius: 3px;
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        /* ============================================
+           ROYAL INVITATION ENVELOPE
+        ============================================ */
+        #royal-invitation {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 20px;
+            background:
+                radial-gradient(ellipse at top, rgba(139, 0, 0, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom, rgba(212, 175, 55, 0.1) 0%, transparent 40%),
+                linear-gradient(180deg, var(--black) 0%, #0a0a0f 50%, var(--black) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #royal-invitation::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5 L35 25 L55 30 L35 35 L30 55 L25 35 L5 30 L25 25 Z' fill='none' stroke='%23d4af37' stroke-width='0.5' opacity='0.1'/%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        .invitation-section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.8rem;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease;
+        }
+
+        .invitation-section-title.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .envelope-container {
+            perspective: 1000px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease 0.3s;
+        }
+
+        .envelope-container.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .envelope {
+            width: clamp(320px, 80vw, 500px);
+            height: clamp(220px, 50vw, 320px);
+            position: relative;
+            transform-style: preserve-3d;
+        }
+
+        .envelope-back {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+            border: 2px solid var(--gold);
+            border-radius: 5px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(180deg, #1a1a1a, #0d0d0d);
+            border: 2px solid var(--gold);
+            border-bottom: none;
+            transform-origin: top center;
+            transition: transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 10;
+            clip-path: polygon(0 0, 50% 100%, 100% 0);
+        }
+
+        .envelope-flap::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(212, 175, 55, 0.1), transparent);
+        }
+
+        .envelope.opened .envelope-flap {
+            transform: rotateX(-180deg);
+        }
+
+        .wax-seal {
+            position: absolute;
+            bottom: 45%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #8b0000 0%, #5a0000 70%, #3a0000 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--gold);
+            box-shadow:
+                0 5px 20px rgba(0, 0, 0, 0.5),
+                inset 0 2px 10px rgba(255, 255, 255, 0.1);
+            z-index: 20;
+            transition: all 0.5s ease;
+            cursor: pointer;
+        }
+
+        .wax-seal:hover {
+            transform: translateX(-50%) scale(1.1);
+            box-shadow: 0 10px 40px rgba(139, 0, 0, 0.5);
+        }
+
+        .wax-seal.broken {
+            animation: sealBreak 0.5s ease forwards;
+        }
+
+        @keyframes sealBreak {
+            0% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.3); }
+            100% { transform: translateX(-50%) scale(0); opacity: 0; }
+        }
+
+        .letter {
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%) translateY(100%);
+            width: 90%;
+            background: linear-gradient(180deg, #faf8f5, #e8e4dc);
+            padding: 40px 30px;
+            border-radius: 3px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            transition: transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s;
+            z-index: 5;
+        }
+
+        .envelope.opened .letter {
+            transform: translateX(-50%) translateY(-20%);
+        }
+
+        .letter-content {
+            text-align: center;
+            color: var(--black);
+        }
+
+        .letter-header {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            color: var(--gold-dark);
+            margin-bottom: 20px;
+        }
+
+        .letter-details {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .letter-detail {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .letter-detail-label {
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold-dark);
+            margin-bottom: 5px;
+        }
+
+        .letter-detail-value {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            color: #333;
+        }
+
+        /* ============================================
+           COUNTDOWN
+        ============================================ */
+        #countdown-section {
+            padding: 70px 20px;
+            background:
+                radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 20% 80%, rgba(139, 0, 0, 0.1) 0%, transparent 30%),
+                radial-gradient(circle at 80% 20%, rgba(212, 175, 55, 0.08) 0%, transparent 30%),
+                radial-gradient(ellipse at center, #0f0f15 0%, var(--black) 70%);
+            text-align: center;
+            position: relative;
+        }
+
+        #countdown-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 50px,
+                    rgba(212, 175, 55, 0.02) 50px,
+                    rgba(212, 175, 55, 0.02) 51px
+                );
+            pointer-events: none;
+        }
+
+        .countdown-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.8rem;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 50px;
+        }
+
+        .countdown-grid {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .countdown-unit {
+            text-align: center;
+        }
+
+        .countdown-value {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(3rem, 10vw, 5rem);
+            font-weight: 700;
+            background: linear-gradient(180deg, var(--gold-light), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+        }
+
+        .countdown-label {
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--platinum);
+            margin-top: 10px;
+        }
+
+        /* ============================================
+           VIDEO CINEMA
+        ============================================ */
+        #video-cinema {
+            min-height: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 70px 20px;
+            background:
+                radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 0% 100%, rgba(139, 0, 0, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 100% 100%, rgba(139, 0, 0, 0.08) 0%, transparent 40%),
+                linear-gradient(180deg, var(--black) 0%, #050510 50%, var(--black) 100%);
+            position: relative;
+        }
+
+        #video-cinema::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(2px 2px at 20px 30px, rgba(212, 175, 55, 0.3), transparent),
+                radial-gradient(2px 2px at 40px 70px, rgba(255, 255, 255, 0.2), transparent),
+                radial-gradient(1px 1px at 90px 40px, rgba(212, 175, 55, 0.4), transparent),
+                radial-gradient(2px 2px at 130px 80px, rgba(255, 255, 255, 0.2), transparent),
+                radial-gradient(1px 1px at 160px 120px, rgba(212, 175, 55, 0.3), transparent);
+            background-size: 200px 150px;
+            animation: starsMove 20s linear infinite;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        @keyframes starsMove {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-150px); }
+        }
+
+        .cinema-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .cinema-label {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 20px;
+        }
+
+        .cinema-title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(1.5rem, 5vw, 3rem);
+            font-weight: 600;
+            color: var(--white);
+        }
+
+        .video-container {
+            position: relative;
+            width: clamp(320px, 90vw, 900px);
+            background: #000;
+            border: 3px solid var(--gold);
+            box-shadow:
+                0 0 0 10px #111,
+                0 30px 100px rgba(0, 0, 0, 0.8);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .video-container video {
+            width: 100%;
+            display: block;
+        }
+
+        .video-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .video-overlay:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .video-overlay.hidden {
+            display: none;
+        }
+
+        .play-button {
+            width: 100px;
+            height: 100px;
+            background: rgba(212, 175, 55, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: var(--black);
+            transition: all 0.3s ease;
+            padding-left: 8px;
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.5);
+        }
+
+        .video-overlay:hover .play-button {
+            transform: scale(1.1);
+            box-shadow: 0 0 80px rgba(212, 175, 55, 0.8);
+        }
+
+        /* ============================================
+           VIP GARAGE
+        ============================================ */
+        #vip-garage {
+            padding: 60px 20px;
+            background:
+                radial-gradient(ellipse at 50% 100%, rgba(72, 187, 120, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 30% 0%, rgba(212, 175, 55, 0.06) 0%, transparent 40%),
+                radial-gradient(ellipse at 70% 0%, rgba(212, 175, 55, 0.06) 0%, transparent 40%),
+                linear-gradient(180deg, var(--black) 0%, #0a0a12 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #vip-garage::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 200px;
+            background: linear-gradient(0deg, rgba(72, 187, 120, 0.05) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        .garage-header {
+            margin-bottom: 30px;
+        }
+
+        .garage-label {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 20px;
+        }
+
+        .garage-title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(1.5rem, 5vw, 3rem);
+            font-weight: 600;
+            color: var(--white);
+        }
+
+        .garage-track {
+            position: relative;
+            padding: 80px 0;
+            overflow: hidden;
+        }
+
+        .track-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 200%;
+            height: 4px;
+            background: repeating-linear-gradient(90deg,
+                var(--gold) 0px,
+                var(--gold) 40px,
+                transparent 40px,
+                transparent 80px
+            );
+            transform: translateY(-50%);
+            animation: trackMove 3s linear infinite;
+        }
+
+        @keyframes trackMove {
+            0% { transform: translateY(-50%) translateX(0); }
+            100% { transform: translateY(-50%) translateX(-80px); }
+        }
+
+        .car-fleet {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 10;
+        }
+
+        .fleet-car {
+            font-size: 70px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            animation: carBounce 2s ease-in-out infinite;
+        }
+
+        .fleet-car:nth-child(2) { animation-delay: 0.2s; }
+        .fleet-car:nth-child(3) { animation-delay: 0.4s; }
+        .fleet-car:nth-child(4) { animation-delay: 0.6s; }
+        .fleet-car:nth-child(5) { animation-delay: 0.8s; }
+
+        @keyframes carBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .fleet-car:hover {
+            transform: scale(1.3) rotate(-5deg);
+            filter: drop-shadow(0 20px 30px rgba(212, 175, 55, 0.4));
+        }
+
+        /* ============================================
+           RSVP SECTION
+        ============================================ */
+        #rsvp-section {
+            padding: 70px 20px;
+            background:
+                radial-gradient(circle at 50% 100%, rgba(212, 175, 55, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 0% 50%, rgba(139, 0, 0, 0.06) 0%, transparent 40%),
+                radial-gradient(circle at 100% 50%, rgba(139, 0, 0, 0.06) 0%, transparent 40%),
+                radial-gradient(ellipse at bottom, rgba(212, 175, 55, 0.03) 0%, var(--black) 60%);
+            position: relative;
+        }
+
+        #rsvp-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(45deg, transparent 48%, rgba(212, 175, 55, 0.02) 49%, rgba(212, 175, 55, 0.02) 51%, transparent 52%),
+                linear-gradient(-45deg, transparent 48%, rgba(212, 175, 55, 0.02) 49%, rgba(212, 175, 55, 0.02) 51%, transparent 52%);
+            background-size: 60px 60px;
+            pointer-events: none;
+        }
+
+        .rsvp-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .rsvp-label {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 20px;
+        }
+
+        .rsvp-title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(1.5rem, 5vw, 3rem);
+            font-weight: 600;
+            color: var(--white);
+        }
+
+        .rsvp-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .rsvp-card {
+            background: linear-gradient(145deg, rgba(30, 30, 30, 0.9), rgba(20, 20, 20, 0.95));
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 5px;
+            padding: 50px 40px;
+            position: relative;
+        }
+
+        .rsvp-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px 0;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--white);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-bottom-color: var(--gold);
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23d4af37' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right center;
+            cursor: pointer;
+        }
+
+        .form-select option {
+            background: var(--black);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--gold);
+            transform: translateX(-101%);
+            transition: transform 0.5s ease;
+            z-index: -1;
+        }
+
+        .submit-btn:hover {
+            color: var(--black);
+        }
+
+        .submit-btn:hover::before {
+            transform: translateX(0);
+        }
+
+        .form-success {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .form-success.show {
+            display: block;
+        }
+
+        .success-icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+
+        .success-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+
+        .success-message {
+            color: var(--platinum);
+            font-size: 1rem;
+        }
+
+        /* ============================================
+           GAME CTA
+        ============================================ */
+        #game-cta {
+            padding: 70px 20px;
+            background:
+                radial-gradient(circle at 50% 50%, rgba(72, 187, 120, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 20% 20%, rgba(212, 175, 55, 0.08) 0%, transparent 30%),
+                radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.08) 0%, transparent 30%),
+                linear-gradient(180deg, var(--black) 0%, #050510 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #game-cta::before {
+            content: '🏎️';
+            position: absolute;
+            font-size: 150px;
+            opacity: 0.03;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .game-header {
+            margin-bottom: 40px;
+        }
+
+        .game-badge {
+            display: inline-block;
+            padding: 10px 25px;
+            background: rgba(72, 187, 120, 0.1);
+            border: 1px solid rgba(72, 187, 120, 0.3);
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #48bb78;
+            margin-bottom: 25px;
+        }
+
+        .game-title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 20px;
+        }
+
+        .game-description {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            color: var(--platinum);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.8;
+        }
+
+        .game-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px 45px;
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            border: none;
+            color: var(--white);
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            box-shadow: 0 15px 40px rgba(72, 187, 120, 0.3);
+        }
+
+        .game-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 60px rgba(72, 187, 120, 0.4);
+        }
+
+        /* ============================================
+           FOOTER
+        ============================================ */
+        footer {
+            padding: 50px 20px;
+            background:
+                radial-gradient(ellipse at center, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+                #030305;
+            text-align: center;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            position: relative;
+        }
+
+        .footer-heart {
+            font-size: 30px;
+            margin-bottom: 25px;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        .footer-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            color: var(--platinum);
+            margin-bottom: 10px;
+        }
+
+        .footer-nickname {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--platinum);
+            letter-spacing: 3px;
+            margin-bottom: 5px;
+        }
+
+        .footer-name {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.5rem;
+            color: var(--gold);
+        }
+
+        .footer-credit {
+            margin-top: 30px;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Dashboard Link */
+        .dashboard-link {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 18px;
+            background: rgba(10, 10, 10, 0.9);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 5px;
+            color: var(--gold);
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-decoration: none;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dashboard-link:hover {
+            background: var(--gold);
+            color: var(--black);
+        }
+
+        /* ============================================
+           LIGHTBOX
+        ============================================ */
+        #lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.98);
+            z-index: 10000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            cursor: zoom-out;
+        }
+
+        #lightbox.active {
+            display: flex;
+        }
+
+        #lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 0 100px rgba(212, 175, 55, 0.3);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            font-size: 40px;
+            color: var(--gold);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .lightbox-close:hover {
+            transform: scale(1.2) rotate(90deg);
+        }
+
+        /* Confetti */
+        #confetti-canvas {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 99998;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .door-ornament,
+            .door-emblem,
+            .curtain-tassel {
+                display: none;
+            }
+
+            .door-left::after,
+            .door-right::after {
+                width: 15px;
+                height: 60px;
+            }
+
+            .door-left::after { right: 15px; }
+            .door-right::after { left: 15px; }
+
+            .curtain {
+                width: 52%;
+            }
+
+            .portrait-frame {
+                padding: 12px;
+            }
+
+            .portrait-inner {
+                padding: 10px;
+            }
+
+            .nameplate-text {
+                letter-spacing: 2px;
+            }
+
+            .portrait-nameplate {
+                padding: 10px 25px;
+            }
+
+            .envelope {
+                width: 95vw;
+            }
+
+            .letter {
+                padding: 25px 20px;
+            }
+
+            .gallery-horizontal {
+                padding: 30px 20px;
+                gap: 20px;
+            }
+
+            .gallery-item {
+                width: 280px;
+                height: 380px;
+            }
+
+            .gallery-scroll-hint {
+                font-size: 0.7rem;
+            }
+
+            .fleet-car {
+                font-size: 50px;
+            }
+
+            .rsvp-card {
+                padding: 35px 25px;
+            }
+
+            .timeline-progress {
+                left: 10px;
+            }
+
+            .timeline-photo {
+                width: 90vw;
+                height: auto;
+                max-height: 70vh;
+            }
+        }
+    </style>
+</head>
+<body class="no-scroll">
+    <!-- Animated Background Orbs -->
+    <div class="bg-orbs">
+        <div class="bg-orb"></div>
+        <div class="bg-orb"></div>
+        <div class="bg-orb"></div>
+        <div class="bg-orb"></div>
+    </div>
+
+    <!-- Pulsing Glow -->
+    <div class="pulse-glow"></div>
+
+    <!-- Shooting Stars -->
+    <div class="shooting-stars">
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+    </div>
+
+    <!-- Aurora Effect -->
+    <div class="aurora"></div>
+
+    <!-- Floating Gold Dust -->
+    <div class="gold-dust">
+        <div class="dust-particle"></div>
+        <div class="dust-particle"></div>
+        <div class="dust-particle"></div>
+        <div class="dust-particle"></div>
+        <div class="dust-particle"></div>
+        <div class="dust-particle"></div>
+        <div class="dust-particle"></div>
+        <div class="dust-particle"></div>
+        <div class="dust-particle"></div>
+        <div class="dust-particle"></div>
+        <div class="dust-particle"></div>
+        <div class="dust-particle"></div>
+        <div class="dust-particle"></div>
+        <div class="dust-particle"></div>
+        <div class="dust-particle"></div>
+    </div>
+
+    <canvas id="confetti-canvas"></canvas>
+    <div id="particles"></div>
+
+    <!-- Dashboard Link -->
+    <a href="dashboard.html" class="dashboard-link">
+        <span>📊</span>
+        <span>Dashboard</span>
+    </a>
+
+    <!-- Progress Indicator -->
+    <div class="timeline-progress" id="timeline-progress"></div>
+
+    <!-- Cinematic Intro -->
+    <div id="cinematic-intro">
+        <p class="intro-text" id="intro-text-1">You have been selected</p>
+        <p class="intro-text" id="intro-text-2" style="margin-top: 20px;">to witness a royal celebration</p>
+    </div>
+
+    <!-- Golden Doors -->
+    <div class="golden-doors" id="golden-doors">
+        <div class="door door-left">
+            <div class="door-ornament"></div>
+            <span class="door-emblem">👑</span>
+        </div>
+        <div class="door door-right">
+            <div class="door-ornament"></div>
+            <span class="door-emblem">👑</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main id="main-content">
+        <!-- THRONE ROOM -->
+        <section id="throne-room">
+            <div class="throne-spotlight"></div>
+
+            <p class="throne-title" id="throne-title">His Royal Highness</p>
+
+            <div class="curtain-container" id="curtain-container">
+                <!-- Stage Light Beams -->
+                <div class="stage-lights">
+                    <div class="light-beam"></div>
+                    <div class="light-beam"></div>
+                    <div class="light-beam"></div>
+                </div>
+
+                <!-- Reveal Flash -->
+                <div class="reveal-flash"></div>
+
+                <!-- Sparkles Container -->
+                <div class="sparkle-container" id="sparkle-container"></div>
+
+                <!-- Curtains -->
+                <div class="curtain curtain-left">
+                    <div class="curtain-tassel"></div>
+                </div>
+                <div class="curtain curtain-right">
+                    <div class="curtain-tassel"></div>
+                </div>
+
+                <div class="portrait-frame" id="portrait-frame">
+                    <span class="descending-crown" id="descending-crown">👑</span>
+                    <div class="portrait-inner">
+                        <img src="assets/photos/IMG_8850.png" alt="Prince Ariel" class="portrait-image">
+                    </div>
+                    <div class="portrait-nameplate">
+                        <span class="nameplate-nickname">"Mr. President"</span>
+                        <span class="nameplate-text">Ariel Elijah Ortega</span>
+                    </div>
+                </div>
+            </div>
+
+            <p class="throne-subtitle" id="throne-subtitle">Turns</p>
+            <div class="throne-age" id="throne-age">1</div>
+        </section>
+
+        <!-- QUICK EVENT INFO - Visible immediately -->
+        <section id="event-info">
+            <div class="event-info-container">
+                <div class="event-info-badge">You're Invited</div>
+                <h2 class="event-info-title">Join the Celebration</h2>
+                <div class="event-info-grid">
+                    <div class="event-info-card">
+                        <div class="event-icon">📅</div>
+                        <div class="event-label">Date</div>
+                        <div class="event-value">January 24, 2026</div>
+                    </div>
+                    <div class="event-info-card">
+                        <div class="event-icon">⏰</div>
+                        <div class="event-label">Time</div>
+                        <div class="event-value">3:00 PM - 9:00 PM</div>
+                    </div>
+                    <div class="event-info-card">
+                        <div class="event-icon">📍</div>
+                        <div class="event-label">Venue</div>
+                        <div class="event-value">515 Hershey Avenue<br><span style="font-size: 0.9em; opacity: 0.8;">Lancaster, PA 17603</span></div>
+                    </div>
+                </div>
+                <a href="#rsvp-section" class="event-rsvp-btn">Leave a Message</a>
+            </div>
+        </section>
+
+        <!-- COUNTDOWN - Moved up -->
+        <section id="countdown-section">
+            <h2 class="countdown-title">The Grand Day Arrives In</h2>
+            <div class="countdown-grid">
+                <div class="countdown-unit">
+                    <div class="countdown-value" id="days">00</div>
+                    <div class="countdown-label">Days</div>
+                </div>
+                <div class="countdown-unit">
+                    <div class="countdown-value" id="hours">00</div>
+                    <div class="countdown-label">Hours</div>
+                </div>
+                <div class="countdown-unit">
+                    <div class="countdown-value" id="minutes">00</div>
+                    <div class="countdown-label">Minutes</div>
+                </div>
+                <div class="countdown-unit">
+                    <div class="countdown-value" id="seconds">00</div>
+                    <div class="countdown-label">Seconds</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MESSAGES FOR MR. PRESIDENT -->
+        <section id="rsvp-section">
+            <div class="rsvp-header">
+                <p class="rsvp-label">Leave Your Wishes</p>
+                <h2 class="rsvp-title">Messages for Mr. President</h2>
+            </div>
+
+            <div class="rsvp-container">
+                <div class="rsvp-card">
+                    <form id="rsvp-form">
+                        <div class="form-group">
+                            <label class="form-label">Your Name</label>
+                            <input type="text" class="form-input" id="guest-name" placeholder="Enter your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Your Message for Ariel</label>
+                            <textarea class="form-input" id="guest-message" rows="4" placeholder="Share your birthday wishes for Mr. President..." required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Send Message</button>
+                    </form>
+
+                    <div class="form-success" id="form-success">
+                        <div class="success-icon">✨</div>
+                        <h3 class="success-title">Thank You!</h3>
+                        <p class="success-message">Your message has been delivered to Mr. President!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TIMELINE INTRO -->
+        <section id="timeline-intro">
+            <h2 class="timeline-intro-text" id="timeline-intro-text">
+                <span class="line1">365 days of</span>
+                <span class="line2">Pure Magic</span>
+            </h2>
+            <p class="timeline-intro-sub" id="timeline-intro-sub">Scroll to experience his first year</p>
+        </section>
+
+        <!-- APPLE-STYLE SCROLL TIMELINE -->
+        <section id="apple-timeline">
+            <!-- Timeline photos will be generated by JS -->
+        </section>
+
+        <!-- FULL GALLERY -->
+        <section id="full-gallery">
+            <div class="gallery-header">
+                <p class="gallery-label">The Complete Collection</p>
+                <h2 class="gallery-title">Every Precious Moment</h2>
+                <p class="gallery-subtitle">A curated gallery of memories from birth to first birthday</p>
+                <div class="gallery-scroll-hint">
+                    <span>Swipe to explore</span>
+                    <span>→</span>
+                </div>
+            </div>
+            <div class="gallery-horizontal" id="gallery-horizontal"></div>
+            <div class="gallery-progress">
+                <div class="gallery-progress-bar" id="gallery-progress-bar"></div>
+            </div>
+        </section>
+
+        <!-- VIDEO CINEMA -->
+        <section id="video-cinema">
+            <div class="cinema-header">
+                <p class="cinema-label">The Royal Cinema</p>
+                <h2 class="cinema-title">Precious Moments</h2>
+            </div>
+
+            <div class="video-container">
+                <video id="main-video" playsinline>
+                    <source src="assets/videos/766C3EB0-7141-44A5-A2BA-411B3523E47C.mov" type="video/mp4">
+                </video>
+                <div class="video-overlay" id="video-overlay">
+                    <div class="play-button">▶</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIP GARAGE -->
+        <section id="vip-garage">
+            <div class="garage-header">
+                <p class="garage-label">The Collection</p>
+                <h2 class="garage-title">Ariel's VIP Garage</h2>
+            </div>
+
+            <div class="garage-track">
+                <div class="track-line"></div>
+                <div class="car-fleet">
+                    <span class="fleet-car" onclick="honkCar(event)">🏎️</span>
+                    <span class="fleet-car" onclick="honkCar(event)">🚗</span>
+                    <span class="fleet-car" onclick="honkCar(event)">🚙</span>
+                    <span class="fleet-car" onclick="honkCar(event)">🚕</span>
+                    <span class="fleet-car" onclick="honkCar(event)">🏎️</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- GAME CTA -->
+        <section id="game-cta">
+            <div class="game-header">
+                <span class="game-badge">🎮 Interactive Experience</span>
+                <h2 class="game-title">Ariel's Birthday Grand Prix</h2>
+                <p class="game-description">
+                    Challenge the birthday prince in an exclusive racing experience through the city streets!
+                </p>
+            </div>
+            <a href="game.html" class="game-btn">
+                <span>🏁</span>
+                <span>Enter The Race</span>
+            </a>
+        </section>
+
+        <!-- FOOTER -->
+        <footer>
+            <div class="footer-heart">❤️</div>
+            <p class="footer-text">Celebrating the first magnificent year of</p>
+            <p class="footer-nickname">"Mr. President"</p>
+            <p class="footer-name">Ariel Elijah Ortega</p>
+            <p class="footer-credit">Crafted with love by Dad 👨‍💻</p>
+        </footer>
+    </main>
+
+    <!-- Lightbox -->
+    <div id="lightbox">
+        <span class="lightbox-close" onclick="closeLightbox()">×</span>
+        <img id="lightbox-img" src="" alt="">
+    </div>
+
+    <script>
+        // ============================================
+        // CHRONOLOGICAL PHOTO DATA
+        // ============================================
+        const timelinePhotos = [
+            { src: 'IMG_8827.jpeg', age: 'Day 1', caption: 'Welcome to the World', title: 'The Beginning' },
+            { src: 'IMG_8825.jpeg', age: 'Day 1', caption: 'First Peaceful Sleep', title: 'Sweet Dreams' },
+            { src: 'IMG_8834.jpeg', age: 'Week 1', caption: 'Dressed to Impress', title: 'Little Gentleman' },
+            { src: 'IMG_8796.jpeg', age: '2 Weeks', caption: 'Growing Stronger', title: 'Precious Angel' },
+            { src: 'IMG_8800.jpeg', age: '1 Month', caption: 'Eyes Full of Wonder', title: 'Curious Soul' },
+            { src: 'IMG_8821.jpeg', age: '6 Weeks', caption: 'Style from the Start', title: 'Dapper Dan' },
+            { src: 'IMG_8802.jpeg', age: '2 Months', caption: 'Fresh Kicks Already', title: 'Sneakerhead' },
+            { src: 'IMG_8809.jpeg', age: '3 Months', caption: 'Handsome Little Man', title: 'The Charmer' },
+            { src: 'IMG_8820.jpeg', age: '5 Months', caption: 'That Million Dollar Smile', title: 'Pure Joy' },
+            { src: 'IMG_8841.jpeg', age: '6 Months', caption: 'Tech Savvy Already', title: 'Future CEO' },
+            { src: 'IMG_8836.jpeg', age: '7 Months', caption: 'King in Training', title: 'Born to Lead' },
+            { src: 'IMG_8838.jpeg', age: '8 Months', caption: 'Red Carpet Ready', title: 'The Star' },
+            { src: 'IMG_4525.jpeg', age: '9 Months', caption: 'Living the Dream', title: 'VIP Status' },
+            { src: 'IMG_8847.jpeg', age: '10 Months', caption: 'Adventure Awaits', title: 'Explorer' },
+            { src: 'IMG_8855.jpeg', age: '11 Months', caption: 'Born to Drive', title: 'Speed Racer' },
+            { src: 'IMG_8691.jpeg', age: '11 Months', caption: 'Standing Tall', title: 'On the Rise' },
+        ];
+
+        const galleryPhotos = [
+            { src: 'IMG_8827.jpeg', age: 'Day 1', caption: 'First moments' },
+            { src: 'IMG_8825.jpeg', age: 'Day 1', caption: 'Peaceful sleep' },
+            { src: 'IMG_8834.jpeg', age: 'Week 1', caption: 'Little prince' },
+            { src: 'IMG_8796.jpeg', age: '2 Weeks', caption: 'Growing' },
+            { src: 'IMG_8800.jpeg', age: '1 Month', caption: 'Curious' },
+            { src: 'IMG_8821.jpeg', age: '6 Weeks', caption: 'Dapper' },
+            { src: 'IMG_8802.jpeg', age: '2 Months', caption: 'Cool kicks' },
+            { src: 'IMG_8809.jpeg', age: '3 Months', caption: 'Charming' },
+            { src: 'IMG_8815.png', age: '4 Months', caption: 'Portrait' },
+            { src: 'IMG_8820.jpeg', age: '5 Months', caption: 'Happy' },
+            { src: 'IMG_8841.jpeg', age: '6 Months', caption: 'Exploring' },
+            { src: 'IMG_8836.jpeg', age: '7 Months', caption: 'King vibes' },
+            { src: 'IMG_8838.jpeg', age: '8 Months', caption: 'Formal' },
+            { src: 'IMG_8846.png', age: '8 Months', caption: 'Boss mode' },
+            { src: 'IMG_8692.png', age: '9 Months', caption: 'Street style' },
+            { src: 'IMG_4525.jpeg', age: '9 Months', caption: 'Relaxing' },
+            { src: 'IMG_8847.jpeg', age: '10 Months', caption: 'Adventure' },
+            { src: 'IMG_8850.png', age: '10 Months', caption: 'Hero shot' },
+            { src: 'IMG_8855.jpeg', age: '11 Months', caption: 'Driver' },
+            { src: 'IMG_8676.jpeg', age: '11 Months', caption: 'Arcade fun' },
+            { src: 'IMG_8691.jpeg', age: '11 Months', caption: 'Standing' },
+            { src: 'IMG_8674.jpeg', age: '11 Months', caption: 'Captain' },
+            { src: 'IMG_8812.png', age: '12 Months', caption: 'Almost one' },
+            { src: 'IMG_8823.png', age: '12 Months', caption: 'Birthday boy' },
+        ];
+
+        // ============================================
+        // CINEMATIC INTRO SEQUENCE
+        // ============================================
+        const introText1 = document.getElementById('intro-text-1');
+        const introText2 = document.getElementById('intro-text-2');
+        const cinematicIntro = document.getElementById('cinematic-intro');
+        const goldenDoors = document.getElementById('golden-doors');
+        const mainContent = document.getElementById('main-content');
+
+        setTimeout(() => introText1.classList.add('visible'), 500);
+        setTimeout(() => introText2.classList.add('visible'), 2000);
+        setTimeout(() => {
+            introText1.classList.add('fade-out-text');
+            introText2.classList.add('fade-out-text');
+        }, 4500);
+        setTimeout(() => cinematicIntro.classList.add('fade-out'), 5500);
+        setTimeout(() => {
+            goldenDoors.classList.add('doors-open');
+        }, 6000);
+        setTimeout(() => {
+            // Scroll to top before showing content
+            window.scrollTo(0, 0);
+            document.body.classList.remove('no-scroll');
+            mainContent.classList.add('visible');
+            goldenDoors.classList.add('hidden');
+            initParticles();
+            startThroneReveal();
+        }, 8500);
+
+        // ============================================
+        // THRONE ROOM REVEAL
+        // ============================================
+        function startThroneReveal() {
+            const throneTitle = document.getElementById('throne-title');
+            const curtainContainer = document.getElementById('curtain-container');
+            const portraitFrame = document.getElementById('portrait-frame');
+            const descendingCrown = document.getElementById('descending-crown');
+            const throneSubtitle = document.getElementById('throne-subtitle');
+            const throneAge = document.getElementById('throne-age');
+
+            setTimeout(() => throneTitle.classList.add('revealed'), 500);
+            setTimeout(() => {
+                curtainContainer.classList.add('curtains-open');
+                createSparkles();
+            }, 1500);
+            setTimeout(() => portraitFrame.classList.add('revealed'), 2500);
+            setTimeout(() => descendingCrown.classList.add('revealed'), 3500);
+            setTimeout(() => throneSubtitle.classList.add('revealed'), 4500);
+            setTimeout(() => throneAge.classList.add('revealed'), 4500);
+        }
+
+        // Create magical sparkles
+        function createSparkles() {
+            const sparkleContainer = document.getElementById('sparkle-container');
+            const colors = ['#d4af37', '#f4e4bc', '#ffffff', '#ffd700'];
+
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle';
+                    sparkle.style.left = Math.random() * 100 + '%';
+                    sparkle.style.bottom = Math.random() * 30 + '%';
+                    sparkle.style.width = (4 + Math.random() * 8) + 'px';
+                    sparkle.style.height = sparkle.style.width;
+                    sparkle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    sparkle.style.animationDuration = (2 + Math.random() * 2) + 's';
+                    sparkle.style.animationDelay = (Math.random() * 0.5) + 's';
+                    sparkleContainer.appendChild(sparkle);
+
+                    // Remove sparkle after animation
+                    setTimeout(() => sparkle.remove(), 4000);
+                }, i * 100);
+            }
+        }
+
+        // ============================================
+        // TIMELINE INTRO REVEAL
+        // ============================================
+        const timelineIntroObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    document.getElementById('timeline-intro-text').classList.add('revealed');
+                    document.getElementById('timeline-intro-sub').classList.add('revealed');
+                }
+            });
+        }, { threshold: 0.5 });
+
+        timelineIntroObserver.observe(document.getElementById('timeline-intro'));
+
+        // ============================================
+        // BUILD APPLE-STYLE TIMELINE
+        // ============================================
+        const appleTimeline = document.getElementById('apple-timeline');
+        const progressContainer = document.getElementById('timeline-progress');
+
+        timelinePhotos.forEach((photo, index) => {
+            // Create timeline section
+            const section = document.createElement('div');
+            section.className = 'timeline-section';
+            section.id = `timeline-photo-${index}`;
+
+            const sticky = document.createElement('div');
+            sticky.className = 'timeline-sticky';
+
+            const photoContainer = document.createElement('div');
+            photoContainer.className = 'timeline-photo-container';
+
+            const wrapper = document.createElement('div');
+            wrapper.className = 'timeline-photo-wrapper';
+            wrapper.dataset.index = index;
+
+            wrapper.innerHTML = `
+                <div class="timeline-photo-glow"></div>
+                <img src="assets/photos/${photo.src}" alt="${photo.title}" class="timeline-photo">
+                <div class="timeline-age-badge"><span>${photo.age}</span></div>
+                <div class="timeline-caption">
+                    <h3>${photo.title}</h3>
+                    <p>${photo.caption}</p>
+                </div>
+            `;
+
+            photoContainer.appendChild(wrapper);
+            sticky.appendChild(photoContainer);
+            section.appendChild(sticky);
+            appleTimeline.appendChild(section);
+
+            // Create progress dot
+            const dot = document.createElement('div');
+            dot.className = 'progress-dot';
+            dot.dataset.index = index;
+            dot.addEventListener('click', () => {
+                document.getElementById(`timeline-photo-${index}`).scrollIntoView({ behavior: 'smooth' });
+            });
+            progressContainer.appendChild(dot);
+        });
+
+        // ============================================
+        // SCROLL-DRIVEN TIMELINE ANIMATIONS
+        // ============================================
+        let currentPhotoIndex = -1;
+        const photoWrappers = document.querySelectorAll('.timeline-photo-wrapper');
+        const progressDots = document.querySelectorAll('.progress-dot');
+
+        function updateTimeline() {
+            const sections = document.querySelectorAll('.timeline-section');
+            const windowHeight = window.innerHeight;
+            const centerY = windowHeight / 2;
+
+            let activeIndex = -1;
+
+            sections.forEach((section, index) => {
+                const rect = section.getBoundingClientRect();
+                const sectionCenter = rect.top + rect.height / 2;
+                const distanceFromCenter = sectionCenter - centerY;
+                const normalizedDistance = distanceFromCenter / windowHeight;
+
+                const wrapper = photoWrappers[index];
+
+                // Reset classes
+                wrapper.classList.remove('entering', 'active', 'exiting', 'zoom-past');
+
+                // Photo is approaching (below center)
+                if (normalizedDistance > 0.8) {
+                    // Not yet visible
+                    wrapper.style.opacity = 0;
+                }
+                // Zooming IN (approaching center from below)
+                else if (normalizedDistance > 0.1) {
+                    const progress = 1 - (normalizedDistance - 0.1) / 0.7;
+                    wrapper.style.opacity = Math.min(1, progress);
+                    wrapper.classList.add('entering');
+                }
+                // ACTIVE (at center)
+                else if (normalizedDistance > -0.1) {
+                    wrapper.style.opacity = 1;
+                    wrapper.classList.add('active');
+                    activeIndex = index;
+                }
+                // Zooming OUT (moving above center)
+                else if (normalizedDistance > -0.8) {
+                    const progress = 1 - (Math.abs(normalizedDistance) - 0.1) / 0.7;
+                    wrapper.style.opacity = Math.max(0, progress);
+                    wrapper.classList.add('exiting');
+                    if (activeIndex === -1) activeIndex = index;
+                }
+                // Gone (above viewport)
+                else {
+                    wrapper.style.opacity = 0;
+                    wrapper.classList.add('zoom-past');
+                }
+            });
+
+            // Update progress dots
+            progressDots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === activeIndex);
+            });
+
+            // Show/hide progress indicator
+            const timelineRect = appleTimeline.getBoundingClientRect();
+            const inTimeline = timelineRect.top < windowHeight && timelineRect.bottom > 0;
+            progressContainer.classList.toggle('visible', inTimeline);
+        }
+
+        window.addEventListener('scroll', updateTimeline);
+        updateTimeline();
+
+        // ============================================
+        // BUILD HORIZONTAL GALLERY
+        // ============================================
+        const galleryHorizontal = document.getElementById('gallery-horizontal');
+        const galleryProgressBar = document.getElementById('gallery-progress-bar');
+
+        galleryPhotos.forEach((photo, index) => {
+            const item = document.createElement('div');
+            item.className = 'gallery-item';
+            item.dataset.index = index;
+
+            item.innerHTML = `
+                <img src="assets/photos/${photo.src}" alt="${photo.caption}" loading="lazy">
+                <div class="gallery-item-overlay">
+                    <div class="gallery-item-info">
+                        <p class="gallery-item-age">${photo.age}</p>
+                        <p class="gallery-item-caption">${photo.caption}</p>
+                    </div>
+                </div>
+            `;
+
+            item.addEventListener('click', () => openLightbox(`assets/photos/${photo.src}`));
+            galleryHorizontal.appendChild(item);
+        });
+
+        // Horizontal scroll zoom effect
+        function updateGalleryZoom() {
+            const container = galleryHorizontal;
+            const containerRect = container.getBoundingClientRect();
+            const containerCenter = containerRect.left + containerRect.width / 2;
+            const items = container.querySelectorAll('.gallery-item');
+
+            items.forEach(item => {
+                const itemRect = item.getBoundingClientRect();
+                const itemCenter = itemRect.left + itemRect.width / 2;
+                const distance = Math.abs(containerCenter - itemCenter);
+                const maxDistance = containerRect.width / 2;
+
+                // Items closer to center are larger (scale 1), farther ones are smaller (scale 0.85)
+                if (distance < maxDistance * 0.4) {
+                    item.classList.add('in-view');
+                } else {
+                    item.classList.remove('in-view');
+                }
+            });
+
+            // Update progress bar
+            const scrollLeft = container.scrollLeft;
+            const maxScroll = container.scrollWidth - container.clientWidth;
+            const progress = maxScroll > 0 ? (scrollLeft / maxScroll) * 100 : 0;
+            galleryProgressBar.style.width = progress + '%';
+        }
+
+        galleryHorizontal.addEventListener('scroll', updateGalleryZoom);
+
+        // Drag to scroll
+        let isGalleryDragging = false;
+        let galleryStartX;
+        let galleryScrollLeft;
+
+        galleryHorizontal.addEventListener('mousedown', (e) => {
+            isGalleryDragging = true;
+            galleryStartX = e.pageX - galleryHorizontal.offsetLeft;
+            galleryScrollLeft = galleryHorizontal.scrollLeft;
+            galleryHorizontal.style.cursor = 'grabbing';
+        });
+
+        galleryHorizontal.addEventListener('mouseleave', () => {
+            isGalleryDragging = false;
+            galleryHorizontal.style.cursor = 'grab';
+        });
+
+        galleryHorizontal.addEventListener('mouseup', () => {
+            isGalleryDragging = false;
+            galleryHorizontal.style.cursor = 'grab';
+        });
+
+        galleryHorizontal.addEventListener('mousemove', (e) => {
+            if (!isGalleryDragging) return;
+            e.preventDefault();
+            const x = e.pageX - galleryHorizontal.offsetLeft;
+            const walk = (x - galleryStartX) * 2;
+            galleryHorizontal.scrollLeft = galleryScrollLeft - walk;
+        });
+
+        // Initial zoom check
+        setTimeout(updateGalleryZoom, 100);
+
+        // ============================================
+        // VIDEO PLAYER
+        // ============================================
+        const mainVideo = document.getElementById('main-video');
+        const videoOverlay = document.getElementById('video-overlay');
+
+        videoOverlay.addEventListener('click', () => {
+            videoOverlay.classList.add('hidden');
+            mainVideo.play();
+        });
+
+        mainVideo.addEventListener('ended', () => {
+            videoOverlay.classList.remove('hidden');
+        });
+
+        mainVideo.addEventListener('click', () => {
+            if (mainVideo.paused) {
+                mainVideo.play();
+                videoOverlay.classList.add('hidden');
+            } else {
+                mainVideo.pause();
+                videoOverlay.classList.remove('hidden');
+            }
+        });
+
+        // ============================================
+        // LIGHTBOX
+        // ============================================
+        function openLightbox(src) {
+            document.getElementById('lightbox-img').src = src;
+            document.getElementById('lightbox').classList.add('active');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+
+        document.getElementById('lightbox').addEventListener('click', (e) => {
+            if (e.target.id === 'lightbox') closeLightbox();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
+
+        // ============================================
+        // PARTICLES
+        // ============================================
+        function initParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'gold-particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = (2 + Math.random() * 3) + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDuration = (15 + Math.random() * 20) + 's';
+                particle.style.animationDelay = (-Math.random() * 20) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // ============================================
+        // COUNTDOWN
+        // ============================================
+        function updateCountdown() {
+            const partyDate = new Date('January 24, 2026 12:00:00').getTime();
+            const now = Date.now();
+            const distance = partyDate - now;
+
+            if (distance > 0) {
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById('days').textContent = days.toString().padStart(2, '0');
+                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+                document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+                document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            }
+        }
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // ============================================
+        // CAR HONK
+        // ============================================
+        function honkCar(event) {
+            const texts = ['VROOM!', 'HONK!', 'BEEP!', 'ZOOM!'];
+            const honk = document.createElement('div');
+            honk.style.cssText = `
+                position: fixed;
+                left: ${event.clientX}px;
+                top: ${event.clientY}px;
+                font-family: 'Cinzel', serif;
+                font-size: 1.5rem;
+                font-weight: 700;
+                color: var(--gold);
+                pointer-events: none;
+                z-index: 9999;
+                animation: honkAnim 1s ease-out forwards;
+            `;
+            honk.textContent = texts[Math.floor(Math.random() * texts.length)];
+            document.body.appendChild(honk);
+            setTimeout(() => honk.remove(), 1000);
+        }
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes honkAnim {
+                0% { transform: scale(0) rotate(-10deg); opacity: 1; }
+                50% { transform: scale(1.5) rotate(10deg); opacity: 1; }
+                100% { transform: translateY(-80px) scale(1); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // ============================================
+        // MESSAGE FORM
+        // ============================================
+        const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://localhost:9001'
+            : 'https://ariel-birthday-production.up.railway.app';
+
+        document.getElementById('rsvp-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+
+            const messageData = {
+                name: document.getElementById('guest-name').value,
+                message: document.getElementById('guest-message').value
+            };
+
+            try {
+                const response = await fetch(`${API_URL}/api/messages`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(messageData)
+                });
+
+                if (response.ok) {
+                    document.getElementById('rsvp-form').style.display = 'none';
+                    document.getElementById('form-success').classList.add('show');
+                } else {
+                    throw new Error('Failed to send message');
+                }
+            } catch (error) {
+                alert('Could not send message. Please try again!');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            }
+        });
+
+        // ============================================
+        // CONFETTI
+        // ============================================
+        const confettiCanvas = document.getElementById('confetti-canvas');
+        const confettiCtx = confettiCanvas.getContext('2d');
+        let confetti = [];
+
+        function resizeCanvas() {
+            confettiCanvas.width = window.innerWidth;
+            confettiCanvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        function animateConfetti() {
+            confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+            confetti = confetti.filter(p => p.y < confettiCanvas.height + 50);
+            confetti.forEach(p => {
+                p.y += p.speedY;
+                p.x += p.speedX;
+                p.rotation += p.rotationSpeed;
+                p.speedY += 0.1;
+                confettiCtx.save();
+                confettiCtx.translate(p.x, p.y);
+                confettiCtx.rotate(p.rotation * Math.PI / 180);
+                confettiCtx.fillStyle = p.color;
+                confettiCtx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
+                confettiCtx.restore();
+            });
+            requestAnimationFrame(animateConfetti);
+        }
+        animateConfetti();
+    </script>
+</body>
+</html>
