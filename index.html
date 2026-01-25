@@ -2770,7 +2770,7 @@
                         <div class="event-value">515 Hershey Avenue<br><span style="font-size: 0.9em; opacity: 0.8;">Lancaster, PA 17603</span></div>
                     </div>
                 </div>
-                <a href="#rsvp-section" class="event-rsvp-btn">RSVP Now</a>
+                <a href="#rsvp-section" class="event-rsvp-btn">Leave a Message</a>
             </div>
         </section>
 
@@ -2797,11 +2797,11 @@
             </div>
         </section>
 
-        <!-- RSVP - Moved up -->
+        <!-- MESSAGES FOR MR. PRESIDENT -->
         <section id="rsvp-section">
             <div class="rsvp-header">
-                <p class="rsvp-label">Kindly Respond</p>
-                <h2 class="rsvp-title">RSVP</h2>
+                <p class="rsvp-label">Leave Your Wishes</p>
+                <h2 class="rsvp-title">Messages for Mr. President</h2>
             </div>
 
             <div class="rsvp-container">
@@ -2812,25 +2812,16 @@
                             <input type="text" class="form-input" id="guest-name" placeholder="Enter your name" required>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Will You Be Joining Us?</label>
-                            <select class="form-input form-select" id="guest-attendance" required>
-                                <option value="">Select your response</option>
-                                <option value="attending">Yes, I'll be there!</option>
-                                <option value="maybe">Maybe, will confirm</option>
-                                <option value="not-attending">Sorry, can't make it</option>
-                            </select>
+                            <label class="form-label">Your Message for Ariel</label>
+                            <textarea class="form-input" id="guest-message" rows="4" placeholder="Share your birthday wishes for Mr. President..." required></textarea>
                         </div>
-                        <div class="form-group">
-                            <label class="form-label">A Word for the Birthday Boy</label>
-                            <textarea class="form-input" id="guest-message" rows="3" placeholder="Share your wishes for Ariel..." required></textarea>
-                        </div>
-                        <button type="submit" class="submit-btn">Submit RSVP</button>
+                        <button type="submit" class="submit-btn">Send Message</button>
                     </form>
 
                     <div class="form-success" id="form-success">
                         <div class="success-icon">✨</div>
                         <h3 class="success-title">Thank You!</h3>
-                        <p class="success-message">Your response has been recorded. See you at the party!</p>
+                        <p class="success-message">Your message has been delivered to Mr. President!</p>
                     </div>
                 </div>
             </div>
@@ -3397,25 +3388,42 @@
         document.head.appendChild(style);
 
         // ============================================
-        // RSVP FORM
+        // MESSAGE FORM
         // ============================================
-        document.getElementById('rsvp-form').addEventListener('submit', (e) => {
+        const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://localhost:9001'
+            : 'https://ariel-birthday-api.up.railway.app'; // Update this after Railway deployment
+
+        document.getElementById('rsvp-form').addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const rsvpData = {
-                id: Date.now(),
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+
+            const messageData = {
                 name: document.getElementById('guest-name').value,
-                attendance: document.getElementById('guest-attendance').value,
-                message: document.getElementById('guest-message').value,
-                submittedAt: new Date().toISOString()
+                message: document.getElementById('guest-message').value
             };
 
-            let rsvps = JSON.parse(localStorage.getItem('ariel-birthday-rsvps') || '[]');
-            rsvps.push(rsvpData);
-            localStorage.setItem('ariel-birthday-rsvps', JSON.stringify(rsvps));
+            try {
+                const response = await fetch(`${API_URL}/api/messages`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(messageData)
+                });
 
-            document.getElementById('rsvp-form').style.display = 'none';
-            document.getElementById('form-success').classList.add('show');
+                if (response.ok) {
+                    document.getElementById('rsvp-form').style.display = 'none';
+                    document.getElementById('form-success').classList.add('show');
+                } else {
+                    throw new Error('Failed to send message');
+                }
+            } catch (error) {
+                alert('Could not send message. Please try again!');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            }
         });
 
         // ============================================

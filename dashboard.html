@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RSVP Dashboard | Ariel's Birthday</title>
+    <title>Messages Dashboard | Ariel's Birthday</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -636,7 +636,7 @@
         <div class="password-container">
             <div class="password-icon">🔐</div>
             <h1 class="password-title">Dashboard Access</h1>
-            <p class="password-subtitle">Enter password to view RSVPs</p>
+            <p class="password-subtitle">Enter password to view messages</p>
             <form id="password-form">
                 <div class="password-input-group">
                     <input type="password" id="password-input" class="password-input" placeholder="Enter Password" autocomplete="off" required>
@@ -653,7 +653,7 @@
             <div class="header-left">
                 <div>
                     <div class="logo">AEO Dashboard</div>
-                    <div class="logo-sub">Ariel's Birthday RSVP Manager</div>
+                    <div class="logo-sub">Messages for Mr. President</div>
                 </div>
             </div>
             <a href="index.html" class="back-btn">
@@ -664,34 +664,18 @@
 
         <main class="dashboard-content">
             <!-- Stats -->
-            <div class="stats-grid">
+            <div class="stats-grid" style="grid-template-columns: 1fr; max-width: 300px;">
                 <div class="stat-card attending">
-                    <div class="stat-icon">✅</div>
-                    <div class="stat-value" id="attending-count">0</div>
-                    <div class="stat-label">Attending</div>
-                </div>
-                <div class="stat-card maybe">
-                    <div class="stat-icon">🤔</div>
-                    <div class="stat-value" id="maybe-count">0</div>
-                    <div class="stat-label">Maybe</div>
-                </div>
-                <div class="stat-card not-attending">
-                    <div class="stat-icon">❌</div>
-                    <div class="stat-value" id="not-attending-count">0</div>
-                    <div class="stat-label">Can't Make It</div>
+                    <div class="stat-icon">💌</div>
+                    <div class="stat-value" id="total-messages">0</div>
+                    <div class="stat-label">Messages Received</div>
                 </div>
             </div>
 
-            <!-- Guest List -->
-            <h2 class="section-title">Guest List</h2>
+            <!-- Messages Section -->
+            <h2 class="section-title">Birthday Messages</h2>
 
             <div class="actions-bar">
-                <div class="filter-tabs">
-                    <button class="filter-tab active" data-filter="all">All</button>
-                    <button class="filter-tab" data-filter="attending">Attending</button>
-                    <button class="filter-tab" data-filter="maybe">Maybe</button>
-                    <button class="filter-tab" data-filter="not-attending">Not Attending</button>
-                </div>
                 <div style="display: flex; gap: 10px;">
                     <button class="export-btn" onclick="exportToCSV()">
                         <span>📥</span>
@@ -704,20 +688,7 @@
                 </div>
             </div>
 
-            <div class="guest-list" id="guest-list">
-                <div class="guest-list-header">
-                    <div>Name</div>
-                    <div>Submitted</div>
-                    <div>Status</div>
-                    <div>Action</div>
-                </div>
-                <div id="guest-list-body">
-                    <!-- Guests will be loaded here -->
-                </div>
-            </div>
-
-            <!-- Messages -->
-            <h2 class="section-title">Birthday Wishes for Ariel</h2>
+            <!-- Messages Grid -->
             <div class="messages-grid" id="messages-grid">
                 <!-- Messages will be loaded here -->
             </div>
@@ -758,84 +729,41 @@
         });
 
         // ============================================
+        // API CONFIG
+        // ============================================
+        const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://localhost:9001'
+            : 'https://ariel-birthday-api.up.railway.app'; // Update this after Railway deployment
+
+        // ============================================
         // LOAD & DISPLAY DATA
         // ============================================
-        let allRsvps = [];
-        let currentFilter = 'all';
+        let allMessages = [];
 
-        function loadData() {
-            allRsvps = JSON.parse(localStorage.getItem('ariel-birthday-rsvps') || '[]');
+        async function loadData() {
+            try {
+                const response = await fetch(`${API_URL}/api/messages`);
+                if (response.ok) {
+                    allMessages = await response.json();
+                } else {
+                    allMessages = [];
+                }
+            } catch (error) {
+                console.error('Failed to fetch messages:', error);
+                allMessages = [];
+            }
             updateStats();
-            displayGuests();
             displayMessages();
         }
 
         function updateStats() {
-            const attending = allRsvps.filter(r => r.attendance === 'attending');
-            const maybe = allRsvps.filter(r => r.attendance === 'maybe');
-            const notAttending = allRsvps.filter(r => r.attendance === 'not-attending');
-
-            document.getElementById('attending-count').textContent = attending.length;
-            document.getElementById('maybe-count').textContent = maybe.length;
-            document.getElementById('not-attending-count').textContent = notAttending.length;
-        }
-
-        function displayGuests() {
-            const container = document.getElementById('guest-list-body');
-
-            let filtered = allRsvps;
-            if (currentFilter !== 'all') {
-                filtered = allRsvps.filter(r => r.attendance === currentFilter);
-            }
-
-            if (filtered.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-icon">📭</div>
-                        <h3 class="empty-title">No RSVPs Yet</h3>
-                        <p class="empty-text">Share the invitation link to start receiving responses!</p>
-                    </div>
-                `;
-                return;
-            }
-
-            container.innerHTML = filtered.map(rsvp => {
-                const date = new Date(rsvp.submittedAt).toLocaleDateString('en-US', {
-                    month: 'short',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-
-                const statusClass = rsvp.attendance;
-                const statusText = rsvp.attendance === 'attending' ? 'Attending' :
-                                   rsvp.attendance === 'maybe' ? 'Maybe' : 'Not Attending';
-                const statusIcon = rsvp.attendance === 'attending' ? '✓' :
-                                   rsvp.attendance === 'maybe' ? '?' : '✗';
-
-                return `
-                    <div class="guest-item" data-id="${rsvp.id}">
-                        <div data-label="Name" class="guest-name">${escapeHtml(rsvp.name)}</div>
-                        <div data-label="Submitted" class="guest-date">${date}</div>
-                        <div data-label="Status">
-                            <span class="status-badge ${statusClass}">
-                                <span>${statusIcon}</span>
-                                ${statusText}
-                            </span>
-                        </div>
-                        <div>
-                            <button class="delete-btn" onclick="deleteRsvp(${rsvp.id})">🗑️</button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
+            document.getElementById('total-messages').textContent = allMessages.length;
         }
 
         function displayMessages() {
             const container = document.getElementById('messages-grid');
-            const withMessages = allRsvps.filter(r => r.message && r.message.trim());
 
-            if (withMessages.length === 0) {
+            if (allMessages.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state" style="grid-column: 1 / -1;">
                         <div class="empty-icon">💌</div>
@@ -846,19 +774,22 @@
                 return;
             }
 
-            container.innerHTML = withMessages.map(rsvp => {
-                const date = new Date(rsvp.submittedAt).toLocaleDateString('en-US', {
+            container.innerHTML = allMessages.map(msg => {
+                const date = new Date(msg.created_at).toLocaleDateString('en-US', {
                     month: 'long',
                     day: 'numeric',
-                    year: 'numeric'
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
                 });
 
                 return `
-                    <div class="message-card">
+                    <div class="message-card" data-id="${msg.id}">
                         <span class="message-quote">"</span>
-                        <p class="message-text">${escapeHtml(rsvp.message)}</p>
-                        <p class="message-author">— ${escapeHtml(rsvp.name)}</p>
+                        <p class="message-text">${escapeHtml(msg.message)}</p>
+                        <p class="message-author">— ${escapeHtml(msg.name)}</p>
                         <p class="message-date">${date}</p>
+                        <button class="delete-btn" onclick="deleteMessage(${msg.id})" style="position: absolute; top: 10px; right: 10px;">🗑️</button>
                     </div>
                 `;
             }).join('');
@@ -873,36 +804,41 @@
         // ============================================
         // ACTIONS
         // ============================================
-        function deleteRsvp(id) {
-            if (confirm('Are you sure you want to delete this RSVP?')) {
-                allRsvps = allRsvps.filter(r => r.id !== id);
-                localStorage.setItem('ariel-birthday-rsvps', JSON.stringify(allRsvps));
-                loadData();
+        async function deleteMessage(id) {
+            if (confirm('Are you sure you want to delete this message?')) {
+                try {
+                    await fetch(`${API_URL}/api/messages/${id}`, { method: 'DELETE' });
+                    loadData();
+                } catch (error) {
+                    alert('Failed to delete message');
+                }
             }
         }
 
-        function clearAllData() {
-            if (confirm('Are you sure you want to delete ALL RSVPs? This cannot be undone!')) {
+        async function clearAllData() {
+            if (confirm('Are you sure you want to delete ALL messages? This cannot be undone!')) {
                 if (confirm('Really? This will remove everything permanently.')) {
-                    localStorage.removeItem('ariel-birthday-rsvps');
-                    allRsvps = [];
-                    loadData();
+                    try {
+                        await fetch(`${API_URL}/api/messages`, { method: 'DELETE' });
+                        loadData();
+                    } catch (error) {
+                        alert('Failed to clear messages');
+                    }
                 }
             }
         }
 
         function exportToCSV() {
-            if (allRsvps.length === 0) {
+            if (allMessages.length === 0) {
                 alert('No data to export!');
                 return;
             }
 
-            const headers = ['Name', 'Attendance', 'Message', 'Submitted At'];
-            const rows = allRsvps.map(r => [
-                r.name,
-                r.attendance,
-                r.message || '',
-                new Date(r.submittedAt).toLocaleString()
+            const headers = ['Name', 'Message', 'Submitted At'];
+            const rows = allMessages.map(m => [
+                m.name,
+                m.message,
+                new Date(m.created_at).toLocaleString()
             ]);
 
             let csv = headers.join(',') + '\n';
@@ -914,22 +850,10 @@
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `ariel-birthday-rsvps-${new Date().toISOString().split('T')[0]}.csv`;
+            a.download = `ariel-birthday-messages-${new Date().toISOString().split('T')[0]}.csv`;
             a.click();
             URL.revokeObjectURL(url);
         }
-
-        // ============================================
-        // FILTERS
-        // ============================================
-        document.querySelectorAll('.filter-tab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                currentFilter = tab.dataset.filter;
-                displayGuests();
-            });
-        });
 
         // Auto-refresh every 30 seconds
         setInterval(() => {
