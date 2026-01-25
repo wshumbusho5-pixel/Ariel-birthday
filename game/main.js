@@ -276,9 +276,48 @@ class Game {
 // Initialize game when DOM is ready
 let game;
 
+function updateLoadingProgress(percent, text) {
+    const bar = document.getElementById('loading-bar');
+    const loadingText = document.getElementById('loading-text');
+    if (bar) bar.style.width = percent + '%';
+    if (loadingText) loadingText.textContent = text;
+}
+
+function hideLoadingScreen() {
+    const loadingScreen = document.getElementById('loading-screen');
+    if (loadingScreen) {
+        loadingScreen.classList.add('hidden');
+    }
+}
+
+function showError(message) {
+    const loadingText = document.getElementById('loading-text');
+    if (loadingText) {
+        loadingText.textContent = 'Error: ' + message;
+        loadingText.style.color = '#ef4444';
+    }
+    console.error('Game Error:', message);
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
-    game = new Game();
-    await game.init();
+    try {
+        updateLoadingProgress(10, 'Creating game...');
+        game = new Game();
+
+        updateLoadingProgress(20, 'Loading scene...');
+        await game.init();
+
+        updateLoadingProgress(100, 'Ready!');
+
+        // Hide loading screen after a brief delay
+        setTimeout(() => {
+            hideLoadingScreen();
+        }, 500);
+
+    } catch (error) {
+        showError(error.message);
+        console.error('Full error:', error);
+    }
 });
 
 // Export for debugging
